@@ -1,0 +1,12 @@
+{
+  "name": "pipeland",
+  "displayName": "pipeland",
+  "expo": {
+    "name": "pipeland",
+    "slug": "pipeland",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
