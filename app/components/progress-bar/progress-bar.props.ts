@@ -1,4 +1,4 @@
 export interface ProgressBarProps {
-  amount: number;
-  progress: number;
+  totalPoints: number;
+  currentPoints: number;
 }

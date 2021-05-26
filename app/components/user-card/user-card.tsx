@@ -25,7 +25,7 @@ export const UserCard = () => {
       </UserAvatarContainer>
       <UserInfoContainer>
         <UserNameText>José Vinícius</UserNameText>
-        <ProgressBar progress={40} amount={260} />
+        <ProgressBar currentPoints={40} totalPoints={260} />
         <GameElementsList>
           <GameElementContainer>
             <GameElement />
