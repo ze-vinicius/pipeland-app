@@ -22,3 +22,7 @@ export const LabelContainer = styled.View`
 `;
 
 export const Label = styled.Text``;
+
+export const CoinsContainer = styled.View`
+  flex-direction: row;
+`;

@@ -39,10 +39,8 @@ export const GameElementContainer = styled.View`
   flex-direction: row;
 `;
 
-export const GameElement = styled.View`
+export const GameElement = styled.Image`
   width: 16px;
   height: 16px;
-  background-color: ${(props) => props.theme.color.dim};
   margin-right: 8px;
-  border-radius: 8px;
 `;
