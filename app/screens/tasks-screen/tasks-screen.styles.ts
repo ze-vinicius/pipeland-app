@@ -5,5 +5,5 @@ export const Container = styled.View`
 `;
 
 export const TasksContainer = styled.ScrollView`
-  padding: 16px;
+  padding: 8px;
 `;

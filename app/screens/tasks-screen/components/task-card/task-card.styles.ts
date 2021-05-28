@@ -2,7 +2,8 @@ import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
 import { Icon } from "../../../../components/icon/icon";
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity`
+  margin: 8px;
   padding: ${(props) => props.theme.spacing[4]}px;
   background-color: ${(props) => props.theme.color.background};
   shadow-color: #000;
