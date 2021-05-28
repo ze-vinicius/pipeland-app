@@ -1,12 +1,11 @@
 import React from "react";
-import { Text } from "react-native";
 import { Screen } from "../../components/screen";
 import { UserCard } from "../../components/user-card";
-import { Container } from "./dashboard-screen.styles";
+import { Container } from "./tasks-screen.styles";
 
-export const DashboardScreen: React.FC = () => {
+export const TasksScreen: React.FC = () => {
   return (
-    <Screen>
+    <Screen unsafe>
       <Container>
         <UserCard />
       </Container>

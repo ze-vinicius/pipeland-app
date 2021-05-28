@@ -1,14 +1,19 @@
+import "react-native-gesture-handler";
 import React from "react";
-import { DashboardScreen } from "./app/screens/dashboard-screen";
 import { ThemeProvider } from "styled-components";
-import theme from "./app/theme";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { NavigationContainer } from "@react-navigation/native";
+
+import theme from "./theme";
+import { MainNavigator } from "./navigators/main-navigator";
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <ThemeProvider theme={theme}>
-        <DashboardScreen />
+        <NavigationContainer>
+          <MainNavigator />
+        </NavigationContainer>
       </ThemeProvider>
     </SafeAreaProvider>
   );

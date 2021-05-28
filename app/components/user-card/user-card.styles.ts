@@ -10,7 +10,7 @@ export const Container = styled.View`
   shadow-color: #000;
   shadow-offset: 0 1px;
   shadow-opacity: 0.18;
-  shadow-radius: 1;
+  shadow-radius: 1px;
   elevation: 1;
 `;
 
@@ -37,6 +37,13 @@ export const GameElementsList = styled.View`
 
 export const GameElementContainer = styled.View`
   flex-direction: row;
+  align-items: center;
+`;
+
+export const GameAvatar = styled.Image`
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
 `;
 
 export const GameElement = styled.Image`
