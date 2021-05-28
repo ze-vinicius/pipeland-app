@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
-import { Text } from "react-native";
-import api from "../../services/api/api";
+
 import { Avatar } from "../avatar";
 import { ProgressBar } from "../progress-bar";
 import { icons } from "../../../assets/icons";
+import { Text } from "../text";
 
 import {
   Container,
@@ -16,6 +15,7 @@ import {
   GameElement,
   GameAvatar,
 } from "./user-card.styles";
+
 export const UserCard = () => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,15 +31,15 @@ export const UserCard = () => {
         </GameElementContainer>
       </UserAvatarContainer>
       <UserInfoContainer>
-        <UserNameText>José Vinícius</UserNameText>
-        <ProgressBar currentPoints={40} totalPoints={260} />
+        <Text preset="title">José Vinícius</Text>
+        <ProgressBar currentPoints={115} totalPoints={260} />
         <GameElementsList>
           <GameElementContainer>
-            <GameElement source={icons.mushroomUp} />
-            <Text style={{ marginRight: 16 }}>12</Text>
+            <GameElement name="mushroomUp" />
+            <Text style={{ marginRight: 16 }}>1</Text>
           </GameElementContainer>
           <GameElementContainer>
-            <GameElement source={icons.cherry} />
+            <GameElement name="cherry" />
             <Text>2</Text>
           </GameElementContainer>
         </GameElementsList>

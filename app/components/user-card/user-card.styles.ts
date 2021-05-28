@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
+import { Icon } from "../icon/icon";
 
 export const Container = styled.View`
   padding-horizontal: 32px;
@@ -46,8 +47,6 @@ export const GameAvatar = styled.Image`
   margin-right: 8px;
 `;
 
-export const GameElement = styled.Image`
-  width: 16px;
-  height: 16px;
+export const GameElement = styled(Icon)`
   margin-right: 8px;
 `;

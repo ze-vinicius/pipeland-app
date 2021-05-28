@@ -32,6 +32,13 @@ export const presets = {
 
     color: ${(props) => props.theme.color.dim};
   `,
+
+  secondary: css`
+    ${BASE}
+
+    font-size: 12px;
+    color: ${(props) => props.theme.color.dim};
+  `,
 };
 
 export type TextPresets = keyof typeof presets;

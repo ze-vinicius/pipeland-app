@@ -1,7 +1,6 @@
 import React from "react";
 import { useMemo } from "react";
-import { Text } from "react-native";
-import { GameElement } from "../user-card/user-card.styles";
+import { Text } from "../text";
 
 import { ProgressBarProps } from "./progress-bar.props";
 import {
@@ -11,6 +10,7 @@ import {
   Background,
   FilledBar,
   CoinsContainer,
+  Coin,
 } from "./progress-bar.styles";
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({
@@ -25,14 +25,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   return (
     <Container>
       <LabelContainer>
-        <Label>COINS</Label>
+        <Text>COINS</Text>
         <CoinsContainer>
-          <GameElement
-            resizeMode="contain"
-            source={{
-              uri: "http://localhost:3333/files/game-assets/icons/coin.png",
-            }}
-          />
+          <Coin />
           <Text>{`${currentPoints} / ${totalPoints}`}</Text>
         </CoinsContainer>
       </LabelContainer>
