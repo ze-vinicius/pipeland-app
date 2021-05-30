@@ -1,5 +1,6 @@
 import React from "react";
 import { useMemo } from "react";
+import { Icon } from "../icon/icon";
 import { Text } from "../text";
 
 import { ProgressBarProps } from "./progress-bar.props";
@@ -27,7 +28,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
       <LabelContainer>
         <Text>COINS</Text>
         <CoinsContainer>
-          <Coin />
+          <Icon name="coin" mr={2} />
           <Text>{`${currentPoints} / ${totalPoints}`}</Text>
         </CoinsContainer>
       </LabelContainer>

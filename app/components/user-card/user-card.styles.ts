@@ -1,6 +1,4 @@
 import styled from "styled-components/native";
-import { Feather } from "@expo/vector-icons";
-import { Icon } from "../icon/icon";
 
 export const Container = styled.View`
   padding-horizontal: 32px;
@@ -24,12 +22,6 @@ export const UserInfoContainer = styled.View`
   margin-left: 32px;
 `;
 
-export const UserNameText = styled.Text`
-  color: ${(props) => props.theme.color.text};
-  font-weight: 600;
-  font-size: 16px;
-`;
-
 export const GameElementsList = styled.View`
   flex-direction: row;
   margin-top: 16px;
@@ -39,14 +31,4 @@ export const GameElementsList = styled.View`
 export const GameElementContainer = styled.View`
   flex-direction: row;
   align-items: center;
-`;
-
-export const GameAvatar = styled.Image`
-  width: 16px;
-  height: 16px;
-  margin-right: 8px;
-`;
-
-export const GameElement = styled(Icon)`
-  margin-right: 8px;
 `;

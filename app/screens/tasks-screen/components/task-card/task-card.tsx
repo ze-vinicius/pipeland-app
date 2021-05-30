@@ -1,5 +1,6 @@
 import React from "react";
-import { TouchableOpacity, View } from "react-native";
+import { Icon } from "../../../../components/icon/icon";
+import { StatusLabel } from "../../../../components/status-label";
 import { Text } from "../../../../components/text";
 
 import {
@@ -9,7 +10,6 @@ import {
   DateInfoContainer,
   CalendarIcon,
   GameElementsContainer,
-  GameElement,
   CardFooter,
   CoinContainer,
 } from "./task-card.styles";
@@ -18,7 +18,8 @@ export const TaskCard: React.FC = () => {
   return (
     <Container>
       <CardHeader>
-        <Text>Desenvolvimento de Resumo sobre PMBOK</Text>
+        <StatusLabel type="opened" mb={2} />
+        <Text preset="title">Desenvolvimento de Resumo sobre PMBOK</Text>
       </CardHeader>
       <CardBody>
         <DateInfoContainer>
@@ -28,12 +29,13 @@ export const TaskCard: React.FC = () => {
       </CardBody>
       <CardFooter>
         <GameElementsContainer>
-          <GameElement name="midMushroom" />
-          <GameElement name="redMushroom" />
+          <Icon mr={2} name="midMushroom" />
+          <Icon mr={2} name="redMushroom" />
+          <Icon mr={2} name="bomb" />
         </GameElementsContainer>
 
         <CoinContainer>
-          <GameElement name="coin" />
+          <Icon mr={2} name="coin" />
           <Text>12</Text>
         </CoinContainer>
       </CardFooter>

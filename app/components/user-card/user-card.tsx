@@ -2,19 +2,16 @@ import React, { useState } from "react";
 
 import { Avatar } from "../avatar";
 import { ProgressBar } from "../progress-bar";
-import { icons } from "../../../assets/icons";
 import { Text } from "../text";
 
 import {
   Container,
   UserAvatarContainer,
   UserInfoContainer,
-  UserNameText,
   GameElementsList,
   GameElementContainer,
-  GameElement,
-  GameAvatar,
 } from "./user-card.styles";
+import { Icon } from "../icon/icon";
 
 export const UserCard = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +23,7 @@ export const UserCard = () => {
       <UserAvatarContainer>
         <Avatar uri={"https://avatars.githubusercontent.com/u/38725875?v=4"} />
         <GameElementContainer>
-          <GameAvatar source={icons.mario} />
+          <Icon name="mario" mr={2} />
           <Text>Mario</Text>
         </GameElementContainer>
       </UserAvatarContainer>
@@ -35,11 +32,11 @@ export const UserCard = () => {
         <ProgressBar currentPoints={115} totalPoints={260} />
         <GameElementsList>
           <GameElementContainer>
-            <GameElement name="mushroomUp" />
+            <Icon mr={2} name="mushroomUp" />
             <Text style={{ marginRight: 16 }}>1</Text>
           </GameElementContainer>
           <GameElementContainer>
-            <GameElement name="cherry" />
+            <Icon mr={2} name="cherry" />
             <Text>2</Text>
           </GameElementContainer>
         </GameElementsList>

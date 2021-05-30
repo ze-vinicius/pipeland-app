@@ -1,10 +1,11 @@
 import React from "react";
 import { Screen } from "../../components/screen";
-import { Container, ClassContainer } from "./classes-screen.styles";
 
-import { Text } from "../../components/text";
 import { useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
+
+import { Container } from "./classes-screen.styles";
+import { ClassCard } from "./components/class-card";
 
 export const ClassesScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -16,10 +17,13 @@ export const ClassesScreen: React.FC = () => {
   return (
     <Screen unsafe>
       <Container>
-        <ClassContainer onPress={handleOpenClass}>
-          <Text preset="title">Engenharia de Software</Text>
-          <Text preset="subtitle">Vitor Castro</Text>
-        </ClassContainer>
+        <ClassCard onPress={handleOpenClass} />
+        <ClassCard onPress={handleOpenClass} />
+        <ClassCard onPress={handleOpenClass} />
+        <ClassCard onPress={handleOpenClass} />
+        <ClassCard onPress={handleOpenClass} />
+        <ClassCard onPress={handleOpenClass} />
+        <ClassCard onPress={handleOpenClass} />
       </Container>
     </Screen>
   );

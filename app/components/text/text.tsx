@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components/native";
+import styled, { useTheme } from "styled-components/native";
 
 import { presets, TextPresets } from "./text.presets";
 import { TextProps } from "./text.props";
@@ -8,9 +8,24 @@ const StyledText = styled.Text<{ preset: TextPresets }>`
   ${(prop) => prop.preset && presets[prop.preset]}
 `;
 
-export const Text: React.FC<TextProps> = ({ children, preset, style }) => {
+export const Text: React.FC<TextProps> = ({
+  children,
+  preset,
+  style,
+  mb = 0,
+  mt = 0,
+}) => {
+  const theme = useTheme();
+
+  const spacing = theme.spacing;
+
+  const overrideStyle = [
+    style,
+    { marginBottom: Number(spacing[mb]), marginTop: Number(spacing[mt]) },
+  ];
+
   return (
-    <StyledText preset={preset || "default"} style={style}>
+    <StyledText preset={preset || "default"} style={overrideStyle}>
       {children}
     </StyledText>
   );

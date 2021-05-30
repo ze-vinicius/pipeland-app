@@ -11,6 +11,10 @@ export const TasksScreen: React.FC = () => {
         <UserCard />
         <TasksContainer>
           <TaskCard />
+          <TaskCard />
+          <TaskCard />
+          <TaskCard />
+          <TaskCard />
         </TasksContainer>
       </Container>
     </Screen>
