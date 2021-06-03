@@ -1,8 +1,8 @@
 import { StyleProp, ImageProps } from "react-native";
 import { IconTypes } from "../../../assets/icons";
-import { BaseComponentInterface } from "../../theme/BaseComponentInterface";
+import { ComponentProps } from "../../theme/component-props";
 
-export interface IconProps extends BaseComponentInterface {
+export interface IconProps extends ComponentProps {
   name: IconTypes;
   style?: StyleProp<ImageProps>;
   size?: number;

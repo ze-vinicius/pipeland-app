@@ -1,5 +1,5 @@
-import { BaseComponentInterface } from "../../theme/BaseComponentInterface";
+import { ComponentProps } from "../../theme/component-props";
 
-export interface StatusLabelProps extends BaseComponentInterface {
+export interface StatusLabelProps extends ComponentProps {
   type: "opened" | "closed" | "corrected";
 }

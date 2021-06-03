@@ -14,6 +14,8 @@ export const Text: React.FC<TextProps> = ({
   style,
   mb = 0,
   mt = 0,
+  ml = 0,
+  mr = 0,
 }) => {
   const theme = useTheme();
 
@@ -21,7 +23,12 @@ export const Text: React.FC<TextProps> = ({
 
   const overrideStyle = [
     style,
-    { marginBottom: Number(spacing[mb]), marginTop: Number(spacing[mt]) },
+    {
+      marginBottom: Number(spacing[mb]),
+      marginTop: Number(spacing[mt]),
+      marginRight: Number(spacing[mr]),
+      marginLeft: Number(spacing[ml]),
+    },
   ];
 
   return (

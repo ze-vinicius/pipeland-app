@@ -21,7 +21,10 @@ export const UserCard = () => {
   return (
     <Container>
       <UserAvatarContainer>
-        <Avatar uri={"https://avatars.githubusercontent.com/u/38725875?v=4"} />
+        <Avatar
+          size={64}
+          uri={"https://avatars.githubusercontent.com/u/38725875?v=4"}
+        />
         <GameElementContainer>
           <Icon name="mario" mr={2} />
           <Text>Mario</Text>
@@ -33,7 +36,7 @@ export const UserCard = () => {
         <GameElementsList>
           <GameElementContainer>
             <Icon mr={2} name="mushroomUp" />
-            <Text style={{ marginRight: 16 }}>1</Text>
+            <Text mr={4}>1</Text>
           </GameElementContainer>
           <GameElementContainer>
             <Icon mr={2} name="cherry" />

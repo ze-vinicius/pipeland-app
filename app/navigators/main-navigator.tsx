@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ClassNavigator } from "./class-navigator";
 import { ClassesScreen } from "../screens/classes-screen";
+import { TaskScreen } from "../screens/task-screen/task-screen";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -17,7 +18,13 @@ export function MainNavigator() {
       <Screen
         name="class"
         component={ClassNavigator}
-        options={{ title: "Engenharia de Software" }}
+        options={{ headerShown: false }}
+      />
+
+      <Screen
+        name="task"
+        component={TaskScreen}
+        options={{ title: "Atividade" }}
       />
     </Navigator>
   );

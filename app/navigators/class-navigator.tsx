@@ -3,7 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TasksScreen } from "../screens/tasks-screen/tasks-screen";
 import { useTheme } from "styled-components";
 import Feather from "@expo/vector-icons/Feather";
-import { UserCard } from "../components/user-card";
+import { TasksNavigator } from "./tasks-navigator";
+import { RankingNavigator } from "./ranking-navigator";
+import { ProfileNavigator } from "./profile-navigator";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -19,7 +21,7 @@ export function ClassNavigator() {
     >
       <Screen
         name="tasks"
-        component={TasksScreen}
+        component={TasksNavigator}
         options={{
           title: "Tarefas",
           tabBarIcon: ({ size, color }) => {
@@ -29,7 +31,7 @@ export function ClassNavigator() {
       />
       <Screen
         name="ranking"
-        component={TasksScreen}
+        component={RankingNavigator}
         options={{
           title: "Ranking",
           tabBarIcon: ({ size, color }) => {
@@ -39,7 +41,7 @@ export function ClassNavigator() {
       />
       <Screen
         name="profile"
-        component={TasksScreen}
+        component={ProfileNavigator}
         options={{
           title: "Perfil",
           tabBarIcon: ({ size, color }) => {

@@ -2,6 +2,7 @@ import React from "react";
 import { Icon } from "../../../../components/icon/icon";
 import { StatusLabel } from "../../../../components/status-label";
 import { Text } from "../../../../components/text";
+import { TaskCardProps } from "./task-card.props";
 
 import {
   Container,
@@ -14,9 +15,9 @@ import {
   CoinContainer,
 } from "./task-card.styles";
 
-export const TaskCard: React.FC = () => {
+export const TaskCard: React.FC<TaskCardProps> = ({ onPress }) => {
   return (
-    <Container>
+    <Container onPress={onPress}>
       <CardHeader>
         <StatusLabel type="opened" mb={2} />
         <Text preset="title">Desenvolvimento de Resumo sobre PMBOK</Text>
