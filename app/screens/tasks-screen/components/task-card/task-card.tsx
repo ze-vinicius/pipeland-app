@@ -19,7 +19,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({ onPress }) => {
   return (
     <Container onPress={onPress}>
       <CardHeader>
-        <StatusLabel type="opened" mb={2} />
+        <StatusLabel type="opened" marginBottom={2} />
         <Text preset="title">Desenvolvimento de Resumo sobre PMBOK</Text>
       </CardHeader>
       <CardBody>
@@ -30,13 +30,13 @@ export const TaskCard: React.FC<TaskCardProps> = ({ onPress }) => {
       </CardBody>
       <CardFooter>
         <GameElementsContainer>
-          <Icon mr={2} name="midMushroom" />
-          <Icon mr={2} name="redMushroom" />
-          <Icon mr={2} name="bomb" />
+          <Icon marginRight={2} name="midMushroom" />
+          <Icon marginRight={2} name="redMushroom" />
+          <Icon marginRight={2} name="bomb" />
         </GameElementsContainer>
 
         <CoinContainer>
-          <Icon mr={2} name="coin" />
+          <Icon marginRight={2} name="coin" />
           <Text>12</Text>
         </CoinContainer>
       </CardFooter>

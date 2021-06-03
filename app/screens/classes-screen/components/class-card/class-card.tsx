@@ -17,21 +17,21 @@ const ClassCard: React.FC<ClassCardProps> = ({ onPress }) => {
   return (
     <ClassContainer onPress={onPress}>
       <StatusLabel type="opened" />
-      <Text preset="title" mt={2} mb={2}>
+      <Text preset="title" marginTop={2} marginBottom={2}>
         Engenharia de Software
       </Text>
-      <Text preset="subtitle" mb={2}>
+      <Text preset="subtitle" marginBottom={2}>
         Professor Vitor Castro
       </Text>
       <Text preset="subtitle">12 de março de 2020</Text>
       <StudentStatusContainer>
         <GameElementContainer>
-          <Icon name="coin" mr={4} />
+          <Icon name="coin" marginRight={4} />
           <Text preset="secondary">40</Text>
         </GameElementContainer>
-        <Divider preset="vertical" ml={4} mr={4} />
+        <Divider preset="vertical" marginLeft={4} marginRight={4} />
         <GameElementContainer>
-          <Icon name="mario" mr={4} />
+          <Icon name="mario" marginRight={4} />
           <Text preset="secondary">Mário</Text>
         </GameElementContainer>
       </StudentStatusContainer>

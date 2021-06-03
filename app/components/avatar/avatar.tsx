@@ -1,11 +1,14 @@
 import React from "react";
-import { ViewStyle } from "react-native";
+import { getStyle } from "../component-base";
 import { AvatarProps } from "./avatar.props";
 
 import { Container, DefaultAvatar, AvatarImage } from "./avatar.styles";
 
 export const Avatar: React.FC<AvatarProps> = ({ uri, size = 32 }) => {
-  const overrideStyle = { width: size, height: size } as ViewStyle;
+  const overrideStyle = getStyle({
+    width: size,
+    height: size,
+  });
 
   return (
     <Container style={overrideStyle}>

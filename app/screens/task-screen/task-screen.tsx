@@ -22,7 +22,7 @@ const TaskScreen: React.FC = () => {
     <Screen unsafe>
       <Container>
         <StatusLabel type="corrected" />
-        <Text preset="title" mt={4}>
+        <Text preset="title" marginTop={4}>
           Desenvolvimento de resumo sobre PMBOK
         </Text>
         <TaskInfoContainer>
@@ -46,9 +46,9 @@ const TaskScreen: React.FC = () => {
             <DeliveryDateContainer>
               <Text preset="secondary">ELEMENTOS DO JOGO</Text>
               <DateContainer>
-                <Icon name="redMushroom" mr={2} />
-                <Icon name="mushroomUp" mr={2} />
-                <Icon name="bomb" mr={2} />
+                <Icon name="redMushroom" marginRight={2} />
+                <Icon name="mushroomUp" marginRight={2} />
+                <Icon name="bomb" marginRight={2} />
               </DateContainer>
             </DeliveryDateContainer>
           </Row>

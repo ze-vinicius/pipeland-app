@@ -7,11 +7,9 @@ import { ProgressBarProps } from "./progress-bar.props";
 import {
   Container,
   LabelContainer,
-  Label,
   Background,
   FilledBar,
   CoinsContainer,
-  Coin,
 } from "./progress-bar.styles";
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({
@@ -28,7 +26,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
       <LabelContainer>
         <Text>COINS</Text>
         <CoinsContainer>
-          <Icon name="coin" mr={2} />
+          <Icon name="coin" marginRight={2} />
           <Text>{`${currentPoints} / ${totalPoints}`}</Text>
         </CoinsContainer>
       </LabelContainer>

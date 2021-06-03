@@ -26,7 +26,7 @@ export const UserCard = () => {
           uri={"https://avatars.githubusercontent.com/u/38725875?v=4"}
         />
         <GameElementContainer>
-          <Icon name="mario" mr={2} />
+          <Icon name="mario" marginRight={2} />
           <Text>Mario</Text>
         </GameElementContainer>
       </UserAvatarContainer>
@@ -35,11 +35,11 @@ export const UserCard = () => {
         <ProgressBar currentPoints={115} totalPoints={260} />
         <GameElementsList>
           <GameElementContainer>
-            <Icon mr={2} name="mushroomUp" />
-            <Text mr={4}>1</Text>
+            <Icon marginRight={2} name="mushroomUp" />
+            <Text marginRight={4}>1</Text>
           </GameElementContainer>
           <GameElementContainer>
-            <Icon mr={2} name="cherry" />
+            <Icon marginRight={2} name="cherry" />
             <Text>2</Text>
           </GameElementContainer>
         </GameElementsList>

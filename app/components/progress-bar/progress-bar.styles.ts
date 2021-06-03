@@ -1,5 +1,4 @@
 import styled from "styled-components/native";
-import { Icon } from "../icon/icon";
 
 export const Background = styled.View`
   background-color: ${(props) => props.theme.color.dim};
@@ -22,12 +21,6 @@ export const LabelContainer = styled.View`
   align-items: center;
 `;
 
-export const Label = styled.Text``;
-
 export const CoinsContainer = styled.View`
   flex-direction: row;
-`;
-
-export const Coin = styled(Icon).attrs({ name: "coin" })`
-  margin-right: 16px;
 `;

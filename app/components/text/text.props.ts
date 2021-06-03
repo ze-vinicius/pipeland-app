@@ -3,10 +3,10 @@ import {
   TextStyle,
   TextProps as TextProperties,
 } from "react-native";
-import { ComponentProps } from "../../theme/component-props";
+import { ComponentBaseProps } from "../component-base";
 import { TextPresets } from "./text.presets";
 
-export interface TextProps extends TextProperties, ComponentProps {
+export interface TextProps extends TextProperties, ComponentBaseProps {
   preset?: TextPresets;
   style?: StyleProp<TextStyle>;
 }

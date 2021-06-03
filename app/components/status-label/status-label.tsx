@@ -1,5 +1,6 @@
 import React from "react";
 import { useTheme } from "styled-components/native";
+import { getStyle } from "../component-base";
 import { StatusLabelProps } from "./status-label.props";
 
 import { Container, LabelText } from "./status-label.styles";
@@ -21,21 +22,17 @@ const labelTypes = {
 
 export const StatusLabel: React.FC<StatusLabelProps> = ({
   type,
-  mb = 0,
-  mt = 0,
-  mr = 0,
-  ml = 0,
+  marginBottom = 0,
+  marginRight = 0,
+  marginLeft = 0,
+  marginTop = 0,
 }) => {
-  const { spacing } = useTheme();
-
-  const overrideStyle = [
-    {
-      marginBottom: Number(spacing[mb]),
-      marginTop: Number(spacing[mt]),
-      marginRight: Number(spacing[mr]),
-      marginLeft: Number(spacing[ml]),
-    },
-  ];
+  const overrideStyle = getStyle({
+    marginBottom,
+    marginRight,
+    marginLeft,
+    marginTop,
+  });
 
   return (
     <Container style={overrideStyle}>

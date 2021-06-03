@@ -1,6 +1,6 @@
-import { ComponentProps } from "../../theme/component-props";
+import { ComponentBaseProps } from "../component-base";
 import { DividerPresets } from "./divider.presets";
 
-export interface DividerProps extends ComponentProps {
+export interface DividerProps extends ComponentBaseProps {
   preset?: DividerPresets;
 }
