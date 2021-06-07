@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { format } from "date-fns";
+
 import { StatusLabel } from "../../../../components/status-label";
 import { Text } from "../../../../components/text";
-
-// import { Container } from './styles';
 import { Icon } from "../../../../components/icon/icon";
 import { Divider } from "../../../../components/divider";
 
@@ -13,18 +13,22 @@ import {
 } from "./class-card.styles";
 import { ClassCardProps } from "./class-card.props";
 
-const ClassCard: React.FC<ClassCardProps> = ({ onPress }) => {
+const ClassCard: React.FC<ClassCardProps> = ({ onPress, classInfo }) => {
+  const formattedClassDate = useMemo(() => {
+    return format(new Date(classInfo.create_date), "dd 'de' MMM 'de' yyyy");
+  }, []);
+
   return (
     <ClassContainer onPress={onPress}>
-      <StatusLabel type="opened" />
+      <StatusLabel type={classInfo.active ? "opened" : "closed"} />
       <Text preset="title" marginTop={2} marginBottom={2}>
-        Engenharia de Software
+        {classInfo.name}
       </Text>
       <Text preset="subtitle" marginBottom={2}>
-        Professor Vitor Castro
+        Professor {classInfo.teacher_name}
       </Text>
-      <Text preset="subtitle">12 de março de 2020</Text>
-      <StudentStatusContainer>
+      <Text preset="subtitle">{formattedClassDate}</Text>
+      {/* <StudentStatusContainer>
         <GameElementContainer>
           <Icon name="coin" marginRight={4} />
           <Text preset="secondary">40</Text>
@@ -34,7 +38,7 @@ const ClassCard: React.FC<ClassCardProps> = ({ onPress }) => {
           <Icon name="mario" marginRight={4} />
           <Text preset="secondary">Mário</Text>
         </GameElementContainer>
-      </StudentStatusContainer>
+      </StudentStatusContainer> */}
     </ClassContainer>
   );
 };

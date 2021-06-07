@@ -15,14 +15,14 @@ export const getStyle = (style: Partial<ComponentBaseProps>) => {
   } = style;
 
   return {
-    marginTop: spacing[marginTop || 0],
-    marginRight: spacing[marginRight || 0],
-    marginBottom: spacing[marginBottom || 0],
-    marginLeft: spacing[marginLeft || 0],
-    paddingTop: spacing[paddingTop || 0],
-    paddingRight: spacing[paddingRight || 0],
-    paddingBottom: spacing[paddingBottom || 0],
-    paddingLeft: spacing[paddingLeft || 0],
+    marginTop: marginTop ? spacing[marginTop] : undefined,
+    marginRight: marginRight ? spacing[marginRight] : undefined,
+    marginBottom: marginBottom ? spacing[marginBottom] : undefined,
+    marginLeft: marginLeft ? spacing[marginLeft] : undefined,
+    paddingTop: paddingTop ? spacing[paddingTop] : undefined,
+    paddingRight: paddingRight ? spacing[paddingRight] : undefined,
+    paddingBottom: paddingBottom ? spacing[paddingBottom] : undefined,
+    paddingLeft: paddingLeft ? spacing[paddingLeft] : undefined,
     ...rest,
   };
 };

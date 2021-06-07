@@ -8,4 +8,9 @@ export interface ScreenProps {
    * Should we not wrap in SafeAreaView? Defaults to false.
    */
   unsafe?: boolean;
+
+  /**
+   * Props that indicates to show loading spinner
+   */
+  isLoading?: boolean;
 }

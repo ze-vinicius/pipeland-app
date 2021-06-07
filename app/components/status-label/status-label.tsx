@@ -1,4 +1,5 @@
 import React from "react";
+import { ViewStyle } from "react-native";
 import { useTheme } from "styled-components/native";
 import { getStyle } from "../component-base";
 import { StatusLabelProps } from "./status-label.props";
@@ -32,6 +33,10 @@ export const StatusLabel: React.FC<StatusLabelProps> = ({
     marginRight,
     marginLeft,
     marginTop,
+    paddingBottom: 1,
+    paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 1,
   });
 
   return (

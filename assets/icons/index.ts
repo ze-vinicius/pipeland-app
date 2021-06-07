@@ -11,6 +11,9 @@ export const icons = {
 
   // Avatars
   mario: require("./mario.png"),
+  superMario: require("./super-mario.png"),
+  fireMario: require("./fire-mario.png"),
+  capeMario: require("./cape-mario.png"),
 };
 
 export type IconTypes = keyof typeof icons;

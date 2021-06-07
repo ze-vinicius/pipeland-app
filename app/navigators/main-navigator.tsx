@@ -3,10 +3,14 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { ClassNavigator } from "./class-navigator";
 import { ClassesScreen } from "../screens/classes-screen";
 import { TaskScreen } from "../screens/task-screen/task-screen";
+import { useStores } from "../store";
+import { observer } from "mobx-react";
 
 const { Navigator, Screen } = createStackNavigator();
 
-export function MainNavigator() {
+const MainNavigator = observer(() => {
+  const { classesStore } = useStores();
+
   return (
     <Navigator>
       <Screen
@@ -18,7 +22,11 @@ export function MainNavigator() {
       <Screen
         name="class"
         component={ClassNavigator}
-        options={{ headerShown: false }}
+        options={{
+          title: classesStore.selectedClass
+            ? classesStore.selectedClass.name
+            : "Turma",
+        }}
       />
 
       <Screen
@@ -28,4 +36,6 @@ export function MainNavigator() {
       />
     </Navigator>
   );
-}
+});
+
+export { MainNavigator };

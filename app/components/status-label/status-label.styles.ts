@@ -2,7 +2,6 @@ import styled from "styled-components/native";
 import { Text } from "../text";
 
 export const Container = styled.View`
-  padding: 4px;
   background-color: ${(props) => props.theme.color.line};
   align-self: flex-start;
 `;

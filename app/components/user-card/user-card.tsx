@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Avatar } from "../avatar";
 import { ProgressBar } from "../progress-bar";
@@ -12,31 +12,57 @@ import {
   GameElementContainer,
 } from "./user-card.styles";
 import { Icon } from "../icon/icon";
+import { useStores } from "../../store";
+import { observer } from "mobx-react";
 
-export const UserCard = () => {
-  const [isLoading, setIsLoading] = useState(false);
+const marioAvatars = {
+  mario: "Mario",
+  superMario: "Super Mario",
+  fireMario: "Fire Mario",
+  capeMario: "Cape Mario",
+};
 
-  if (isLoading) return <Container />;
+export const UserCard = observer(() => {
+  const { classesStore } = useStores();
+
+  if (!classesStore.selectedClass || !classesStore.selectedClass.student_info)
+    return null;
 
   return (
     <Container>
       <UserAvatarContainer>
-        <Avatar
-          size={64}
-          uri={"https://avatars.githubusercontent.com/u/38725875?v=4"}
-        />
+        <Avatar size={64} uri={classesStore.selectedClass.student_info.photo} />
         <GameElementContainer>
-          <Icon name="mario" marginRight={2} />
-          <Text>Mario</Text>
+          <Icon
+            name={classesStore.selectedClass.student_info.current_avatar}
+            marginRight={2}
+          />
+          <Text>
+            {
+              marioAvatars[
+                classesStore.selectedClass.student_info.current_avatar
+              ]
+            }
+          </Text>
         </GameElementContainer>
       </UserAvatarContainer>
       <UserInfoContainer>
-        <Text preset="title">José Vinícius</Text>
-        <ProgressBar currentPoints={115} totalPoints={260} />
+        <Text preset="title">
+          {classesStore.selectedClass.student_info.nickname ||
+            classesStore.selectedClass.student_info.student_name}
+        </Text>
+        <ProgressBar
+          currentPoints={
+            classesStore.selectedClass.student_info.current_coinst_qty
+          }
+          totalPoints={classesStore.selectedClass.coins_max}
+        />
         <GameElementsList>
           <GameElementContainer>
             <Icon marginRight={2} name="mushroomUp" />
-            <Text marginRight={4}>1</Text>
+            <Text marginRight={4}>
+              {classesStore.selectedClass.student_info.current_mushroom_ups_qty}
+            </Text>
           </GameElementContainer>
           <GameElementContainer>
             <Icon marginRight={2} name="cherry" />
@@ -46,4 +72,4 @@ export const UserCard = () => {
       </UserInfoContainer>
     </Container>
   );
-};
+});

@@ -1,11 +1,12 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import { observer } from "mobx-react";
+import React from "react";
 import { Divider } from "../../components/divider";
 import { Icon } from "../../components/icon/icon";
 
 import { Screen } from "../../components/screen";
 import { StatusLabel } from "../../components/status-label";
 import { Text } from "../../components/text";
+import { useStores } from "../../store";
 
 import {
   Container,
@@ -17,9 +18,11 @@ import {
   TaskDescription,
 } from "./task-screen.styles";
 
-const TaskScreen: React.FC = () => {
+const TaskScreen: React.FC = observer(() => {
+  const { classesStore } = useStores();
+
   return (
-    <Screen unsafe>
+    <Screen isLoading={classesStore.isLoading} unsafe>
       <Container>
         <StatusLabel type="corrected" />
         <Text preset="title" marginTop={4}>
@@ -66,6 +69,6 @@ const TaskScreen: React.FC = () => {
       </Container>
     </Screen>
   );
-};
+});
 
 export { TaskScreen };

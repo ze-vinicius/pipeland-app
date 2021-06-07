@@ -15,6 +15,7 @@ export const Container = styled.View`
 
 export const UserAvatarContainer = styled.View`
   justify-content: space-between;
+  align-items: center;
 `;
 
 export const UserInfoContainer = styled.View`

@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -36,7 +37,20 @@ export const Screen: React.FC<ScreenProps> = (props) => {
           backgroundColor: theme.color.background,
         }}
       >
-        {props.children}
+        {props.isLoading ? (
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+            }}
+          >
+            <ActivityIndicator size="large" />
+          </View>
+        ) : (
+          props.children
+        )}
       </View>
     </KeyboardAvoidingView>
   );

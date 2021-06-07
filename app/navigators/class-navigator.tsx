@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TasksScreen } from "../screens/tasks-screen/tasks-screen";
 import { useTheme } from "styled-components";
@@ -6,8 +6,30 @@ import Feather from "@expo/vector-icons/Feather";
 import { TasksNavigator } from "./tasks-navigator";
 import { RankingNavigator } from "./ranking-navigator";
 import { ProfileNavigator } from "./profile-navigator";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useStores } from "../store";
+// import { TaskScreen } from "../screens/task-screen/task-screen";
+import RankingScreen from "../screens/ranking-screen/ranking-screen";
 
-const { Navigator, Screen } = createBottomTabNavigator();
+type ClassNavigatorRouteProps = RouteProp<
+  { class: { classId: string } },
+  "class"
+>;
+
+type ClassNavigatorParamsList = {
+  tasks: {
+    classId?: string;
+  };
+  ranking: {
+    classId?: string;
+  };
+  profile: {
+    classId?: string;
+  };
+};
+
+const { Navigator, Screen } =
+  createBottomTabNavigator<ClassNavigatorParamsList>();
 
 export function ClassNavigator() {
   const theme = useTheme();
@@ -21,7 +43,7 @@ export function ClassNavigator() {
     >
       <Screen
         name="tasks"
-        component={TasksNavigator}
+        component={TasksScreen}
         options={{
           title: "Tarefas",
           tabBarIcon: ({ size, color }) => {
@@ -31,7 +53,7 @@ export function ClassNavigator() {
       />
       <Screen
         name="ranking"
-        component={RankingNavigator}
+        component={RankingScreen}
         options={{
           title: "Ranking",
           tabBarIcon: ({ size, color }) => {
@@ -41,7 +63,7 @@ export function ClassNavigator() {
       />
       <Screen
         name="profile"
-        component={ProfileNavigator}
+        component={RankingScreen}
         options={{
           title: "Perfil",
           tabBarIcon: ({ size, color }) => {
