@@ -7,6 +7,7 @@ import { Image } from "./icon.styles";
 export const Icon: React.FC<IconProps> = ({
   name,
   style,
+  uri,
   size = 16,
   marginBottom = 0,
   marginTop = 0,
@@ -25,7 +26,13 @@ export const Icon: React.FC<IconProps> = ({
   return (
     <Image
       resizeMode="contain"
-      source={icons[name]}
+      source={
+        uri
+          ? {
+              uri,
+            }
+          : icons[name || "coin"]
+      }
       style={[overrideStyle, style]}
     />
   );

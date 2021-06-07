@@ -15,29 +15,33 @@ import {
   CoinContainer,
 } from "./task-card.styles";
 
-export const TaskCard: React.FC<TaskCardProps> = ({ onPress }) => {
+export const TaskCard: React.FC<TaskCardProps> = ({ onPress, taskInfo }) => {
   return (
     <Container onPress={onPress}>
       <CardHeader>
         <StatusLabel type="opened" marginBottom={2} />
-        <Text preset="title">Desenvolvimento de Resumo sobre PMBOK</Text>
+        <Text preset="title">{taskInfo.title}</Text>
       </CardHeader>
       <CardBody>
         <DateInfoContainer>
           <CalendarIcon />
-          <Text preset="secondary">15/08/2020</Text>
+          <Text preset="secondary">{taskInfo.delivery_date}</Text>
         </DateInfoContainer>
       </CardBody>
       <CardFooter>
         <GameElementsContainer>
-          <Icon marginRight={2} name="midMushroom" />
-          <Icon marginRight={2} name="redMushroom" />
-          <Icon marginRight={2} name="bomb" />
+          {taskInfo.task_elements.map((task_element) => (
+            <Icon
+              key={task_element.id}
+              marginRight={2}
+              uri={task_element.imageUrl}
+            />
+          ))}
         </GameElementsContainer>
 
         <CoinContainer>
           <Icon marginRight={2} name="coin" />
-          <Text>12</Text>
+          <Text>{taskInfo.task_value}</Text>
         </CoinContainer>
       </CardFooter>
     </Container>

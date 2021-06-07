@@ -11,6 +11,7 @@ import {
 } from "mobx-keystone";
 import api from "../../services/api/api";
 import { Class, ClassDetail, StudentInfo } from "./class";
+import { Task, TaskElement } from "./task";
 
 const mapResponseToClass = (raw: any): Class => {
   return new Class({
@@ -67,7 +68,7 @@ export class ClassesStore extends Model({
     } catch (error) {
       console.log(error);
       if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.error;
+        this.errorMessage = error.response.data.message;
       } else {
         this.errorMessage = error.message;
       }
@@ -89,7 +90,50 @@ export class ClassesStore extends Model({
     } catch (error) {
       console.log(error);
       if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.error;
+        this.errorMessage = error.response.data.message;
+      } else {
+        this.errorMessage = error.message;
+      }
+    } finally {
+      this.isLoading = false;
+    }
+  });
+
+  @modelFlow
+  fetchClassTasks = _async(function* (this: ClassesStore, class_id?: string) {
+    this.isLoading = true;
+
+    const id = class_id || this.selectedClass?.id;
+
+    try {
+      const response = yield* _await(api.get(`/classes/${id}/tasks`));
+
+      const tasks: Task[] = response.data.map((raw: any): Task => {
+        return new Task({
+          id: raw.id,
+          title: raw.title,
+          description: raw.description,
+          create_date: raw.create_date,
+          delivery_date: raw.delivery_date,
+          task_value: raw.task_value,
+          task_elements: raw.task_elements.map((task_element: any) => {
+            return new TaskElement({
+              id: task_element.id,
+              name: task_element.name,
+              quantity: task_element.quantity,
+              imageUrl: task_element.imageUrl,
+            });
+          }),
+        });
+      });
+
+      if (this.selectedClass) {
+        this.selectedClass.tasks = tasks;
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response && error.response.data) {
+        this.errorMessage = error.response.data.message;
       } else {
         this.errorMessage = error.message;
       }
