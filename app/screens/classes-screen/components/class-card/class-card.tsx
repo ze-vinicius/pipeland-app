@@ -12,10 +12,11 @@ import {
   GameElementContainer,
 } from "./class-card.styles";
 import { ClassCardProps } from "./class-card.props";
+import { formatDate } from "../../../../utils/date";
 
 const ClassCard: React.FC<ClassCardProps> = ({ onPress, classInfo }) => {
   const formattedClassDate = useMemo(() => {
-    return format(new Date(classInfo.create_date), "dd 'de' MMM 'de' yyyy");
+    return formatDate(classInfo.create_date, "dd 'de' MMM 'de' yyyy");
   }, []);
 
   return (

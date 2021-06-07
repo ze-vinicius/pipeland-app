@@ -2,6 +2,7 @@ import React from "react";
 import { Icon } from "../../../../components/icon/icon";
 import { StatusLabel } from "../../../../components/status-label";
 import { Text } from "../../../../components/text";
+import { formatDate } from "../../../../utils/date";
 import { TaskCardProps } from "./task-card.props";
 
 import {
@@ -25,7 +26,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({ onPress, taskInfo }) => {
       <CardBody>
         <DateInfoContainer>
           <CalendarIcon />
-          <Text preset="secondary">{taskInfo.delivery_date}</Text>
+          <Text preset="secondary">
+            {formatDate(taskInfo.delivery_date, "dd/MM/yyyy '-' hh:mm")}
+          </Text>
         </DateInfoContainer>
       </CardBody>
       <CardFooter>
