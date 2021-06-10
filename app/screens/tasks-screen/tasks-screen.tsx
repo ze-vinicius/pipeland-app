@@ -15,8 +15,14 @@ export const TasksScreen: React.FC = observer(() => {
 
   const navigation = useNavigation();
 
-  const handleTaskCardPress = useCallback(() => {
-    navigation.navigate("task");
+  const handleTaskCardPress = useCallback((task_id: string) => {
+    if (!!classesStore.selectedClass) {
+      classesStore.fetchTaskDetail({
+        class_id: classesStore.selectedClass.id,
+        task_id,
+      });
+      navigation.navigate("taskDetail");
+    }
   }, []);
 
   useEffect(() => {
@@ -34,7 +40,10 @@ export const TasksScreen: React.FC = observer(() => {
             data={classesStore.selectedClass?.tasks}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
-              <TaskCard onPress={handleTaskCardPress} taskInfo={item} />
+              <TaskCard
+                onPress={() => handleTaskCardPress(item.id)}
+                taskInfo={item}
+              />
             )}
           />
         </TasksContainer>

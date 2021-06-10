@@ -2,11 +2,17 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ClassNavigator } from "./class-navigator";
 import { ClassesScreen } from "../screens/classes-screen";
-import { TaskScreen } from "../screens/task-screen/task-screen";
+import { TaskDetailScreen } from "../screens/task-detail-screen";
 import { useStores } from "../store";
 import { observer } from "mobx-react";
 
-const { Navigator, Screen } = createStackNavigator();
+type MainNavigatorParamsList = {
+  classes: undefined;
+  class: undefined;
+  taskDetail: undefined;
+};
+
+const { Navigator, Screen } = createStackNavigator<MainNavigatorParamsList>();
 
 const MainNavigator = observer(() => {
   const { classesStore } = useStores();
@@ -30,8 +36,8 @@ const MainNavigator = observer(() => {
       />
 
       <Screen
-        name="task"
-        component={TaskScreen}
+        name="taskDetail"
+        component={TaskDetailScreen}
         options={{ title: "Atividade" }}
       />
     </Navigator>

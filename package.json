@@ -18,6 +18,7 @@
     "date-fns-tz": "^1.1.4",
     "expo": "~41.0.1",
     "expo-cli": "^4.5.0",
+    "expo-linking": "~2.2.3",
     "expo-splash-screen": "~0.10.2",
     "expo-updates": "~0.5.4",
     "global": "^4.4.0",

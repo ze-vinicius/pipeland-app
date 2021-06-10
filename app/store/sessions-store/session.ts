@@ -1,19 +1,17 @@
-import { computed } from "mobx";
-import { model, Model, modelAction, tProp, types } from "mobx-keystone";
-import api from "../../services/api/api";
+import { model, Model, modelAction, prop } from "mobx-keystone";
 
 @model("pipeland/User")
 export class User extends Model({
-  id: tProp(types.string),
-  name: tProp(types.string),
-  email: tProp(types.string),
-  role: tProp(types.string),
+  id: prop<string>(),
+  name: prop<string>(),
+  email: prop<string>(),
+  role: prop<string>(),
 }) {}
 
 @model("pipeland/Session")
 export class Session extends Model({
-  token: tProp(types.maybeNull(types.string)),
-  user: tProp(types.maybeNull(types.model(User))),
+  token: prop<string | null>(() => null),
+  user: prop<User | null>(() => null),
 }) {
   // @modelAction
   // setDone(done: boolean) {

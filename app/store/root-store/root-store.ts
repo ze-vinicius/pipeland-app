@@ -1,24 +1,15 @@
-import {
-  connectReduxDevTools,
-  model,
-  Model,
-  registerRootStore,
-  tProp,
-  types,
-  ModelAutoTypeCheckingMode,
-  setGlobalConfig,
-} from "mobx-keystone";
+import { model, Model, registerRootStore, prop } from "mobx-keystone";
 import { ClassesStore } from "../classes-store/classes-store";
 import { SessionsStore } from "../sessions-store/sessions-store";
 
-setGlobalConfig({
-  modelAutoTypeChecking: ModelAutoTypeCheckingMode.AlwaysOn,
-});
+// setGlobalConfig({
+//   modelAutoTypeChecking: ModelAutoTypeCheckingMode.AlwaysOn,
+// });
 
 @model("pipeland/RootStore")
 export class RootStore extends Model({
-  classesStore: tProp(types.model(ClassesStore), () => new ClassesStore({})),
-  sessionsStore: tProp(types.model(SessionsStore), () => new SessionsStore({})),
+  classesStore: prop<ClassesStore>(() => new ClassesStore({})),
+  sessionsStore: prop<SessionsStore>(() => new SessionsStore({})),
 }) {}
 
 export function createRootStore(): RootStore {

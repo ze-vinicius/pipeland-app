@@ -1,21 +1,10 @@
-import { computed } from "mobx";
-import {
-  model,
-  Model,
-  modelAction,
-  tProp,
-  prop,
-  types,
-  modelFlow,
-  _async,
-  _await,
-} from "mobx-keystone";
-import api from "../../services/api/api";
-import { Session, User } from "./session";
+import { model, Model, prop, modelFlow, _async, _await } from "mobx-keystone";
+import { api } from "../../services/api/api";
+import { Session } from "./session";
 
 @model("pipeland/SessionsStore")
 export class SessionsStore extends Model({
-  activeSession: tProp(types.maybe(types.model(Session))),
+  activeSession: prop<Session | null>(() => null),
 }) {
   @modelFlow
   login = _async(function* (
@@ -29,27 +18,15 @@ export class SessionsStore extends Model({
     }
   ) {
     try {
-      const response = yield* _await(
-        api.post("sessions", {
+      const session = yield* _await(
+        api.login({
           email: "vinicius@gmail.com",
           password: "1234",
         })
       );
 
-      const { token, user } = response.data;
-
-      api.defaults.headers.authorization = `Bearer ${token}`;
-
-      this.activeSession = new Session({
-        user: new User({
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        }),
-        token,
-      });
-    } catch (error) {
+      this.activeSession = session;
+    } catch (error: any) {
       if (error.response && error.response.data) {
         console.log("error: " + error.response.data.error);
       } else {

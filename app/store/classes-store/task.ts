@@ -1,20 +1,24 @@
-import { model, Model, tProp, types, ExtendedModel } from "mobx-keystone";
+import { model, Model, tProp, types, ExtendedModel, prop } from "mobx-keystone";
 
 @model("pipeland/TaskElement")
 export class TaskElement extends Model({
-  id: tProp(types.string),
-  name: tProp(types.string),
-  imageUrl: tProp(types.string),
-  quantity: tProp(types.number),
+  id: prop<string>(),
+  name: prop<string>(),
+  imageUrl: prop<string>(),
+  quantity: prop<number>(),
 }) {}
 
-@model("pipeland/Task")
-export class Task extends Model({
-  id: tProp(types.string),
-  title: tProp(types.string),
-  description: tProp(types.string),
-  delivery_date: tProp(types.dateString),
-  create_date: tProp(types.dateString),
-  task_value: tProp(types.number),
-  task_elements: tProp(types.array(types.model(TaskElement)), () => []),
+@model("pipeland/TaskResume")
+export class TaskResume extends Model({
+  id: prop<string>(),
+  title: prop<string>(),
+  delivery_date: prop<string>(),
+  task_value: prop<number>(),
+  task_elements: prop<TaskElement[]>(() => []),
+}) {}
+
+@model("pipeland/TaskDetail")
+export class TaskDetail extends ExtendedModel(TaskResume, {
+  description: prop<string>(),
+  create_date: prop<string>(),
 }) {}

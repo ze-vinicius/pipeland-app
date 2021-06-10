@@ -4,13 +4,20 @@ import { ThemeProvider } from "styled-components";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { observer } from "mobx-react";
+import * as Linking from "expo-linking";
 
 import theme from "./theme";
 import { MainNavigator } from "./navigators/main-navigator";
 import { createRootStore, RootStore, RootStoreProvider } from "./store";
 
+const prefix = Linking.createURL("/");
+
 const App = observer(() => {
   const [rootStore, setRootStore] = useState<RootStore | undefined>(undefined);
+
+  const linking = {
+    prefixes: [prefix],
+  };
 
   useEffect(() => {
     setRootStore(createRootStore());
@@ -22,7 +29,7 @@ const App = observer(() => {
     <RootStoreProvider value={rootStore}>
       <SafeAreaProvider>
         <ThemeProvider theme={theme}>
-          <NavigationContainer>
+          <NavigationContainer linking={linking}>
             <MainNavigator />
           </NavigationContainer>
         </ThemeProvider>

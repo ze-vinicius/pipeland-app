@@ -4,6 +4,7 @@
   "expo": {
     "name": "pipeland",
     "slug": "pipeland",
+    "scheme": "pipeland",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"

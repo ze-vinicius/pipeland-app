@@ -1,6 +1,5 @@
-import { computed } from "mobx";
-import { model, Model, tProp, types, ExtendedModel } from "mobx-keystone";
-import { Task } from "./task";
+import { model, Model, tProp, types, ExtendedModel, prop } from "mobx-keystone";
+import { TaskResume } from "./task";
 
 enum EnumMarioAvatars {
   MARIO = "mario",
@@ -11,28 +10,28 @@ enum EnumMarioAvatars {
 
 @model("pipeland/Class")
 export class Class extends Model({
-  id: tProp(types.string),
-  name: tProp(types.string),
-  active: tProp(types.boolean),
-  create_date: tProp(types.dateString),
-  teacher_name: tProp(types.string),
+  id: prop<string>(),
+  name: prop<string>(),
+  active: prop<boolean>(),
+  create_date: prop<string>(),
+  teacher_name: prop<string>(),
 }) {}
 
 @model("pipeland/StudentInfo")
 export class StudentInfo extends Model({
-  student_id: tProp(types.string),
-  user_id: tProp(types.string),
-  photo: tProp(types.maybeNull(types.string), () => null),
-  student_name: tProp(types.string),
-  nickname: tProp(types.maybeNull(types.string), () => null),
-  current_coinst_qty: tProp(types.number, () => 0),
-  current_avatar: tProp(types.enum(EnumMarioAvatars)),
-  current_mushroom_ups_qty: tProp(types.number, () => 0),
+  student_id: prop<string>(),
+  user_id: prop<string>(),
+  photo: prop<string | null>(null),
+  student_name: prop<string>(),
+  nickname: prop<string | null>(null),
+  current_coinst_qty: prop<number>(),
+  current_avatar: prop<keyof typeof EnumMarioAvatars>(),
+  current_mushroom_ups_qty: prop<number>(),
 }) {}
 
 @model("pipeland/ClassDetail")
 export class ClassDetail extends ExtendedModel(Class, {
-  coins_max: tProp(types.number, () => 0),
-  student_info: tProp(types.maybeNull(types.model(StudentInfo)), () => null),
-  tasks: tProp(types.array(types.model(Task)), () => []),
+  coins_max: prop<number>(),
+  student_info: prop<StudentInfo | null>(null),
+  tasks: prop<TaskResume[]>(() => []),
 }) {}

@@ -1,17 +1,7 @@
-import { computed } from "mobx";
-import {
-  model,
-  Model,
-  modelAction,
-  tProp,
-  types,
-  modelFlow,
-  _async,
-  _await,
-} from "mobx-keystone";
-import api from "../../services/api/api";
-import { Class, ClassDetail, StudentInfo } from "./class";
-import { Task, TaskElement } from "./task";
+import { model, Model, modelFlow, _async, _await, prop } from "mobx-keystone";
+import { api } from "../../services/api/api";
+import { Class, ClassDetail } from "./class";
+import { TaskDetail } from "./task";
 
 const mapResponseToClass = (raw: any): Class => {
   return new Class({
@@ -23,49 +13,23 @@ const mapResponseToClass = (raw: any): Class => {
   });
 };
 
-const mapResponseToClassDetail = (raw: any): ClassDetail => {
-  const student_info = raw.student_info
-    ? new StudentInfo({
-        student_id: raw.student_info.student_id,
-        user_id: raw.student_info.user_id,
-        student_name: raw.student_info.student_name,
-        current_avatar: raw.student_info.current_avatar,
-        current_coinst_qty: raw.student_info.current_coins_qty,
-        nickname: raw.student_info.nickname,
-        photo: raw.student_info.photo,
-        current_mushroom_ups_qty: raw.student_info.current_mushroom_ups_qty,
-      })
-    : null;
-
-  return new ClassDetail({
-    id: raw.id,
-    name: raw.name,
-    active: raw.active,
-    teacher_name: raw.teacher_name,
-    create_date: raw.create_date,
-    coins_max: raw.coins_max,
-    student_info,
-  });
-};
-
 @model("pipeland/ClassesStore")
 export class ClassesStore extends Model({
-  isLoading: tProp(types.boolean, () => false),
-  classes: tProp(types.array(types.model(Class)), () => []),
-  selectedClass: tProp(types.maybeNull(types.model(ClassDetail)), () => null),
-  errorMessage: tProp(types.maybeNull(types.string), () => null),
+  isLoading: prop<boolean>(false),
+  classes: prop<Class[]>(() => []),
+  selectedClass: prop<ClassDetail | null>(null),
+  taskDetail: prop<TaskDetail | null>(null),
+  errorMessage: prop<string | null>(null),
 }) {
   @modelFlow
   fetchClasses = _async(function* (this: ClassesStore) {
     this.isLoading = true;
 
     try {
-      const response = yield* _await(api.get("/classes"));
-
-      const classes: Class[] = response.data.map(mapResponseToClass);
+      const classes = yield* _await(api.getClasses());
 
       this.classes = classes;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       if (error.response && error.response.data) {
         this.errorMessage = error.response.data.message;
@@ -82,12 +46,10 @@ export class ClassesStore extends Model({
     this.isLoading = true;
 
     try {
-      const response = yield* _await(api.get(`/classes/${class_id}`));
-
-      const selectedClass = mapResponseToClassDetail(response.data);
+      const selectedClass = yield* _await(api.getClassDetail(class_id));
 
       this.selectedClass = selectedClass;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       if (error.response && error.response.data) {
         this.errorMessage = error.response.data.message;
@@ -103,34 +65,15 @@ export class ClassesStore extends Model({
   fetchClassTasks = _async(function* (this: ClassesStore, class_id?: string) {
     this.isLoading = true;
 
-    const id = class_id || this.selectedClass?.id;
+    const id = class_id || this.selectedClass?.id || "";
 
     try {
-      const response = yield* _await(api.get(`/classes/${id}/tasks`));
-
-      const tasks: Task[] = response.data.map((raw: any): Task => {
-        return new Task({
-          id: raw.id,
-          title: raw.title,
-          description: raw.description,
-          create_date: raw.create_date,
-          delivery_date: raw.delivery_date,
-          task_value: raw.task_value,
-          task_elements: raw.task_elements.map((task_element: any) => {
-            return new TaskElement({
-              id: task_element.id,
-              name: task_element.name,
-              quantity: task_element.quantity,
-              imageUrl: task_element.imageUrl,
-            });
-          }),
-        });
-      });
+      const tasks = yield* _await(api.getClassTasks(id));
 
       if (this.selectedClass) {
         this.selectedClass.tasks = tasks;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       if (error.response && error.response.data) {
         this.errorMessage = error.response.data.message;
@@ -142,19 +85,37 @@ export class ClassesStore extends Model({
     }
   });
 
-  // @computed
-  // get done() {
-  //   return this.todos.filter((t) => t.done);
-  // }
-  // @modelAction
-  // add(todo: Todo) {
-  //   this.todos.push(todo);
-  // }
-  // @modelAction
-  // remove(todo: Todo) {
-  //   const index = this.todos.indexOf(todo);
-  //   if (index >= 0) {
-  //     this.todos.splice(index, 1);
-  //   }
-  // }
+  @modelFlow
+  fetchTaskDetail = _async(function* (
+    this: ClassesStore,
+    {
+      task_id,
+      class_id,
+    }: {
+      task_id: string;
+      class_id: string;
+    }
+  ) {
+    this.isLoading = true;
+
+    try {
+      const taskDetail = yield* _await(
+        api.getTaskDetail({
+          task_id,
+          class_id,
+        })
+      );
+
+      this.taskDetail = taskDetail;
+    } catch (error: any) {
+      console.log(error);
+      if (error.response && error.response.data) {
+        this.errorMessage = error.response.data.message;
+      } else {
+        this.errorMessage = error.message;
+      }
+    } finally {
+      this.isLoading = false;
+    }
+  });
 }
