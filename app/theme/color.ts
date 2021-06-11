@@ -6,4 +6,5 @@ export const color = {
   text: palette.black,
   line: palette.offWhite,
   dim: palette.lighterGrey,
+  error: palette.red,
 };

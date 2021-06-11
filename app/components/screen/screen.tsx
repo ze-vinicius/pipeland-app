@@ -25,7 +25,7 @@ export const Screen: React.FC<ScreenProps> = (props) => {
       }}
       behavior={isIos ? "padding" : "height"}
     >
-      <StatusBar barStyle={"dark-content"} />
+      <StatusBar barStyle={"default"} />
       <View
         style={{
           flex: 1,

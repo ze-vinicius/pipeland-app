@@ -17,6 +17,8 @@ export function createRootStore(): RootStore {
 
   registerRootStore(rootStore);
 
+  rootStore.sessionsStore.loadSessionInfo();
+
   // const remotedev = require("remotedev");
 
   // const connection = remotedev.connectViaExtension({

@@ -8,7 +8,14 @@ import * as Linking from "expo-linking";
 
 import theme from "./theme";
 import { MainNavigator } from "./navigators/main-navigator";
-import { createRootStore, RootStore, RootStoreProvider } from "./store";
+import {
+  createRootStore,
+  RootStore,
+  RootStoreProvider,
+  useStores,
+} from "./store";
+import { AuthNavigator } from "./navigators/auth-navigator";
+import { ActivityIndicator, View } from "react-native";
 
 const prefix = Linking.createURL("/");
 
@@ -30,7 +37,11 @@ const App = observer(() => {
       <SafeAreaProvider>
         <ThemeProvider theme={theme}>
           <NavigationContainer linking={linking}>
-            <MainNavigator />
+            {!!rootStore.sessionsStore.activeSession ? (
+              <MainNavigator />
+            ) : (
+              <AuthNavigator />
+            )}
           </NavigationContainer>
         </ThemeProvider>
       </SafeAreaProvider>

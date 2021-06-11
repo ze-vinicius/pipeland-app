@@ -1,7 +1,9 @@
 import { ComponentBaseProps } from "./component-base.props";
 import { spacing } from "../../theme/spacing";
 
-export const getStyle = (style: Partial<ComponentBaseProps>) => {
+export const getStyle = <T extends unknown>(
+  style: Partial<ComponentBaseProps>
+): T => {
   const {
     marginBottom,
     marginLeft,
@@ -24,5 +26,5 @@ export const getStyle = (style: Partial<ComponentBaseProps>) => {
     paddingBottom: paddingBottom ? spacing[paddingBottom] : undefined,
     paddingLeft: paddingLeft ? spacing[paddingLeft] : undefined,
     ...rest,
-  };
+  } as T;
 };

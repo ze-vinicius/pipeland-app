@@ -6,7 +6,9 @@ const BASE = css`
 `;
 
 export const presets = {
-  default: BASE,
+  default: css`
+    ${BASE}
+  `,
 
   bold: css`
     ${BASE};
@@ -38,6 +40,16 @@ export const presets = {
 
     font-size: 12px;
     color: ${(props) => props.theme.color.dim};
+  `,
+
+  inputLabel: css`
+    ${BASE}
+
+    color: ${(props) => props.theme.color.dim};
+  `,
+
+  errorMessage: css`
+    color: ${(props) => props.theme.color.error};
   `,
 };
 
