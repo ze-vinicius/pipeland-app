@@ -1,4 +1,11 @@
 import "react-native-gesture-handler";
+
+if (typeof Intl === "undefined") {
+  require("intl");
+  require("intl/locale-data/jsonp/pt-BR");
+  require("date-time-format-timezone");
+}
+
 import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { SafeAreaProvider } from "react-native-safe-area-context";

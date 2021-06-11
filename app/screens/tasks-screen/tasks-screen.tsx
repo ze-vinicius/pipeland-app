@@ -38,6 +38,7 @@ export const TasksScreen: React.FC = observer(() => {
         <TasksContainer>
           <FlatList
             data={classesStore.selectedClass?.tasks}
+            showsVerticalScrollIndicator={false}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => (
               <TaskCard

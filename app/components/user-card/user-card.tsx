@@ -60,14 +60,14 @@ export const UserCard = observer(() => {
         <GameElementsList>
           <GameElementContainer>
             <Icon marginRight={2} name="mushroomUp" />
-            <Text marginRight={4}>
+            <Text>
               {classesStore.selectedClass.student_info.current_mushroom_ups_qty}
             </Text>
           </GameElementContainer>
-          <GameElementContainer>
+          {/* <GameElementContainer>
             <Icon marginRight={2} name="cherry" />
             <Text>2</Text>
-          </GameElementContainer>
+          </GameElementContainer> */}
         </GameElementsList>
       </UserInfoContainer>
     </Container>

@@ -6,4 +6,6 @@ export const Container = styled.View`
 
 export const TasksContainer = styled.View`
   padding: 8px;
+  padding-bottom: 0;
+  flex: 1;
 `;

@@ -3,16 +3,6 @@ import { api } from "../../services/api/api";
 import { Class, ClassDetail } from "./class";
 import { TaskDetail } from "./task";
 
-const mapResponseToClass = (raw: any): Class => {
-  return new Class({
-    id: raw.id,
-    name: raw.name,
-    active: raw.active,
-    teacher_name: raw.teacher_name,
-    create_date: raw.create_date,
-  });
-};
-
 @model("pipeland/ClassesStore")
 export class ClassesStore extends Model({
   isLoading: prop<boolean>(false),

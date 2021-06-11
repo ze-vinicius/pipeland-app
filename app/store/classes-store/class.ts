@@ -25,7 +25,7 @@ export class StudentInfo extends Model({
   student_name: prop<string>(),
   nickname: prop<string | null>(null),
   current_coinst_qty: prop<number>(),
-  current_avatar: prop<keyof typeof EnumMarioAvatars>(),
+  current_avatar: prop<EnumMarioAvatars>(),
   current_mushroom_ups_qty: prop<number>(),
 }) {}
 
