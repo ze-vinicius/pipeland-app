@@ -1,5 +1,14 @@
-import { model, Model, modelFlow, _async, _await, prop } from "mobx-keystone";
+import {
+  model,
+  Model,
+  modelFlow,
+  _async,
+  _await,
+  prop,
+  getRootStore,
+} from "mobx-keystone";
 import { api } from "../../services/api/api";
+import { RootStore } from "../root-store/root-store";
 import { Class, ClassDetail } from "./class";
 import { TaskDetail } from "./task";
 
@@ -25,6 +34,12 @@ export class ClassesStore extends Model({
         this.errorMessage = error.response.data.message;
       } else {
         this.errorMessage = error.message;
+      }
+
+      if (error.status === 401 || error.response.status === 401) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
       }
     } finally {
       this.isLoading = false;
@@ -64,7 +79,6 @@ export class ClassesStore extends Model({
         this.selectedClass.tasks = tasks;
       }
     } catch (error: any) {
-      console.log(error);
       if (error.response && error.response.data) {
         this.errorMessage = error.response.data.message;
       } else {

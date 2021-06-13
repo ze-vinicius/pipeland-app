@@ -8,7 +8,7 @@ import {
   modelAction,
 } from "mobx-keystone";
 import { api } from "../../services/api/api";
-import { load, save } from "../../utils/storage";
+import { load, remove, save } from "../../utils/storage";
 import { Session, User } from "./session";
 
 @model("pipeland/SessionsStore")
@@ -29,6 +29,7 @@ export class SessionsStore extends Model({
     }
   ) {
     this.isLoading = true;
+    this.errorMessage = null;
 
     try {
       const session = yield* _await(
@@ -48,10 +49,24 @@ export class SessionsStore extends Model({
           ? error.response.data.message
           : error.message;
 
+      console.log(errorMessage);
       this.errorMessage = errorMessage;
     } finally {
       this.isLoading = false;
     }
+  });
+
+  @modelFlow
+  logout = _async(function* (this: SessionsStore) {
+    this.isLoading = true;
+
+    this.activeSession = null;
+
+    yield* _await(
+      Promise.all([remove("@pipeland:token"), remove("@pipeland:user")])
+    );
+
+    this.isLoading = false;
   });
 
   @modelFlow

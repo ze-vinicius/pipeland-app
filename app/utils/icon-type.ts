@@ -1,4 +1,4 @@
-export type iconType =
+export type FeatherIconType =
   | "link"
   | "search"
   | "image"

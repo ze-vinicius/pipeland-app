@@ -10,6 +10,7 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useStores } from "../store";
 // import { TaskScreen } from "../screens/task-screen/task-screen";
 import RankingScreen from "../screens/ranking-screen/ranking-screen";
+import { ProfileScreen } from "../screens/profile-screen/profile-screen";
 
 type ClassNavigatorRouteProps = RouteProp<
   { class: { classId: string } },
@@ -63,7 +64,7 @@ export function ClassNavigator() {
       />
       <Screen
         name="profile"
-        component={RankingScreen}
+        component={ProfileScreen}
         options={{
           title: "Perfil",
           tabBarIcon: ({ size, color }) => {

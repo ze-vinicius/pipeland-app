@@ -69,7 +69,7 @@ const SignInScreen: React.FC = observer(() => {
           {...register("password")}
         />
 
-        {sessionsStore.errorMessage && (
+        {!!sessionsStore.errorMessage && (
           <Text preset="errorMessage" marginTop={2}>
             {sessionsStore.errorMessage}
           </Text>

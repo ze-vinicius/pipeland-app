@@ -11,8 +11,8 @@ export const Avatar: React.FC<AvatarProps> = ({ uri, size = 32 }) => {
   });
 
   return (
-    <Container style={overrideStyle}>
-      {uri ? (
+    <Container style={[overrideStyle, { borderRadius: size }]}>
+      {!!uri ? (
         <AvatarImage
           source={{
             uri,
