@@ -6,6 +6,7 @@ import {
   _async,
   _await,
   modelAction,
+  getSnapshot,
 } from "mobx-keystone";
 import { api } from "../../services/api/api";
 import { load, remove, save } from "../../utils/storage";
@@ -41,15 +42,17 @@ export class SessionsStore extends Model({
 
       this.activeSession = session;
 
-      save("@pipeland:token", session.token);
-      save("@pipeland:user", session.user);
+      const token = getSnapshot(session.token);
+      const user = getSnapshot(session.user);
+
+      save("@pipeland:token", token);
+      save("@pipeland:user", user);
     } catch (error: any) {
       let errorMessage =
         error.response && error.response.data
           ? error.response.data.message
           : error.message;
 
-      console.log(errorMessage);
       this.errorMessage = errorMessage;
     } finally {
       this.isLoading = false;

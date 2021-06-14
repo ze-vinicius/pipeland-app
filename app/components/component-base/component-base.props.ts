@@ -49,7 +49,19 @@ export interface ComponentBaseProps {
    */
   paddingRight?: SpacingType;
 
-  width?: number | string;
+  width?: number | string | undefined;
 
-  height?: number | string;
+  height?: number | string | undefined;
+
+  position?: "relative" | "absolute";
+
+  borderRadius?: number | string;
+
+  top?: number | string | undefined;
+
+  left?: number | string | undefined;
+
+  right?: number | string | undefined;
+
+  bottom?: number | string | undefined;
 }

@@ -159,6 +159,24 @@ class Api {
 
     return taskDetail;
   }
+
+  async createClass({ name }: { name: string }): Promise<Class> {
+    const response = await this.axios.post("/classes/", {
+      name,
+    });
+
+    console.log({ response });
+
+    const newClass = new Class({
+      id: response.data.id,
+      name: response.data.name,
+      active: response.data.active,
+      create_date: response.data.create_date,
+      teacher_name: response.data.teacher_name,
+    });
+
+    return newClass;
+  }
 }
 
 const api = new Api();

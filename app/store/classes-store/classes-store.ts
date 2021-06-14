@@ -21,6 +21,39 @@ export class ClassesStore extends Model({
   errorMessage: prop<string | null>(null),
 }) {
   @modelFlow
+  createClass = _async(function* (
+    this: ClassesStore,
+    {
+      name,
+    }: {
+      name: string;
+    }
+  ) {
+    this.isLoading = true;
+
+    try {
+      const newClass = yield* _await(api.createClass({ name }));
+
+      this.classes.push(newClass);
+    } catch (error: any) {
+      console.log(error);
+      if (error.response && error.response.data) {
+        this.errorMessage = error.response.data.message;
+      } else {
+        this.errorMessage = error.message;
+      }
+
+      if (error.status === 401 || error.response.status === 401) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
+      }
+    } finally {
+      this.isLoading = false;
+    }
+  });
+
+  @modelFlow
   fetchClasses = _async(function* (this: ClassesStore) {
     this.isLoading = true;
 

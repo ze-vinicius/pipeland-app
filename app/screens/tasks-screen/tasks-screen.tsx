@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import React, { useCallback, useEffect } from "react";
 import { FlatList } from "react-native";
 
-import { Screen, UserCard } from "../../components";
+import { Screen, UserCard, Text } from "../../components";
 import { useStores } from "../../store";
 
 import { TaskCard } from "./components/task-card";
@@ -36,17 +36,23 @@ export const TasksScreen: React.FC = observer(() => {
       <Container>
         <UserCard />
         <TasksContainer>
-          <FlatList
-            data={classesStore.selectedClass?.tasks}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item) => String(item.id)}
-            renderItem={({ item }) => (
-              <TaskCard
-                onPress={() => handleTaskCardPress(item.id)}
-                taskInfo={item}
-              />
-            )}
-          />
+          {!!classesStore.selectedClass?.tasks?.length ? (
+            <FlatList
+              data={classesStore.selectedClass?.tasks}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item) => String(item.id)}
+              renderItem={({ item }) => (
+                <TaskCard
+                  onPress={() => handleTaskCardPress(item.id)}
+                  taskInfo={item}
+                />
+              )}
+            />
+          ) : (
+            <Text preset="secondary" marginTop={1}>
+              Nenhuma atividade cadastrada
+            </Text>
+          )}
         </TasksContainer>
       </Container>
     </Screen>

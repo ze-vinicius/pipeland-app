@@ -7,6 +7,7 @@ import { ClassCard } from "./components/class-card";
 import { useStores } from "../../store";
 
 import { Container } from "./classes-screen.styles";
+import { IconButton } from "../../components/icon-button";
 
 export const ClassesScreen: React.FC = observer(() => {
   const navigation = useNavigation();
@@ -15,7 +16,6 @@ export const ClassesScreen: React.FC = observer(() => {
 
   useEffect(() => {
     const fetchAsync = async () => {
-      await sessionsStore.login({ email: "", password: "" });
       await classesStore.fetchClasses();
     };
 
@@ -39,6 +39,23 @@ export const ClassesScreen: React.FC = observer(() => {
             />
           ))}
       </Container>
+      {sessionsStore.activeSession?.user?.role === "TEACHER" && (
+        <IconButton
+          icon="plus"
+          position="absolute"
+          borderRadius={32}
+          iconSize={32}
+          bottom={0}
+          right={0}
+          marginRight={4}
+          marginBottom={4}
+          paddingBottom={2}
+          paddingLeft={2}
+          paddingRight={2}
+          paddingTop={2}
+          onPress={() => navigation.navigate("newClass")}
+        />
+      )}
     </Screen>
   );
 });

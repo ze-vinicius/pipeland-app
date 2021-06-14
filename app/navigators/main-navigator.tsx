@@ -5,11 +5,13 @@ import { ClassesScreen } from "../screens/classes-screen";
 import { TaskDetailScreen } from "../screens/task-detail-screen";
 import { useStores } from "../store";
 import { observer } from "mobx-react";
+import { NewClassScreen } from "../screens/new-class-screen/new-class-screen";
 
 type MainNavigatorParamsList = {
   classes: undefined;
   class: undefined;
   taskDetail: undefined;
+  newClass: undefined;
 };
 
 const { Navigator, Screen } = createStackNavigator<MainNavigatorParamsList>();
@@ -39,6 +41,11 @@ const MainNavigator = observer(() => {
         name="taskDetail"
         component={TaskDetailScreen}
         options={{ title: "Atividade" }}
+      />
+      <Screen
+        name="newClass"
+        component={NewClassScreen}
+        options={{ title: "Nova turma" }}
       />
     </Navigator>
   );
