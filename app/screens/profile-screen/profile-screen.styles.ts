@@ -3,6 +3,7 @@ import styled from "styled-components/native";
 export const Container = styled.View`
   padding-top: ${(props) => props.theme.spacing[6]}px;
   align-items: center;
+  flex: 1;
 `;
 
 export const AdjustsContainer = styled.View`

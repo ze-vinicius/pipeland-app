@@ -27,17 +27,17 @@ const TextFieldBase: React.ForwardRefRenderFunction<TextInput, TextFieldProps> =
     },
     ref
   ) => {
-    const overrideStyle = getStyle<ViewStyle>({
+    const overrideStyle = {
       marginBottom,
       marginTop,
       marginLeft,
       marginRight,
-    });
+    };
 
     const theme = useTheme();
 
     return (
-      <Container style={overrideStyle}>
+      <Container customStyle={overrideStyle}>
         {!!label && <Text preset="inputLabel">{label}</Text>}
         <InputContainer>
           {icon && (

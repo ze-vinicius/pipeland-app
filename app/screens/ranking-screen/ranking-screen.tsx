@@ -71,7 +71,7 @@ const RankingScreen: React.FC = () => {
               <Text>{student.ranking}</Text>
             </RankingNumberContainer>
             <Avatar />
-            <Text marginLeft={6} style={{ flex: 1, maxWidth: "100%" }}>
+            <Text marginLeft={6} flex={1} maxWidth="100%">
               {student.name}
             </Text>
             <CoinContainer>

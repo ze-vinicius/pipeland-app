@@ -8,8 +8,8 @@ import { Divider } from "../../../../components/divider";
 
 import {
   ClassContainer,
-  StudentStatusContainer,
-  GameElementContainer,
+  // StudentStatusContainer,
+  // GameElementContainer,
 } from "./class-card.styles";
 import { ClassCardProps } from "./class-card.props";
 import { formatDate } from "../../../../utils/date";

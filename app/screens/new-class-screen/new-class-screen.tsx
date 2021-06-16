@@ -40,7 +40,7 @@ const NewClassScreen: React.FC = observer(() => {
   };
 
   return (
-    <Screen>
+    <Screen unsafe>
       <Container>
         <TextField
           label="Nome"

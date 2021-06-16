@@ -8,3 +8,5 @@ export const color = {
   dim: palette.lighterGrey,
   error: palette.red,
 };
+
+export type ColorType = keyof typeof color;

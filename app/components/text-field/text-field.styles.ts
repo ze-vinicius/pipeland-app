@@ -1,7 +1,9 @@
 import styled from "styled-components/native";
-import { Text } from "../text/text";
+import { ComponentBaseStyleProps, COMPONENT_BASE_CSS } from "../component-base";
 
-export const Container = styled.View``;
+export const Container = styled.View<ComponentBaseStyleProps>`
+  ${(props) => props.customStyle && COMPONENT_BASE_CSS(props.customStyle)};
+`;
 
 export const InputContainer = styled.View`
   flex-direction: row;

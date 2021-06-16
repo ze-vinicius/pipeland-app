@@ -28,7 +28,7 @@ export const StatusLabel: React.FC<StatusLabelProps> = ({
   marginLeft = 0,
   marginTop = 0,
 }) => {
-  const overrideStyle = getStyle({
+  const overrideStyle = {
     marginBottom,
     marginRight,
     marginLeft,
@@ -37,10 +37,10 @@ export const StatusLabel: React.FC<StatusLabelProps> = ({
     paddingLeft: 2,
     paddingRight: 2,
     paddingTop: 1,
-  });
+  };
 
   return (
-    <Container style={overrideStyle}>
+    <Container customStyle={overrideStyle}>
       <LabelText>{labelTypes[type].text}</LabelText>
     </Container>
   );

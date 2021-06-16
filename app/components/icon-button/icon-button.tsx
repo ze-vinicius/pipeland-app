@@ -3,8 +3,6 @@ import Feather from "@expo/vector-icons/Feather";
 
 import { Container } from "./icon-button.styles";
 import { IconButtonProps } from "./icon-button.props";
-import { getStyle } from "../component-base";
-import { ViewStyle } from "react-native";
 
 const IconButton: React.FC<IconButtonProps> = ({
   icon,
@@ -25,7 +23,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   left,
   right,
 }) => {
-  const overrideStyle = getStyle<ViewStyle>({
+  const overrideStyle = {
     marginBottom,
     marginTop,
     marginLeft,
@@ -40,10 +38,10 @@ const IconButton: React.FC<IconButtonProps> = ({
     bottom,
     left,
     right,
-  });
+  } as any;
 
   return (
-    <Container style={overrideStyle} onPress={onPress}>
+    <Container customStyle={overrideStyle} onPress={onPress}>
       <Feather name={icon} size={iconSize} />
     </Container>
   );
