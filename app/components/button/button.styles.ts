@@ -1,13 +1,13 @@
 import styled from "styled-components/native";
 
-import { ComponentBaseProps, COMPONENT_BASE_CSS } from "../component-base";
+import { PipelandSystemProps, pipelandSystemStyle } from "../pipeland-system";
 import { textPresets, buttonPresets, ButtonPresets } from "./button.presets";
 
 export const ButtonContainer = styled.TouchableOpacity<{
   preset: ButtonPresets;
-  customStyle: ComponentBaseProps;
+  customStyle: PipelandSystemProps;
 }>`
-  ${(props) => props.customStyle && COMPONENT_BASE_CSS(props.customStyle)};
+  ${(props) => props.customStyle && pipelandSystemStyle(props.customStyle)};
   ${(props) => buttonPresets[props.preset]};
 `;
 

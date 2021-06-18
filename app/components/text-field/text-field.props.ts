@@ -1,9 +1,9 @@
 import { Control } from "react-hook-form";
 import { TextInputProps } from "react-native";
 import { FeatherIconType } from "../../utils/icon-type";
-import { ComponentBaseProps } from "../component-base";
+import { PipelandSystemProps } from "../pipeland-system";
 
-interface TextFieldProps extends ComponentBaseProps, TextInputProps {
+interface TextFieldProps extends PipelandSystemProps, TextInputProps {
   placeholder?: string;
   label?: string;
   secureTextEntry?: boolean;

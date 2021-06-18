@@ -6,12 +6,16 @@ import { TaskDetailScreen } from "../screens/task-detail-screen";
 import { useStores } from "../store";
 import { observer } from "mobx-react";
 import { NewClassScreen } from "../screens/new-class-screen/new-class-screen";
+import { UnderConstructionScreen } from "../screens/under-construction-screen/under-construction-screen";
+import { JoinClassScreen } from "../screens/join-class-screen/join-class-screen";
 
 type MainNavigatorParamsList = {
   classes: undefined;
   class: undefined;
   taskDetail: undefined;
   newClass: undefined;
+  joinClass: undefined;
+  underConstruction: undefined;
 };
 
 const { Navigator, Screen } = createStackNavigator<MainNavigatorParamsList>();
@@ -24,7 +28,7 @@ const MainNavigator = observer(() => {
       <Screen
         name="classes"
         component={ClassesScreen}
-        options={{ title: "Minhas turmas" }}
+        options={{ title: "Turmas" }}
       />
 
       <Screen
@@ -42,10 +46,23 @@ const MainNavigator = observer(() => {
         component={TaskDetailScreen}
         options={{ title: "Atividade" }}
       />
+
       <Screen
         name="newClass"
         component={NewClassScreen}
         options={{ title: "Nova turma" }}
+      />
+
+      <Screen
+        name="joinClass"
+        component={JoinClassScreen}
+        options={{ title: "Ingressar em uma turma" }}
+      />
+
+      <Screen
+        name="underConstruction"
+        component={UnderConstructionScreen}
+        options={{ title: "Em construção" }}
       />
     </Navigator>
   );

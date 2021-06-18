@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components/native";
-import { getStyle } from "../component-base";
 
 import { DividerPresets, presets } from "./divider.presets";
 import { DividerProps } from "./divider.props";
@@ -16,12 +15,12 @@ export const Divider: React.FC<DividerProps> = ({
   marginRight = 0,
   marginLeft = 0,
 }) => {
-  const overrideStyle = getStyle({
+  const overrideStyle = {
     marginBottom,
     marginTop,
     marginRight,
     marginLeft,
-  });
+  };
 
   return <StyledDivider preset={preset} style={overrideStyle} />;
 };

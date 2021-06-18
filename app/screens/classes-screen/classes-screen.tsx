@@ -27,6 +27,14 @@ export const ClassesScreen: React.FC = observer(() => {
     navigation.navigate("class");
   }, []);
 
+  const handleNavigate = useCallback(() => {
+    if (sessionsStore.activeSession?.user?.role === "TEACHER") {
+      navigation.navigate("newClass");
+    } else {
+      navigation.navigate("joinClass");
+    }
+  }, [sessionsStore.activeSession]);
+
   return (
     <Screen unsafe isLoading={classesStore.isLoading}>
       <Container>
@@ -39,23 +47,21 @@ export const ClassesScreen: React.FC = observer(() => {
             />
           ))}
       </Container>
-      {sessionsStore.activeSession?.user?.role === "TEACHER" && (
-        <IconButton
-          icon="plus"
-          position="absolute"
-          borderRadius={32}
-          iconSize={32}
-          bottom={0}
-          right={0}
-          marginRight={4}
-          marginBottom={4}
-          paddingBottom={2}
-          paddingLeft={2}
-          paddingRight={2}
-          paddingTop={2}
-          onPress={() => navigation.navigate("newClass")}
-        />
-      )}
+      <IconButton
+        icon="plus"
+        position="absolute"
+        borderRadius={32}
+        iconSize={32}
+        bottom={0}
+        right={0}
+        marginRight={4}
+        marginBottom={4}
+        paddingBottom={2}
+        paddingLeft={2}
+        paddingRight={2}
+        paddingTop={2}
+        onPress={handleNavigate}
+      />
     </Screen>
   );
 });

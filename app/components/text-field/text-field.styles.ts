@@ -1,8 +1,11 @@
 import styled from "styled-components/native";
-import { ComponentBaseStyleProps, COMPONENT_BASE_CSS } from "../component-base";
+import {
+  PipelandSystemStyleProps,
+  pipelandSystemStyle,
+} from "../pipeland-system";
 
-export const Container = styled.View<ComponentBaseStyleProps>`
-  ${(props) => props.customStyle && COMPONENT_BASE_CSS(props.customStyle)};
+export const Container = styled.View<PipelandSystemStyleProps>`
+  ${(props) => props.customStyle && pipelandSystemStyle(props.customStyle)};
 `;
 
 export const InputContainer = styled.View`

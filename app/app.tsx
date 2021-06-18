@@ -31,6 +31,11 @@ const App = observer(() => {
 
   const linking = {
     prefixes: [prefix],
+    config: {
+      screens: {
+        joinClass: "join-class/:class_id",
+      },
+    },
   };
 
   useEffect(() => {

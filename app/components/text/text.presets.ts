@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components/native";
+import { css } from "styled-components/native";
 
 const BASE = css`
   color: ${(props) => props.theme.color.text};

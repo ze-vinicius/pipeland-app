@@ -11,6 +11,7 @@ import {
   AdjustButton,
 } from "./profile-screen.styles";
 import { FeatherIconType } from "../../utils/icon-type";
+import { SectionedMenu } from "../../components/sectioned-menu";
 
 const ProfileScreen: React.FC = observer(() => {
   const { classesStore, sessionsStore } = useStores();
@@ -20,19 +21,27 @@ const ProfileScreen: React.FC = observer(() => {
 
   const adjustsButtons: Array<{
     title: string;
-    icon: FeatherIconType;
-    onPress(): void;
+    data: Array<{
+      title: string;
+      icon: FeatherIconType;
+      onPress(): void;
+    }>;
   }> = [
+    {
+      title: "Ajustes",
+      data: [
+        {
+          title: "Sair",
+          icon: "log-out",
+          onPress: () => sessionsStore.logout(),
+        },
+      ],
+    },
     // {
     //   title: "Meus dados",
     //   icon: "edit",
     //   onPress: () => {},
     // },
-    {
-      title: "Sair",
-      icon: "log-out",
-      onPress: () => sessionsStore.logout(),
-    },
   ];
 
   return (
@@ -42,22 +51,7 @@ const ProfileScreen: React.FC = observer(() => {
         <Text preset="title" marginTop={4}>
           {userName}
         </Text>
-        <AdjustsContainer>
-          <Text preset="header" marginBottom={4} marginLeft={4} marginTop={6}>
-            Ajustes
-          </Text>
-          {adjustsButtons.map((adjustButton) => (
-            <AdjustButton
-              key={adjustButton.title}
-              onPress={adjustButton.onPress}
-            >
-              <Feather name={adjustButton.icon} size={16} />
-              <Text marginLeft={4} preset="title">
-                {adjustButton.title}
-              </Text>
-            </AdjustButton>
-          ))}
-        </AdjustsContainer>
+        <SectionedMenu items={adjustsButtons} />
       </Container>
     </Screen>
   );

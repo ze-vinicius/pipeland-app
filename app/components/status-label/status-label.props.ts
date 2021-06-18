@@ -1,5 +1,5 @@
-import { ComponentBaseProps } from "../component-base";
+import { PipelandSystemProps } from "../pipeland-system";
 
-export interface StatusLabelProps extends ComponentBaseProps {
+export interface StatusLabelProps extends PipelandSystemProps {
   type: "opened" | "closed" | "corrected";
 }

@@ -1,13 +1,13 @@
 import styled from "styled-components/native";
 import {
-  ComponentBaseProps,
-  ComponentBaseStyleProps,
-  COMPONENT_BASE_CSS,
-} from "../component-base";
+  PipelandSystemProps,
+  PipelandSystemStyleProps,
+  pipelandSystemStyle,
+} from "../pipeland-system";
 import { Text } from "../text";
 
-export const Container = styled.View<ComponentBaseStyleProps>`
-  ${(props) => props.customStyle && COMPONENT_BASE_CSS(props.customStyle)};
+export const Container = styled.View<PipelandSystemStyleProps>`
+  ${(props) => props.customStyle && pipelandSystemStyle(props.customStyle)};
   background-color: ${(props) => props.theme.color.line};
   align-self: flex-start;
 `;

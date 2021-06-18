@@ -1,9 +1,10 @@
-import { ComponentBaseProps } from "../component-base";
+import { PipelandSystemProps } from "../pipeland-system";
 import { ButtonPresets } from "./button.presets";
 
-interface ButtonProps extends ComponentBaseProps {
+interface ButtonProps extends PipelandSystemProps {
   preset?: ButtonPresets;
   isLoading?: boolean;
+  disabled?: boolean;
   onPress(): void;
 }
 

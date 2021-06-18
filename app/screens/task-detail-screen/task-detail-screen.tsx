@@ -29,7 +29,6 @@ const TaskDetailScreen: React.FC = observer(() => {
           <StatusLabel type="corrected" />
           <Text preset="title" marginTop={4}>
             {classesStore.taskDetail?.title}
-            {/* Desenvolvimento de resumo sobre PMBOK */}
           </Text>
           <TaskInfoContainer>
             <Row>
@@ -66,9 +65,6 @@ const TaskDetailScreen: React.FC = observer(() => {
                       />
                     )
                   )}
-                  {/* <Icon name="redMushroom" marginRight={2} />
-                <Icon name="mushroomUp" marginRight={2} />
-                <Icon name="bomb" marginRight={2} /> */}
                 </DateContainer>
               </DeliveryDateContainer>
             </Row>
@@ -76,13 +72,6 @@ const TaskDetailScreen: React.FC = observer(() => {
           <Divider />
           <TaskDescription>
             {classesStore.taskDetail?.description}
-            {/* A atividade consiste no desenvolvimento de resumo das áreas de
-          conhecimento Gerenciamento de Tempo e Gerenciamento de Escopo. A
-          atividade pode ser desenvolvida em dupla ou individual Critério de
-          Avaliação: - Formatação e Organização do Resumo (1 Coin) -
-          Profundidade nos conteúdos (2 Coins) - Referêncial teórico utilizado
-          (1,5 Coins) - Relacionamento entre as duas áreas de conhecimento (2,5
-          Coins) */}
           </TaskDescription>
         </Container>
       )}

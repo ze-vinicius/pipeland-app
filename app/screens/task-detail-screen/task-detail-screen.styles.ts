@@ -28,7 +28,7 @@ export const DateContainer = styled.View`
   margin-top: ${(props) => props.theme.spacing[2]}px;
 `;
 
-export const DateIcon = styled(Feather).attrs({ name: "calendar", size: 24 })`
+export const DateIcon = styled(Feather).attrs({ name: "calendar", size: 14 })`
   margin-right: ${(props) => props.theme.spacing[2]}px;
 `;
 

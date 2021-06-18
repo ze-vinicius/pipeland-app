@@ -1,7 +1,7 @@
 import { FeatherIconType } from "../../utils/icon-type";
-import { ComponentBaseProps } from "../component-base";
+import { PipelandSystemProps } from "../pipeland-system";
 
-interface IconButtonProps extends ComponentBaseProps {
+interface IconButtonProps extends PipelandSystemProps {
   icon: FeatherIconType;
   iconSize?: number;
   onPress(): void;

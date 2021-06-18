@@ -1,5 +1,5 @@
 import { css } from "styled-components";
-import { ColorType } from "../../theme/color";
+import { ColorType, color } from "../../theme/color";
 import { spacing, SpacingType } from "../../theme/spacing";
 
 type FlexAlignType =
@@ -9,73 +9,7 @@ type FlexAlignType =
   | "stretch"
   | "baseline";
 
-export interface ComponentBaseProps {
-  /**
-   * margin-bottom - based on theme spacing
-   * [0, 4, 8, 12, 16, 24, 32, 48, 64]
-   */
-  // marginBottom?: SpacingType;
-
-  // /**
-  //  * margin-top - based on theme spacing
-  //  * [0, 4, 8, 12, 16, 24, 32, 48, 64]
-  //  */
-  // marginTop?: SpacingType;
-
-  // /**
-  //  * margin-left - based on theme spacing
-  //  * [0, 4, 8, 12, 16, 24, 32, 48, 64]
-  //  */
-  // marginLeft?: SpacingType;
-
-  // /**
-  //  * margin-right - based on theme spacing
-  //  * [0, 4, 8, 12, 16, 24, 32, 48, 64]
-  //  */
-  // marginRight?: SpacingType;
-
-  // /**
-  //  * padding-bottom - based on theme spacing
-  //  * [0, 4, 8, 12, 16, 24, 32, 48, 64]
-  //  */
-  // paddingBottom?: SpacingType;
-
-  // /**
-  //  * padding-top - based on theme spacing
-  //  * [0, 4, 8, 12, 16, 24, 32, 48, 64]
-  //  */
-  // paddingTop?: SpacingType;
-
-  // /**
-  //  * padding-left - based on theme spacing
-  //  * [0, 4, 8, 12, 16, 24, 32, 48, 64]
-  //  */
-  // paddingLeft?: SpacingType;
-
-  // /**
-  //  * padding-right - based on theme spacing
-  //  * [0, 4, 8, 12, 16, 24, 32, 48, 64]
-  //  */
-  // paddingRight?: SpacingType;
-
-  // width?: number | string | undefined;
-
-  // height?: number | string | undefined;
-
-  // position?: "relative" | "absolute";
-
-  // borderRadius?: number | string;
-
-  // top?: number | string | undefined;
-
-  // left?: number | string | undefined;
-
-  // right?: number | string | undefined;
-
-  // bottom?: number | string | undefined;
-
-  backgroundColor?: string | ColorType;
-
+export interface PipelandFlexProps {
   height?: number | string;
   width?: number | string;
 
@@ -85,7 +19,6 @@ export interface ComponentBaseProps {
   left?: number | string;
   bottom?: number | string;
 
-  // alignContent?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'space-between' | 'space-around';
   alignItems?: FlexAlignType;
   alignSelf?: "auto" | FlexAlignType;
   justifyContent?:
@@ -96,28 +29,10 @@ export interface ComponentBaseProps {
     | "space-around"
     | "space-evenly";
 
-  // aspectRatio?: number;
-  // borderEndWidth?: number | string;
-  // end?: number | string;
-  // flexBasis?: number | string;
-  // flexGrow?: number;
-  // flexShrink?: number;
-  // flexWrap?: 'wrap' | 'nowrap' | 'wrap-reverse';
-
-  borderBottomWidth?: number;
-  borderLeftWidth?: number;
-  borderRightWidth?: number;
-  borderStartWidth?: number | string;
-  borderTopWidth?: number;
-  borderWidth?: number;
-  borderRadius?: number;
-
   display?: "none" | "flex";
   flex?: number;
   flexDirection?: "row" | "column" | "row-reverse" | "column-reverse";
 
-  // marginStart?: number | string;
-  // marginEnd?: number | string;
   margin?: number | string | SpacingType;
   marginTop?: number | string | SpacingType;
   marginRight?: number | string | SpacingType;
@@ -131,9 +46,6 @@ export interface ComponentBaseProps {
   minHeight?: number | string;
   minWidth?: number | string;
 
-  // overflow?: 'visible' | 'hidden' | 'scroll';
-  // paddingEnd?: number | string;
-  // paddingStart?: number | string;
   padding?: number | string | SpacingType;
   paddingTop?: number | string | SpacingType;
   paddingRight?: number | string | SpacingType;
@@ -141,35 +53,46 @@ export interface ComponentBaseProps {
   paddingBottom?: number | string | SpacingType;
   paddingHorizontal?: number | string | SpacingType;
   paddingVertical?: number | string | SpacingType;
-
-  // start?: number | string;
-  // zIndex?: number;
-
-  // backfaceVisibility?: 'visible' | 'hidden';
-  // borderBottomColor?: ColorValue;
-  // borderBottomEndRadius?: number;
-  // borderBottomLeftRadius?: number;
-  // borderBottomRightRadius?: number;
-  // borderBottomStartRadius?: number;
-  // borderBottomWidth?: number;
-  // borderColor?: ColorValue;
-  // borderEndColor?: ColorValue;
-  // borderLeftColor?: ColorValue;
-  // borderLeftWidth?: number;
-  // borderRightColor?: ColorValue;
-  // borderRightWidth?: number;
-  // borderStartColor?: ColorValue;
-  // borderStyle?: 'solid' | 'dotted' | 'dashed';
-  // borderTopColor?: ColorValue;
-  // borderTopEndRadius?: number;
-  // borderTopLeftRadius?: number;
-  // borderTopRightRadius?: number;
-  // borderTopStartRadius?: number;
-  // borderTopWidth?: number;
-  // borderWidth?: number;
-  // opacity?: number;
-  // testID?: string;
 }
+
+export interface PipelandTextProps {
+  color?: string | ColorType;
+  fontSize?: number;
+  fontStyle?: "normal" | "italic";
+  fontWeight?:
+    | "normal"
+    | "bold"
+    | "100"
+    | "200"
+    | "300"
+    | "400"
+    | "500"
+    | "600"
+    | "700"
+    | "800"
+    | "900";
+  letterSpacing?: number;
+  lineHeight?: number;
+  textAlign?: "auto" | "left" | "right" | "center" | "justify";
+  textTransform?: "none" | "capitalize" | "uppercase" | "lowercase";
+}
+
+export interface PipelandViewStyle {
+  backgroundColor?: string | ColorType;
+
+  borderBottomWidth?: number;
+  borderLeftWidth?: number;
+  borderRightWidth?: number;
+  borderStartWidth?: number | string;
+  borderTopWidth?: number;
+  borderWidth?: number;
+  borderRadius?: number;
+}
+
+export interface PipelandSystemProps
+  extends PipelandViewStyle,
+    PipelandFlexProps,
+    PipelandTextProps {}
 
 export const addUnitToValue = (value: number | string) => {
   if (String(value).includes("px") || String(value).includes("%")) {
@@ -189,7 +112,33 @@ export const formatSpacing = (value: number | string) => {
   return spacingValue;
 };
 
-export const COMPONENT_BASE_CSS = (customStyle: ComponentBaseProps) => css`
+export const formatColor = (colorString: ColorType | string) => {
+  if (colorString.includes("#")) {
+    return colorString;
+  }
+
+  if (color.hasOwnProperty(colorString)) {
+    return color[colorString as ColorType];
+  }
+
+  return "transparent";
+};
+
+export const pipelandTextStyle = (customStyle: PipelandTextProps) => css`
+  ${customStyle.color && `color: ${customStyle.color}`};
+  ${customStyle.fontSize &&
+  `font-size: ${addUnitToValue(customStyle.fontSize)}`};
+  ${customStyle.fontStyle && `font-style: ${customStyle.fontStyle}`};
+  ${customStyle.fontWeight && `font-weight: ${customStyle.fontWeight}`};
+  ${customStyle.letterSpacing &&
+  `letter-spacing: ${customStyle.letterSpacing}`};
+  ${customStyle.lineHeight && `line-height: ${customStyle.lineHeight}`};
+  ${customStyle.textAlign && `text-align: ${customStyle.textAlign}`};
+  ${customStyle.textTransform &&
+  `text-transform: ${customStyle.textTransform}`};
+`;
+
+export const pipelandSystemStyle = (customStyle: PipelandSystemProps) => css`
   ${customStyle &&
   css`
     ${customStyle.margin && `margin: ${formatSpacing(customStyle.margin)}`};
@@ -227,12 +176,16 @@ export const COMPONENT_BASE_CSS = (customStyle: ComponentBaseProps) => css`
     ${customStyle.left !== undefined && `left: ${customStyle.left}`};
     ${customStyle.bottom !== undefined && `bottom: ${customStyle.bottom}`};
 
-    ${customStyle.height && `height: ${customStyle.height}`};
-    ${customStyle.width && `width: ${customStyle.width}`};
-    ${customStyle.maxHeight && `max-height: ${customStyle.maxHeight}`}
-    ${customStyle.maxHeight && `max-width: ${customStyle.maxWidth}`}
-    ${customStyle.maxHeight && `min-height: ${customStyle.minHeight}`}
-    ${customStyle.maxHeight && `min-width: ${customStyle.minWidth}`}
+    ${customStyle.height && `height: ${addUnitToValue(customStyle.height)}`};
+    ${customStyle.width && `width: ${addUnitToValue(customStyle.width)}`};
+    ${customStyle.maxHeight &&
+    `max-height: ${addUnitToValue(customStyle.maxHeight)}`}
+    ${customStyle.maxWidth &&
+    `max-width: ${addUnitToValue(customStyle.maxWidth)}`}
+    ${customStyle.minHeight &&
+    `min-height: ${addUnitToValue(customStyle.minHeight)}`}
+    ${customStyle.minWidth &&
+    `min-width: ${addUnitToValue(customStyle.minWidth)}`}
 
     ${customStyle.flex && `flex: ${customStyle.flex}`};
     ${customStyle.alignItems && `align-items: ${customStyle.alignItems}`};
@@ -241,7 +194,7 @@ export const COMPONENT_BASE_CSS = (customStyle: ComponentBaseProps) => css`
     `justify-content: ${customStyle.justifyContent}`};
 
     ${customStyle.backgroundColor &&
-    `background-color: ${customStyle.backgroundColor}`};
+    `background-color: ${formatColor(customStyle.backgroundColor)}`};
 
     ${customStyle.borderBottomWidth &&
     `border-bottom-width: ${addUnitToValue(customStyle.borderBottomWidth)}`};
@@ -262,6 +215,6 @@ export const COMPONENT_BASE_CSS = (customStyle: ComponentBaseProps) => css`
   `}
 `;
 
-export interface ComponentBaseStyleProps {
-  customStyle: ComponentBaseProps;
+export interface PipelandSystemStyleProps {
+  customStyle?: PipelandSystemProps;
 }

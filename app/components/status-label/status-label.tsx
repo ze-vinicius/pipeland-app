@@ -1,10 +1,8 @@
 import React from "react";
-import { ViewStyle } from "react-native";
-import { useTheme } from "styled-components/native";
-import { getStyle } from "../component-base";
 import { StatusLabelProps } from "./status-label.props";
+import { Text } from "../text";
 
-import { Container, LabelText } from "./status-label.styles";
+import { Container } from "./status-label.styles";
 
 const labelTypes = {
   corrected: {
@@ -41,7 +39,9 @@ export const StatusLabel: React.FC<StatusLabelProps> = ({
 
   return (
     <Container customStyle={overrideStyle}>
-      <LabelText>{labelTypes[type].text}</LabelText>
+      <Text fontSize={12} textTransform="uppercase">
+        {labelTypes[type].text}
+      </Text>
     </Container>
   );
 };

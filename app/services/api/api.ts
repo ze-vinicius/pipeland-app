@@ -79,6 +79,7 @@ class Api {
         teacher_name: raw.teacher_name,
         create_date: raw.create_date,
         coins_max: raw.coins_max,
+        invite_token: raw.invite_token,
         student_info,
       });
     };
@@ -163,6 +164,26 @@ class Api {
   async createClass({ name }: { name: string }): Promise<Class> {
     const response = await this.axios.post("/classes/", {
       name,
+    });
+
+    const newClass = new Class({
+      id: response.data.id,
+      name: response.data.name,
+      active: response.data.active,
+      create_date: response.data.create_date,
+      teacher_name: response.data.teacher_name,
+    });
+
+    return newClass;
+  }
+
+  async joinClass({
+    class_invite_token,
+  }: {
+    class_invite_token: string;
+  }): Promise<Class> {
+    const response = await this.axios.post("/classes/join", {
+      class_invite_token,
     });
 
     console.log({ response });

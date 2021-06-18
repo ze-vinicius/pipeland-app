@@ -1,12 +1,8 @@
-import {
-  StyleProp,
-  TextStyle,
-  TextProps as TextProperties,
-} from "react-native";
-import { ComponentBaseProps } from "../component-base";
+import { StyleProp, TextStyle } from "react-native";
+import { PipelandFlexProps, PipelandTextProps } from "../pipeland-system";
 import { TextPresets } from "./text.presets";
 
-export interface TextProps extends TextProperties, ComponentBaseProps {
+export interface TextProps extends PipelandFlexProps, PipelandTextProps {
   preset?: TextPresets;
-  style?: StyleProp<TextStyle>;
+  selectable?: boolean;
 }

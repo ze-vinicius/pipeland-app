@@ -1,6 +1,9 @@
 import styled from "styled-components/native";
+import {
+  pipelandSystemStyle,
+  PipelandSystemStyleProps,
+} from "../pipeland-system";
 
-export const Image = styled.Image`
-  /* width: 16px; */
-  /* height: 16px; */
+export const Image = styled.Image<PipelandSystemStyleProps>`
+  ${(props) => props.customStyle && pipelandSystemStyle(props.customStyle)}
 `;

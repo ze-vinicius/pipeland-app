@@ -1,7 +1,10 @@
 import styled from "styled-components/native";
-import { ComponentBaseStyleProps, COMPONENT_BASE_CSS } from "../component-base";
+import {
+  PipelandSystemStyleProps,
+  pipelandSystemStyle,
+} from "../pipeland-system";
 
-export const Container = styled.TouchableOpacity<ComponentBaseStyleProps>`
-  ${(props) => props.customStyle && COMPONENT_BASE_CSS(props.customStyle)};
+export const Container = styled.TouchableOpacity<PipelandSystemStyleProps>`
+  ${(props) => props.customStyle && pipelandSystemStyle(props.customStyle)};
   background-color: ${(props) => props.theme.color.primary};
 `;

@@ -32,6 +32,7 @@ export class StudentInfo extends Model({
 @model("pipeland/ClassDetail")
 export class ClassDetail extends ExtendedModel(Class, {
   coins_max: prop<number>(),
+  invite_token: prop<string | null>(null),
   student_info: prop<StudentInfo | null>(null),
   tasks: prop<TaskResume[]>(() => []),
 }) {}

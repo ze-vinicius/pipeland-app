@@ -1,6 +1,5 @@
 import React from "react";
 // import { ViewStyle } from "react-native";
-// import { getStyle } from "../component-base";
 import { ButtonProps } from "./button.props";
 
 import { ButtonText, ButtonContainer } from "./button.styles";
@@ -13,23 +12,15 @@ const Button: React.FC<ButtonProps> = ({
   preset = "primary",
   onPress,
   isLoading,
-  marginBottom = 0,
-  marginTop = 0,
-  marginLeft = 0,
-  marginRight = 0,
+  disabled,
+  ...overrideStyle
 }) => {
-  const overrideStyle = {
-    marginBottom,
-    marginTop,
-    marginLeft,
-    marginRight,
-  };
-
   return (
     <ButtonContainer
       preset={preset}
       customStyle={overrideStyle}
       onPress={onPress}
+      disabled={!!disabled || !!isLoading}
     >
       {isLoading ? (
         <ActivityIndicator size={16} color={"#fff"} />

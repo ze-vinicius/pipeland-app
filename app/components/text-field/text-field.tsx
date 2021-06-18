@@ -5,7 +5,6 @@ import { Container, InputContainer } from "./text-field.styles";
 import Feather from "@expo/vector-icons/Feather";
 import { TextInput, ViewStyle } from "react-native";
 import { useTheme } from "styled-components";
-import { getStyle } from "../component-base";
 import { Controller } from "react-hook-form";
 
 const TextFieldBase: React.ForwardRefRenderFunction<TextInput, TextFieldProps> =

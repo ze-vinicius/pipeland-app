@@ -1,17 +1,17 @@
 import React from "react";
-import { getStyle } from "../component-base";
 import { AvatarProps } from "./avatar.props";
 
 import { Container, DefaultAvatar, AvatarImage } from "./avatar.styles";
 
 export const Avatar: React.FC<AvatarProps> = ({ uri, size = 32 }) => {
-  const overrideStyle = getStyle({
+  const overrideStyle = {
     width: size,
     height: size,
-  });
+    borderRadius: size,
+  };
 
   return (
-    <Container style={[overrideStyle, { borderRadius: size }]}>
+    <Container customStyle={overrideStyle}>
       {!!uri ? (
         <AvatarImage
           source={{
