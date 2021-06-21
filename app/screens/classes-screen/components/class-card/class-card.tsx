@@ -21,7 +21,7 @@ const ClassCard: React.FC<ClassCardProps> = ({ onPress, classInfo }) => {
 
   return (
     <ClassContainer onPress={onPress}>
-      <StatusLabel type={classInfo.active ? "opened" : "closed"} />
+      <StatusLabel type={classInfo.active ? "OPEN" : "CLOSED"} />
       <Text preset="title" marginTop={2} marginBottom={2}>
         {classInfo.name}
       </Text>

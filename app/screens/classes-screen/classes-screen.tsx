@@ -36,7 +36,7 @@ export const ClassesScreen: React.FC = observer(() => {
   }, [sessionsStore.activeSession]);
 
   return (
-    <Screen unsafe isLoading={classesStore.isLoading}>
+    <Screen unsafe isLoading={classesStore.isLoading.classes}>
       <Container>
         {classesStore.classes.length > 0 &&
           classesStore.classes.map((c) => (

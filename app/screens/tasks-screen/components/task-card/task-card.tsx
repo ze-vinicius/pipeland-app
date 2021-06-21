@@ -20,7 +20,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({ onPress, taskInfo }) => {
   return (
     <Container onPress={onPress}>
       <CardHeader>
-        <StatusLabel type="opened" marginBottom={2} />
+        <StatusLabel type={taskInfo.status} marginBottom={2} />
         <Text preset="title">{taskInfo.title}</Text>
       </CardHeader>
       <CardBody>

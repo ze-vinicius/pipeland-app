@@ -1,5 +1,5 @@
 import { PipelandSystemProps } from "../pipeland-system";
 
 export interface StatusLabelProps extends PipelandSystemProps {
-  type: "opened" | "closed" | "corrected";
+  type: "OPEN" | "CLOSED" | "CORRECTED" | string;
 }

@@ -12,12 +12,28 @@ import { RootStore } from "../root-store/root-store";
 import { Class, ClassDetail } from "./class";
 import { TaskDetail } from "./task";
 
+interface LoadingPages {
+  classes: boolean;
+  tasks: boolean;
+  taskDetails: boolean;
+  classInfo: boolean;
+  classRanking: boolean;
+}
+
 @model("pipeland/ClassesStore")
 export class ClassesStore extends Model({
-  isLoading: prop<boolean>(false),
+  isLoading: prop<LoadingPages>(() => ({
+    classes: false,
+    tasks: false,
+    taskDetails: false,
+    classInfo: false,
+    classRanking: false,
+  })),
   classes: prop<Class[]>(() => []),
   selectedClass: prop<ClassDetail | null>(null),
+  selectedClassIsLoading: prop<boolean>(false),
   taskDetail: prop<TaskDetail | null>(null),
+  taskDetailIsLoading: prop<boolean>(false),
   errorMessage: prop<string | null>(null),
 }) {
   @modelFlow
@@ -29,7 +45,7 @@ export class ClassesStore extends Model({
       name: string;
     }
   ) {
-    this.isLoading = true;
+    this.isLoading.classes = true;
 
     try {
       const newClass = yield* _await(api.createClass({ name }));
@@ -49,7 +65,7 @@ export class ClassesStore extends Model({
         rootStore?.sessionsStore.logout();
       }
     } finally {
-      this.isLoading = false;
+      this.isLoading.classes = false;
     }
   });
 
@@ -62,7 +78,7 @@ export class ClassesStore extends Model({
       class_invite_token: string;
     }
   ) {
-    this.isLoading = true;
+    this.isLoading.classes = true;
 
     try {
       const newClass = yield* _await(api.joinClass({ class_invite_token }));
@@ -82,13 +98,13 @@ export class ClassesStore extends Model({
         rootStore?.sessionsStore.logout();
       }
     } finally {
-      this.isLoading = false;
+      this.isLoading.classes = false;
     }
   });
 
   @modelFlow
   fetchClasses = _async(function* (this: ClassesStore) {
-    this.isLoading = true;
+    this.isLoading.classes = true;
 
     try {
       const classes = yield* _await(api.getClasses());
@@ -108,13 +124,13 @@ export class ClassesStore extends Model({
         rootStore?.sessionsStore.logout();
       }
     } finally {
-      this.isLoading = false;
+      this.isLoading.classes = false;
     }
   });
 
   @modelFlow
   fetchClassInfo = _async(function* (this: ClassesStore, class_id: string) {
-    this.isLoading = true;
+    this.isLoading.classInfo = true;
 
     try {
       const selectedClass = yield* _await(api.getClassDetail(class_id));
@@ -128,13 +144,13 @@ export class ClassesStore extends Model({
         this.errorMessage = error.message;
       }
     } finally {
-      this.isLoading = false;
+      this.isLoading.classInfo = false;
     }
   });
 
   @modelFlow
   fetchClassTasks = _async(function* (this: ClassesStore, class_id?: string) {
-    this.isLoading = true;
+    this.isLoading.tasks = true;
 
     const id = class_id || this.selectedClass?.id || "";
 
@@ -151,28 +167,25 @@ export class ClassesStore extends Model({
         this.errorMessage = error.message;
       }
     } finally {
-      this.isLoading = false;
+      this.isLoading.tasks = false;
     }
   });
 
   @modelFlow
-  fetchTaskDetail = _async(function* (
+  fetchTaskDetails = _async(function* (
     this: ClassesStore,
     {
       task_id,
-      class_id,
     }: {
       task_id: string;
-      class_id: string;
     }
   ) {
-    this.isLoading = true;
+    this.isLoading.taskDetails = true;
 
     try {
       const taskDetail = yield* _await(
         api.getTaskDetail({
           task_id,
-          class_id,
         })
       );
 
@@ -185,7 +198,33 @@ export class ClassesStore extends Model({
         this.errorMessage = error.message;
       }
     } finally {
-      this.isLoading = false;
+      this.isLoading.taskDetails = false;
+    }
+  });
+
+  @modelFlow
+  fetchClassRanking = _async(function* (this: ClassesStore) {
+    this.isLoading.classRanking = true;
+
+    if (!this.selectedClass) return;
+
+    try {
+      const classRanking = yield* _await(
+        api.getClassRanking({
+          class_id: this.selectedClass.id,
+        })
+      );
+
+      this.selectedClass.classRanking = classRanking;
+    } catch (error: any) {
+      console.log(error);
+      if (error.response && error.response.data) {
+        this.errorMessage = error.response.data.message;
+      } else {
+        this.errorMessage = error.message;
+      }
+    } finally {
+      this.isLoading.classRanking = false;
     }
   });
 }

@@ -13,9 +13,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const isIos = Platform.OS === "ios";
 
-export const Screen: React.FC<ScreenProps> = (props) => {
-  const theme = useTheme();
+function ScreenWithoutScrolling(props: ScreenProps) {
   const insets = useSafeAreaInsets();
+  const theme = useTheme();
 
   return (
     <KeyboardAvoidingView
@@ -54,4 +54,67 @@ export const Screen: React.FC<ScreenProps> = (props) => {
       </View>
     </KeyboardAvoidingView>
   );
+}
+
+function ScreenWithScrolling(props: ScreenProps) {
+  const insets = useSafeAreaInsets();
+  const theme = useTheme();
+
+  return (
+    <KeyboardAvoidingView
+      style={{
+        flex: 1,
+        height: "100%",
+      }}
+      behavior={isIos ? "padding" : "height"}
+    >
+      <StatusBar barStyle={"default"} />
+      <View
+        style={{
+          flex: 1,
+          paddingTop: props.unsafe ? 0 : insets.top,
+          justifyContent: "flex-start",
+          alignItems: "stretch",
+          height: "100%",
+          width: "100%",
+          backgroundColor: theme.color.background,
+        }}
+      >
+        {props.isLoading ? (
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+            }}
+          >
+            <ActivityIndicator size="large" />
+          </View>
+        ) : (
+          <ScrollView
+            style={{
+              flex: 1,
+              height: "100%",
+              backgroundColor: theme.color.background,
+            }}
+            contentContainerStyle={{
+              justifyContent: "flex-start",
+              alignItems: "stretch",
+            }}
+          >
+            {props.children}
+          </ScrollView>
+        )}
+      </View>
+    </KeyboardAvoidingView>
+  );
+}
+
+export const Screen: React.FC<ScreenProps> = (props) => {
+  if (!!props.scroll) {
+    return <ScreenWithScrolling {...props} />;
+  }
+
+  return <ScreenWithoutScrolling {...props} />;
 };

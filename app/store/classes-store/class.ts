@@ -29,10 +29,22 @@ export class StudentInfo extends Model({
   current_mushroom_ups_qty: prop<number>(),
 }) {}
 
+@model("pipeland/StudentRanking")
+export class StudentRanking extends Model({
+  ranking: prop<number>(),
+  student_id: prop<string>(),
+  name: prop<string>(),
+  user_id: prop<string>(),
+  nickname: prop<string | null>(null),
+  photo: prop<string | null>(null),
+  current_coins_qty: prop<number>(),
+}) {}
+
 @model("pipeland/ClassDetail")
 export class ClassDetail extends ExtendedModel(Class, {
   coins_max: prop<number>(),
   invite_token: prop<string | null>(null),
   student_info: prop<StudentInfo | null>(null),
   tasks: prop<TaskResume[]>(() => []),
+  classRanking: prop<StudentRanking[]>(() => []),
 }) {}

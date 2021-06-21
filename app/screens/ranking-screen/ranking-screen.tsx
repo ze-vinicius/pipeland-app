@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import { observer } from "mobx-react";
+import React, { useEffect, useState } from "react";
+import { FlatList, View, ViewStyle } from "react-native";
 
 import { Screen, UserCard, Text, Avatar, Icon } from "../../components";
+import { Container } from "../../components/container";
+import { LoadingContainer } from "../../components/loading-container";
+import { useStores } from "../../store";
 
 import {
   RankingTableContainer,
@@ -9,80 +14,48 @@ import {
   CoinContainer,
 } from "./ranking-screen.styles";
 
-const RankingScreen: React.FC = () => {
-  const [students, setStudents] = useState([
-    {
-      id: 1,
-      ranking: 1,
-      name: "José Vinícius",
-      coins: 120,
-    },
-    {
-      id: 2,
-      ranking: 2,
-      name: "José Vinícius",
-      coins: 100,
-    },
-    {
-      id: 3,
-      ranking: 3,
-      name: "José Vinícius",
-      coins: 90,
-    },
-    {
-      id: 4,
-      ranking: 4,
-      name: "José Vinícius",
-      coins: 89,
-    },
-    {
-      id: 5,
-      ranking: 5,
-      name: "José Vinícius",
-      coins: 89,
-    },
-    {
-      id: 6,
-      ranking: 6,
-      name: "José Vinícius",
-      coins: 89,
-    },
-    {
-      id: 7,
-      ranking: 7,
-      name: "José Vinícius",
-      coins: 89,
-    },
-    {
-      id: 8,
-      ranking: 8,
-      name: "José Vinícius",
-      coins: 89,
-    },
-  ]);
+const RankingScreen: React.FC = observer(() => {
+  const { classesStore } = useStores();
+
+  useEffect(() => {
+    classesStore.fetchClassRanking();
+  }, [classesStore.selectedClass]);
 
   return (
     <Screen unsafe>
       <UserCard />
-      <RankingTableContainer>
-        {students.map((student) => (
-          <Row key={student.id}>
-            <RankingNumberContainer isInPodium={student.ranking <= 3}>
-              <Text>{student.ranking}</Text>
-            </RankingNumberContainer>
-            <Avatar />
-            <Text marginLeft={6} flex={1} maxWidth="100%">
-              {student.name}
-            </Text>
-            <CoinContainer>
-              <Icon name="coin" marginRight={2} />
-              <Text>{student.coins}</Text>
-            </CoinContainer>
-          </Row>
-        ))}
-      </RankingTableContainer>
+      {classesStore.isLoading.classRanking ? (
+        <LoadingContainer />
+      ) : (
+        <FlatList
+          data={classesStore.selectedClass?.classRanking}
+          keyExtractor={(item) => item.student_id}
+          renderItem={({ item: student }) => (
+            <Container
+              flexDirection="row"
+              paddingVertical={4}
+              alignItems="center"
+              key={student.student_id}
+              borderBottomWidth={1}
+              borderBottomColor="line"
+            >
+              <RankingNumberContainer isInPodium={student.ranking <= 3}>
+                <Text>{student.ranking}</Text>
+              </RankingNumberContainer>
+              <Avatar />
+              <Text marginLeft={6} flex={1} maxWidth="100%">
+                {student.name}
+              </Text>
+              <CoinContainer>
+                <Icon name="coin" marginRight={2} />
+                <Text>{student.current_coins_qty}</Text>
+              </CoinContainer>
+            </Container>
+          )}
+        />
+      )}
     </Screen>
   );
-};
+});
 
-export default RankingScreen;
+export { RankingScreen };

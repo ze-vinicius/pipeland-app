@@ -3,8 +3,11 @@ import {
   Class,
   ClassDetail,
   StudentInfo,
+  StudentRanking,
 } from "../../store/classes-store/class";
 import {
+  TaskCorrection,
+  TaskCorrectionElement,
   TaskDetail,
   TaskElement,
   TaskResume,
@@ -116,6 +119,7 @@ class Api {
         title: raw.title,
         delivery_date: raw.delivery_date,
         task_value: raw.task_value,
+        status: raw.status,
         task_elements: raw.task_elements.map((task_element: any) => {
           return new TaskElement({
             id: task_element.id,
@@ -130,16 +134,8 @@ class Api {
     return tasks;
   }
 
-  async getTaskDetail({
-    task_id,
-    class_id,
-  }: {
-    task_id: string;
-    class_id: string;
-  }): Promise<TaskDetail> {
-    const response = await this.axios.get(
-      `/classes/${class_id}/tasks/${task_id}`
-    );
+  async getTaskDetail({ task_id }: { task_id: string }): Promise<TaskDetail> {
+    const response = await this.axios.get(`/tasks/${task_id}`);
 
     const taskDetail = new TaskDetail({
       id: response.data.id,
@@ -148,6 +144,36 @@ class Api {
       description: response.data.description,
       task_value: response.data.task_value,
       title: response.data.title,
+      status: response.data.status,
+      task_correction: response.data.task_correction
+        ? new TaskCorrection({
+            id: response.data.task_correction.id,
+            earned_coins: response.data.task_correction.earned_coins,
+            comment: response.data.task_correction.comment,
+            create_date: response.data.task_correction.created_at,
+            student_id: response.data.task_correction.student_id,
+            task_id: response.data.task_correction.task_id,
+            applied_bonuses: response.data.task_correction.applied_bonuses.map(
+              (applied_bonus: any) =>
+                new TaskCorrectionElement({
+                  id: applied_bonus.id,
+                  imageUrl: applied_bonus.imageUrl,
+                  name: applied_bonus.name,
+                  type: applied_bonus.type,
+                })
+            ),
+            applied_penalties:
+              response.data.task_correction.applied_penalties.map(
+                (applied_penalty: any) =>
+                  new TaskCorrectionElement({
+                    id: applied_penalty.id,
+                    imageUrl: applied_penalty.imageUrl,
+                    name: applied_penalty.name,
+                    type: applied_penalty.type,
+                  })
+              ),
+          })
+        : undefined,
       task_elements: response.data.task_elements.map((task_element: any) => {
         return new TaskElement({
           id: task_element.id,
@@ -186,8 +212,6 @@ class Api {
       class_invite_token,
     });
 
-    console.log({ response });
-
     const newClass = new Class({
       id: response.data.id,
       name: response.data.name,
@@ -197,6 +221,31 @@ class Api {
     });
 
     return newClass;
+  }
+
+  async getClassRanking({
+    class_id,
+  }: {
+    class_id: string;
+  }): Promise<StudentRanking[]> {
+    const response = await this.axios.get<StudentRanking[]>(
+      `/classes/${class_id}/ranking`
+    );
+
+    const classRanking = response.data.map(
+      (raw: any) =>
+        new StudentRanking({
+          ranking: raw.ranking,
+          current_coins_qty: raw.current_coins_qty,
+          name: raw.name,
+          student_id: raw.student_id,
+          user_id: raw.user_id,
+          nickname: raw.nickname,
+          photo: raw.photo,
+        })
+    );
+
+    return classRanking;
   }
 }
 

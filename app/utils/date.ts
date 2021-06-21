@@ -10,8 +10,10 @@ export const formatDate = (dateString: string, format?: FormatDateType) => {
   const timeZone = "America/Sao_Paulo";
   const zonedDate = utcToZonedTime(new Date(dateString), timeZone);
 
-  return DateFNSFormat(zonedDate, format || "dd/MM/yyyy", {
+  const formatedDate = DateFNSFormat(zonedDate, format || "dd/MM/yyyy", {
     locale: pt,
     timeZone,
   });
+
+  return formatedDate;
 };

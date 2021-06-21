@@ -9,7 +9,7 @@ import Feather from "@expo/vector-icons/Feather";
 // import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useStores } from "../store";
 // import { TaskScreen } from "../screens/task-screen/task-screen";
-import RankingScreen from "../screens/ranking-screen/ranking-screen";
+import { RankingScreen } from "../screens/ranking-screen/ranking-screen";
 import { ProfileScreen } from "../screens/profile-screen/profile-screen";
 import { AdjustsScreen } from "../screens/adjusts-screen/adjusts-screen";
 import { UnderConstructionScreen } from "../screens/under-construction-screen/under-construction-screen";

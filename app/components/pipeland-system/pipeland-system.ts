@@ -87,6 +87,12 @@ export interface PipelandViewStyle {
   borderTopWidth?: number;
   borderWidth?: number;
   borderRadius?: number;
+
+  borderColor?: string | ColorType;
+  borderBottomColor?: string | ColorType;
+  borderLeftColor?: string | ColorType;
+  borderRightColor?: string | ColorType;
+  borderTopColor?: string | ColorType;
 }
 
 export interface PipelandSystemProps
@@ -132,7 +138,8 @@ export const pipelandTextStyle = (customStyle: PipelandTextProps) => css`
   ${customStyle.fontWeight && `font-weight: ${customStyle.fontWeight}`};
   ${customStyle.letterSpacing &&
   `letter-spacing: ${customStyle.letterSpacing}`};
-  ${customStyle.lineHeight && `line-height: ${customStyle.lineHeight}`};
+  ${customStyle.lineHeight &&
+  `line-height: ${addUnitToValue(customStyle.lineHeight)}`};
   ${customStyle.textAlign && `text-align: ${customStyle.textAlign}`};
   ${customStyle.textTransform &&
   `text-transform: ${customStyle.textTransform}`};
@@ -188,6 +195,8 @@ export const pipelandSystemStyle = (customStyle: PipelandSystemProps) => css`
     `min-width: ${addUnitToValue(customStyle.minWidth)}`}
 
     ${customStyle.flex && `flex: ${customStyle.flex}`};
+    ${customStyle.flexDirection &&
+    `flex-direction: ${customStyle.flexDirection}`};
     ${customStyle.alignItems && `align-items: ${customStyle.alignItems}`};
     ${customStyle.alignSelf && `align-left: ${customStyle.alignSelf}`};
     ${customStyle.justifyContent &&
@@ -212,6 +221,17 @@ export const pipelandSystemStyle = (customStyle: PipelandSystemProps) => css`
     `
       border-radius: ${addUnitToValue(customStyle.borderRadius)};
     `};
+
+    ${customStyle.borderColor &&
+    `border-color: ${formatColor(customStyle.borderColor)}`}
+    ${customStyle.borderBottomColor &&
+    `border-bottomColor: ${formatColor(customStyle.borderBottomColor)}`}
+    ${customStyle.borderLeftColor &&
+    `border-leftColor: ${formatColor(customStyle.borderLeftColor)}`}
+    ${customStyle.borderRightColor &&
+    `border-rightColor: ${formatColor(customStyle.borderRightColor)}`}
+    ${customStyle.borderTopColor &&
+    `border-topColor: ${formatColor(customStyle.borderTopColor)}`}
   `}
 `;
 

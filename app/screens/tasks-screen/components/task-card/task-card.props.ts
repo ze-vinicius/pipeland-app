@@ -4,6 +4,7 @@ export interface TaskCardProps {
     title: string;
     delivery_date: string;
     task_value: number;
+    status: string;
     task_elements: Array<{
       id: string;
       name: string;

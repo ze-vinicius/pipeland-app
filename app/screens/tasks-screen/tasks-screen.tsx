@@ -4,11 +4,13 @@ import React, { useCallback, useEffect } from "react";
 import { FlatList } from "react-native";
 
 import { Screen, UserCard, Text } from "../../components";
+import { Container } from "../../components/container";
+import { LoadingContainer } from "../../components/loading-container";
 import { useStores } from "../../store";
 
 import { TaskCard } from "./components/task-card";
 
-import { Container, TasksContainer } from "./tasks-screen.styles";
+import { TasksContainer } from "./tasks-screen.styles";
 
 export const TasksScreen: React.FC = observer(() => {
   const { classesStore } = useStores();
@@ -17,8 +19,7 @@ export const TasksScreen: React.FC = observer(() => {
 
   const handleTaskCardPress = useCallback((task_id: string) => {
     if (!!classesStore.selectedClass) {
-      classesStore.fetchTaskDetail({
-        class_id: classesStore.selectedClass.id,
+      classesStore.fetchTaskDetails({
         task_id,
       });
       navigation.navigate("taskDetail");
@@ -33,27 +34,31 @@ export const TasksScreen: React.FC = observer(() => {
 
   return (
     <Screen unsafe>
-      <Container>
+      <Container flex={1}>
         <UserCard />
-        <TasksContainer>
-          {!!classesStore.selectedClass?.tasks?.length ? (
-            <FlatList
-              data={classesStore.selectedClass?.tasks}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item) => String(item.id)}
-              renderItem={({ item }) => (
-                <TaskCard
-                  onPress={() => handleTaskCardPress(item.id)}
-                  taskInfo={item}
-                />
-              )}
-            />
-          ) : (
-            <Text preset="secondary" marginTop={1}>
-              Nenhuma atividade cadastrada
-            </Text>
-          )}
-        </TasksContainer>
+        {classesStore.isLoading.tasks ? (
+          <LoadingContainer />
+        ) : (
+          <Container padding={2} paddingBottom={0}>
+            {!!classesStore.selectedClass?.tasks?.length ? (
+              <FlatList
+                data={classesStore.selectedClass?.tasks}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item) => String(item.id)}
+                renderItem={({ item }) => (
+                  <TaskCard
+                    onPress={() => handleTaskCardPress(item.id)}
+                    taskInfo={item}
+                  />
+                )}
+              />
+            ) : (
+              <Text preset="secondary" marginTop={1}>
+                Nenhuma atividade cadastrada
+              </Text>
+            )}
+          </Container>
+        )}
       </Container>
     </Screen>
   );

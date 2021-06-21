@@ -4,16 +4,21 @@ import { Text } from "../text";
 
 import { Container } from "./status-label.styles";
 
-const labelTypes = {
-  corrected: {
-    text: "Corrigida",
+const labelTypes: {
+  [key: string]: {
+    text: string;
+    color: string;
+  };
+} = {
+  CORRECTED: {
+    text: "corrigida",
     color: "",
   },
-  opened: {
-    text: "Aberta",
+  OPEN: {
+    text: "aberta",
     color: "",
   },
-  closed: {
+  CLOSED: {
     text: "encerrada",
     color: "",
   },
@@ -40,7 +45,7 @@ export const StatusLabel: React.FC<StatusLabelProps> = ({
   return (
     <Container customStyle={overrideStyle}>
       <Text fontSize={12} textTransform="uppercase">
-        {labelTypes[type].text}
+        {labelTypes[type || "OPEN"].text}
       </Text>
     </Container>
   );
