@@ -85,7 +85,11 @@ const NewTaskScreen: React.FC = observer(() => {
 
   return (
     <Screen unsafe>
-      <ScrollView ref={scrollRef} scrollEventThrottle={20}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        ref={scrollRef}
+        scrollEventThrottle={20}
+      >
         <Container padding={4}>
           <TextField
             label="Título"

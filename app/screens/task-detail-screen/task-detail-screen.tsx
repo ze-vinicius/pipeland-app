@@ -12,13 +12,11 @@ import { StatusLabel } from "../../components/status-label";
 import { Text } from "../../components/text";
 import { useStores } from "../../store";
 import { formatDate } from "../../utils/date";
-import { Button } from "../../components/button";
-import AutoHeightWebView from "react-native-autoheight-webview";
+import { AutoHeightWebvView } from "../../components/auto-height-webview/auto-height-webview";
 
 const TaskDetailScreen: React.FC = observer(() => {
   const { classesStore } = useStores();
   const navigation = useNavigation();
-  const theme = useTheme();
 
   return (
     <Screen isLoading={classesStore.isLoading.taskDetails} unsafe scroll>
@@ -92,41 +90,7 @@ const TaskDetailScreen: React.FC = observer(() => {
             </Container>
             <Divider />
             <Container flex={1} marginTop={2}>
-              <AutoHeightWebView
-                originWhitelist={["*"]}
-                style={{
-                  width: "100%",
-                }}
-                source={{
-                  html: classesStore.taskDetail.description,
-                }}
-                scrollEnabled={false}
-                scalesPageToFit={true}
-                customStyle={`
-                * {
-                  font-family: sans-serif;
-                  font-size: 14px;
-                  color: ${theme.colors.text};
-                }
-
-                br {
-                  content: "";
-                  margin: 8px;
-                  display: block;
-                }
-
-                ul {
-                  margin: 0;
-                  padding: 0;
-
-                  padding-left: 32px;
-                }
-
-                li {
-                  margin-top: 8px;
-                }
-              `}
-              />
+              <AutoHeightWebvView html={classesStore.taskDetail.description} />
             </Container>
 
             {classesStore.taskDetail.task_correction && (
