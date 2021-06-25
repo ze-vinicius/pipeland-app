@@ -8,11 +8,13 @@ import { observer } from "mobx-react";
 import { NewClassScreen } from "../screens/new-class-screen/new-class-screen";
 import { UnderConstructionScreen } from "../screens/under-construction-screen/under-construction-screen";
 import { JoinClassScreen } from "../screens/join-class-screen/join-class-screen";
+import { NewTaskScreen } from "../screens/new-task-screen/new-task-screen";
 
 type MainNavigatorParamsList = {
   classes: undefined;
   class: undefined;
   taskDetail: undefined;
+  newTask: undefined;
   newClass: undefined;
   joinClass: undefined;
   underConstruction: undefined;
@@ -57,6 +59,12 @@ const MainNavigator = observer(() => {
         name="joinClass"
         component={JoinClassScreen}
         options={{ title: "Ingressar em uma turma" }}
+      />
+
+      <Screen
+        name="newTask"
+        component={NewTaskScreen}
+        options={{ title: "Nova Atividade" }}
       />
 
       <Screen

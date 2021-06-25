@@ -24,9 +24,10 @@ const RankingScreen: React.FC = observer(() => {
   return (
     <Screen unsafe>
       <UserCard />
-      {classesStore.isLoading.classRanking ? (
-        <LoadingContainer />
-      ) : (
+      <LoadingContainer
+        flex={1}
+        isLoading={classesStore.isLoading.classRanking}
+      >
         <FlatList
           data={classesStore.selectedClass?.classRanking}
           keyExtractor={(item) => item.student_id}
@@ -53,7 +54,7 @@ const RankingScreen: React.FC = observer(() => {
             </Container>
           )}
         />
-      )}
+      </LoadingContainer>
     </Screen>
   );
 });

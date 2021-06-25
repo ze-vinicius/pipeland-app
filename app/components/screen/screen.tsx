@@ -100,6 +100,7 @@ function ScreenWithScrolling(props: ScreenProps) {
             }}
             contentContainerStyle={{
               justifyContent: "flex-start",
+              height: "100%",
               alignItems: "stretch",
             }}
           >

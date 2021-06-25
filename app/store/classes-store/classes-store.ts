@@ -1,3 +1,4 @@
+import { isEqual, startOfDay } from "date-fns";
 import {
   model,
   Model,
@@ -6,10 +7,16 @@ import {
   _await,
   prop,
   getRootStore,
+  modelAction,
+  getSnapshot,
+  fromSnapshot,
+  applySnapshot,
 } from "mobx-keystone";
 import { api } from "../../services/api/api";
+import { formatDate } from "../../utils/date";
+import { GameElement } from "../game-element-store/game-element";
 import { RootStore } from "../root-store/root-store";
-import { Class, ClassDetail } from "./class";
+import { AttendanceList, Class, ClassDetail, StudentAttendance } from "./class";
 import { TaskDetail } from "./task";
 
 interface LoadingPages {
@@ -18,6 +25,7 @@ interface LoadingPages {
   taskDetails: boolean;
   classInfo: boolean;
   classRanking: boolean;
+  attendance: boolean;
 }
 
 @model("pipeland/ClassesStore")
@@ -28,6 +36,7 @@ export class ClassesStore extends Model({
     taskDetails: false,
     classInfo: false,
     classRanking: false,
+    attendance: false,
   })),
   classes: prop<Class[]>(() => []),
   selectedClass: prop<ClassDetail | null>(null),
@@ -118,7 +127,10 @@ export class ClassesStore extends Model({
         this.errorMessage = error.message;
       }
 
-      if (error.status === 401 || error.response.status === 401) {
+      if (
+        error.status === 401 ||
+        (error.response && error.response.status === 401)
+      ) {
         const rootStore = getRootStore<RootStore>(this);
 
         rootStore?.sessionsStore.logout();
@@ -142,6 +154,15 @@ export class ClassesStore extends Model({
         this.errorMessage = error.response.data.message;
       } else {
         this.errorMessage = error.message;
+      }
+
+      if (
+        error.status === 401 ||
+        (error.response && error.response.status === 401)
+      ) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
       }
     } finally {
       this.isLoading.classInfo = false;
@@ -197,6 +218,15 @@ export class ClassesStore extends Model({
       } else {
         this.errorMessage = error.message;
       }
+
+      if (
+        error.status === 401 ||
+        (error.response && error.response.status === 401)
+      ) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
+      }
     } finally {
       this.isLoading.taskDetails = false;
     }
@@ -223,8 +253,175 @@ export class ClassesStore extends Model({
       } else {
         this.errorMessage = error.message;
       }
+
+      if (
+        error.status === 401 ||
+        (error.response && error.response.status === 401)
+      ) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
+      }
     } finally {
       this.isLoading.classRanking = false;
     }
   });
+
+  @modelFlow
+  fetchDayAttendanceList = _async(function* (
+    this: ClassesStore,
+    date: Date | string
+  ) {
+    this.isLoading.attendance = true;
+
+    const formattedDate = formatDate(date, "yyyy-MM-dd");
+
+    if (!this.selectedClass) return;
+
+    const findDayAttendanceList = this.selectedClass.attendancesList.find(
+      (attendance) =>
+        isEqual(new Date(formattedDate), new Date(attendance.date))
+    );
+
+    if (!!findDayAttendanceList) {
+      this.selectedClass.selectedDayAttendanceList = findDayAttendanceList;
+      return;
+    }
+
+    try {
+      const attendances = yield* _await(
+        api.getDayAttendanceList({
+          class_id: this.selectedClass.id,
+          date: formattedDate,
+        })
+      );
+
+      const newAttendance = new AttendanceList({
+        date: formattedDate,
+        students: attendances,
+      });
+
+      // this.selectedClass.attendancesList.push(newAttendance);
+      this.selectedClass.selectedDayAttendanceList = newAttendance;
+    } catch (error: any) {
+      console.log(error);
+      if (error.response && error.response.data) {
+        this.errorMessage = error.response.data.message;
+      } else {
+        this.errorMessage = error.message;
+      }
+
+      if (
+        error.status === 401 ||
+        (error.response && error.response.status === 401)
+      ) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
+      }
+    } finally {
+      this.isLoading.attendance = false;
+    }
+  });
+
+  @modelFlow
+  saveDayAttendanceList = _async(function* (this: ClassesStore) {
+    this.isLoading.attendance = true;
+
+    if (!this.selectedClass) return;
+
+    try {
+      const dayAttendanceList = this.selectedClass.selectedDayAttendanceList;
+
+      if (!dayAttendanceList) return;
+
+      const formatedRequestBody = {
+        class_id: this.selectedClass.id,
+        date: dayAttendanceList.date,
+        students: dayAttendanceList.students.map((student) => ({
+          student_id: student.student_id,
+          is_present: student.is_present,
+        })),
+      };
+
+      yield* _await(api.updateDayAttendanceList(formatedRequestBody));
+    } catch (error: any) {
+      console.log(error);
+      if (error.response && error.response.data) {
+        this.errorMessage = error.response.data.message;
+      } else {
+        this.errorMessage = error.message;
+      }
+
+      if (
+        error.status === 401 ||
+        (error.response && error.response.status === 401)
+      ) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
+      }
+    } finally {
+      this.isLoading.attendance = false;
+    }
+  });
+
+  @modelFlow
+  createTask = _async(function* (
+    this: ClassesStore,
+    data: {
+      title: string;
+      description: string;
+      delivery_date: Date;
+      task_elements: Array<GameElement>;
+    }
+  ) {
+    this.isLoading.tasks = true;
+
+    const id = this.selectedClass?.id || "";
+
+    const task_elements = data.task_elements.map((element) => ({
+      game_element_id: element.id,
+      quantity: 1,
+    }));
+
+    try {
+      const task = yield* _await(
+        api.createTask({
+          class_id: id,
+          ...data,
+          task_elements,
+        })
+      );
+
+      if (this.selectedClass) {
+        this.selectedClass.tasks.push(task);
+      }
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        this.errorMessage = error.response.data.message;
+      } else {
+        this.errorMessage = error.message;
+      }
+    } finally {
+      this.isLoading.tasks = false;
+    }
+  });
+
+  @modelAction
+  handleChangeStudentAttendance = ({
+    student_id,
+    is_present,
+  }: {
+    student_id: string;
+    is_present: boolean;
+  }) => {
+    if (!this.selectedClass?.selectedDayAttendanceList) return;
+
+    this.selectedClass.selectedDayAttendanceList.students.forEach((student) => {
+      if (student.student_id === student_id) {
+        student.changeStudentAttendance(is_present);
+      }
+    });
+  };
 }

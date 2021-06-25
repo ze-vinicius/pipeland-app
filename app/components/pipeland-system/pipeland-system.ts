@@ -77,7 +77,7 @@ export interface PipelandTextProps {
   textTransform?: "none" | "capitalize" | "uppercase" | "lowercase";
 }
 
-export interface PipelandViewStyle {
+export interface PipelandViewProps {
   backgroundColor?: string | ColorType;
 
   borderBottomWidth?: number;
@@ -96,7 +96,7 @@ export interface PipelandViewStyle {
 }
 
 export interface PipelandSystemProps
-  extends PipelandViewStyle,
+  extends PipelandViewProps,
     PipelandFlexProps,
     PipelandTextProps {}
 
@@ -119,7 +119,7 @@ export const formatSpacing = (value: number | string) => {
 };
 
 export const formatColor = (colorString: ColorType | string) => {
-  if (colorString.includes("#")) {
+  if (colorString.includes("#") || colorString === "transparent") {
     return colorString;
   }
 
@@ -145,62 +145,66 @@ export const pipelandTextStyle = (customStyle: PipelandTextProps) => css`
   `text-transform: ${customStyle.textTransform}`};
 `;
 
+export const pipelandFlexStyle = (customStyle: PipelandSystemProps) => css`
+  ${customStyle.margin && `margin: ${formatSpacing(customStyle.margin)}`};
+  ${customStyle.marginTop &&
+  `margin-top: ${formatSpacing(customStyle.marginTop)}`};
+  ${customStyle.marginRight &&
+  `margin-right: ${formatSpacing(customStyle.marginRight)}`};
+  ${customStyle.marginBottom &&
+  `margin-bottom: ${formatSpacing(customStyle.marginBottom)}`};
+  ${customStyle.marginLeft &&
+  `margin-left: ${formatSpacing(customStyle.marginLeft)}`};
+  ${customStyle.marginHorizontal &&
+  `margin-horizontal: ${formatSpacing(customStyle.marginHorizontal)}`};
+  ${customStyle.marginVertical &&
+  `margin-vertical: ${formatSpacing(customStyle.marginVertical)}`};
+
+  ${customStyle.padding && `padding: ${formatSpacing(customStyle.padding)}`};
+  ${customStyle.paddingTop &&
+  `padding-top: ${formatSpacing(customStyle.paddingTop)}`};
+  ${customStyle.paddingRight &&
+  `padding-right: ${formatSpacing(customStyle.paddingRight)}`};
+  ${customStyle.paddingBottom &&
+  `padding-bottom: ${formatSpacing(customStyle.paddingBottom)}`};
+  ${customStyle.paddingLeft &&
+  `padding-left: ${formatSpacing(customStyle.paddingLeft)}`};
+  ${customStyle.paddingHorizontal &&
+  `padding-horizontal: ${formatSpacing(customStyle.paddingHorizontal)}`};
+  ${customStyle.paddingVertical &&
+  `padding-vertical: ${formatSpacing(customStyle.paddingVertical)}`};
+
+  ${customStyle.position && `position: ${customStyle.position}`};
+
+  ${customStyle.top !== undefined && `top: ${customStyle.top}`};
+  ${customStyle.right !== undefined && `right: ${customStyle.right}`};
+  ${customStyle.left !== undefined && `left: ${customStyle.left}`};
+  ${customStyle.bottom !== undefined && `bottom: ${customStyle.bottom}`};
+
+  ${customStyle.flex && `flex: ${customStyle.flex}`};
+  ${customStyle.flexDirection &&
+  `flex-direction: ${customStyle.flexDirection}`};
+  ${customStyle.alignItems && `align-items: ${customStyle.alignItems}`};
+  ${customStyle.alignSelf && `align-left: ${customStyle.alignSelf}`};
+  ${customStyle.justifyContent &&
+  `justify-content: ${customStyle.justifyContent}`};
+
+  ${customStyle.height && `height: ${addUnitToValue(customStyle.height)}`};
+  ${customStyle.width && `width: ${addUnitToValue(customStyle.width)}`};
+  ${customStyle.maxHeight &&
+  `max-height: ${addUnitToValue(customStyle.maxHeight)}`}
+  ${customStyle.maxWidth &&
+  `max-width: ${addUnitToValue(customStyle.maxWidth)}`}
+    ${customStyle.minHeight &&
+  `min-height: ${addUnitToValue(customStyle.minHeight)}`}
+    ${customStyle.minWidth &&
+  `min-width: ${addUnitToValue(customStyle.minWidth)}`}
+`;
+
 export const pipelandSystemStyle = (customStyle: PipelandSystemProps) => css`
   ${customStyle &&
   css`
-    ${customStyle.margin && `margin: ${formatSpacing(customStyle.margin)}`};
-    ${customStyle.marginTop &&
-    `margin-top: ${formatSpacing(customStyle.marginTop)}`};
-    ${customStyle.marginRight &&
-    `margin-right: ${formatSpacing(customStyle.marginRight)}`};
-    ${customStyle.marginBottom &&
-    `margin-bottom: ${formatSpacing(customStyle.marginBottom)}`};
-    ${customStyle.marginLeft &&
-    `margin-left: ${formatSpacing(customStyle.marginLeft)}`};
-    ${customStyle.marginHorizontal &&
-    `margin-horizontal: ${formatSpacing(customStyle.marginHorizontal)}`};
-    ${customStyle.marginVertical &&
-    `margin-vertical: ${formatSpacing(customStyle.marginVertical)}`};
-
-    ${customStyle.padding && `padding: ${formatSpacing(customStyle.padding)}`};
-    ${customStyle.paddingTop &&
-    `padding-top: ${formatSpacing(customStyle.paddingTop)}`};
-    ${customStyle.paddingRight &&
-    `padding-right: ${formatSpacing(customStyle.paddingRight)}`};
-    ${customStyle.paddingBottom &&
-    `padding-bottom: ${formatSpacing(customStyle.paddingBottom)}`};
-    ${customStyle.paddingLeft &&
-    `padding-left: ${formatSpacing(customStyle.paddingLeft)}`};
-    ${customStyle.paddingHorizontal &&
-    `padding-horizontal: ${formatSpacing(customStyle.paddingHorizontal)}`};
-    ${customStyle.paddingVertical &&
-    `padding-vertical: ${formatSpacing(customStyle.paddingVertical)}`};
-
-    ${customStyle.position && `position: ${customStyle.position}`};
-
-    ${customStyle.top !== undefined && `top: ${customStyle.top}`};
-    ${customStyle.right !== undefined && `right: ${customStyle.right}`};
-    ${customStyle.left !== undefined && `left: ${customStyle.left}`};
-    ${customStyle.bottom !== undefined && `bottom: ${customStyle.bottom}`};
-
-    ${customStyle.height && `height: ${addUnitToValue(customStyle.height)}`};
-    ${customStyle.width && `width: ${addUnitToValue(customStyle.width)}`};
-    ${customStyle.maxHeight &&
-    `max-height: ${addUnitToValue(customStyle.maxHeight)}`}
-    ${customStyle.maxWidth &&
-    `max-width: ${addUnitToValue(customStyle.maxWidth)}`}
-    ${customStyle.minHeight &&
-    `min-height: ${addUnitToValue(customStyle.minHeight)}`}
-    ${customStyle.minWidth &&
-    `min-width: ${addUnitToValue(customStyle.minWidth)}`}
-
-    ${customStyle.flex && `flex: ${customStyle.flex}`};
-    ${customStyle.flexDirection &&
-    `flex-direction: ${customStyle.flexDirection}`};
-    ${customStyle.alignItems && `align-items: ${customStyle.alignItems}`};
-    ${customStyle.alignSelf && `align-left: ${customStyle.alignSelf}`};
-    ${customStyle.justifyContent &&
-    `justify-content: ${customStyle.justifyContent}`};
+    ${pipelandFlexStyle(customStyle)};
 
     ${customStyle.backgroundColor &&
     `background-color: ${formatColor(customStyle.backgroundColor)}`};

@@ -1,4 +1,12 @@
-import { model, Model, tProp, types, ExtendedModel, prop } from "mobx-keystone";
+import {
+  model,
+  Model,
+  tProp,
+  types,
+  ExtendedModel,
+  prop,
+  modelAction,
+} from "mobx-keystone";
 import { TaskResume } from "./task";
 
 enum EnumMarioAvatars {
@@ -7,6 +15,28 @@ enum EnumMarioAvatars {
   FIRE_MARIO = "fireMario",
   CAPE_MARIO = "capeMario",
 }
+
+@model("pipeland/StudentAttendance")
+export class StudentAttendance extends Model({
+  id: prop<string | null>(null),
+  is_present: prop<boolean>(),
+  name: prop<string | null>(null),
+  photo: prop<string | null>(null),
+  date: prop<string>(),
+  class_id: prop<string>(),
+  student_id: prop<string>(),
+}) {
+  @modelAction
+  changeStudentAttendance = (is_present: boolean) => {
+    this.is_present = is_present;
+  };
+}
+
+@model("pipeland/AttendanceList")
+export class AttendanceList extends Model({
+  date: prop<string>(),
+  students: prop<Array<StudentAttendance>>(() => []),
+}) {}
 
 @model("pipeland/Class")
 export class Class extends Model({
@@ -47,4 +77,6 @@ export class ClassDetail extends ExtendedModel(Class, {
   student_info: prop<StudentInfo | null>(null),
   tasks: prop<TaskResume[]>(() => []),
   classRanking: prop<StudentRanking[]>(() => []),
+  attendancesList: prop<AttendanceList[]>(() => []),
+  selectedDayAttendanceList: prop<AttendanceList | null>(null),
 }) {}

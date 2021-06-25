@@ -1,4 +1,5 @@
 import React from "react";
+import { ScrollView } from "react-native";
 import styled from "styled-components/native";
 
 import {
@@ -11,10 +12,22 @@ export const StyledView = styled.View<PipelandSystemStyleProps>`
   ${(props) => props.customStyle && pipelandSystemStyle(props.customStyle)}
 `;
 
-type ContainerProps = PipelandSystemProps;
+export const StyledScrollView = styled.ScrollView`
+  flex: 1;
+`;
 
-const Container: React.FC<ContainerProps> = ({ children, ...rest }) => {
-  return <StyledView customStyle={rest}>{children}</StyledView>;
+interface ContainerProps extends PipelandSystemProps {
+  scroll?: boolean;
+}
+
+const Container: React.FC<ContainerProps> = ({ children, scroll, ...rest }) => {
+  return scroll ? (
+    <StyledScrollView>
+      <StyledView customStyle={rest}>{children}</StyledView>
+    </StyledScrollView>
+  ) : (
+    <StyledView customStyle={rest}>{children}</StyledView>
+  );
 };
 
 export { Container };

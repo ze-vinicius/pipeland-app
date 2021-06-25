@@ -1,5 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { parseISO } from "date-fns";
 import {
+  StudentAttendance,
+  AttendanceList,
   Class,
   ClassDetail,
   StudentInfo,
@@ -12,6 +15,7 @@ import {
   TaskElement,
   TaskResume,
 } from "../../store/classes-store/task";
+import { GameElement } from "../../store/game-element-store/game-element";
 import { Session, User } from "../../store/sessions-store/session";
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config";
 
@@ -134,6 +138,45 @@ class Api {
     return tasks;
   }
 
+  async createTask({
+    class_id,
+    ...requestBody
+  }: {
+    class_id: string;
+    title: string;
+    description: string;
+    delivery_date: Date;
+    task_elements: Array<{
+      game_element_id: string;
+      quantity: number;
+    }>;
+  }): Promise<TaskResume> {
+    const response = await api.axios.post(
+      `/classes/${class_id}/tasks`,
+      requestBody
+    );
+
+    const raw = response.data;
+
+    const task: TaskResume = new TaskResume({
+      id: raw.id,
+      title: raw.title,
+      delivery_date: raw.delivery_date,
+      task_value: raw.task_value,
+      status: raw.status,
+      task_elements: raw.task_elements.map((task_element: any) => {
+        return new TaskElement({
+          id: task_element.id,
+          name: task_element.name,
+          quantity: task_element.quantity,
+          imageUrl: task_element.imageUrl,
+        });
+      }),
+    });
+
+    return task;
+  }
+
   async getTaskDetail({ task_id }: { task_id: string }): Promise<TaskDetail> {
     const response = await this.axios.get(`/tasks/${task_id}`);
 
@@ -246,6 +289,74 @@ class Api {
     );
 
     return classRanking;
+  }
+
+  async getDayAttendanceList({
+    class_id,
+    date,
+  }: {
+    class_id: string;
+    date: string;
+  }): Promise<StudentAttendance[]> {
+    const response = await this.axios.get<StudentAttendance[]>(
+      `/classes/${class_id}/attendance-list`,
+      {
+        params: {
+          date,
+        },
+      }
+    );
+
+    const attendanceList = response.data.map(
+      (raw: any) =>
+        new StudentAttendance({
+          id: raw.id,
+          class_id: raw.class_id,
+          date: raw.date,
+          is_present: raw.is_present,
+          student_id: raw.student_id,
+          name: raw.name,
+          photo: raw.photo,
+        })
+    );
+
+    return attendanceList;
+  }
+
+  async updateDayAttendanceList({
+    class_id,
+    date,
+    students,
+  }: {
+    class_id: string;
+    date: string | Date;
+    students: Array<{
+      student_id: string;
+      is_present: boolean;
+    }>;
+  }): Promise<void> {
+    await this.axios.put(`/classes/${class_id}/attendance-list`, {
+      date,
+      students,
+    });
+  }
+
+  async getGameElements(): Promise<GameElement[]> {
+    const response = await this.axios.get(`/classes/game-elements`);
+
+    const gamElements = response.data.map(
+      (raw: any) =>
+        new GameElement({
+          id: raw.id,
+          description: raw.description,
+          imageUrl: raw.imageUrl,
+          name: raw.name,
+          type: raw.type,
+          value: raw.value,
+        })
+    );
+
+    return gamElements;
   }
 }
 

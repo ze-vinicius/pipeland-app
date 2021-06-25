@@ -1,18 +1,21 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { observer } from "mobx-react";
 import { useNavigation } from "@react-navigation/native";
 
 import { Screen } from "../../components/screen";
 import { ClassCard } from "./components/class-card";
+import { Container } from "../../components/container";
 import { useStores } from "../../store";
 
-import { Container } from "./classes-screen.styles";
+// import { Container } from "./classes-screen.styles";
 import { IconButton } from "../../components/icon-button";
+import { FlatList } from "react-native";
 
 export const ClassesScreen: React.FC = observer(() => {
   const navigation = useNavigation();
 
   const { classesStore, sessionsStore } = useStores();
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const fetchAsync = async () => {
@@ -35,17 +38,28 @@ export const ClassesScreen: React.FC = observer(() => {
     }
   }, [sessionsStore.activeSession]);
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await classesStore.fetchClasses();
+    setRefreshing(false);
+  };
+
   return (
     <Screen unsafe isLoading={classesStore.isLoading.classes}>
-      <Container>
-        {classesStore.classes.length > 0 &&
-          classesStore.classes.map((c) => (
+      <Container flex={1} height={"100%"} padding={2}>
+        <FlatList
+          data={classesStore.classes}
+          keyExtractor={(item) => item.id}
+          onRefresh={onRefresh}
+          refreshing={refreshing}
+          renderItem={({ item: c }) => (
             <ClassCard
               key={c.id}
               classInfo={c}
               onPress={() => handleOpenClass(c.id)}
             />
-          ))}
+          )}
+        />
       </Container>
       <IconButton
         icon="plus"

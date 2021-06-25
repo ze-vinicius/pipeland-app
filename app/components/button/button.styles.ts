@@ -7,6 +7,10 @@ export const ButtonContainer = styled.TouchableOpacity<{
   preset: ButtonPresets;
   customStyle: PipelandSystemProps;
 }>`
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+
   ${(props) => props.customStyle && pipelandSystemStyle(props.customStyle)};
   ${(props) => buttonPresets[props.preset]};
 `;

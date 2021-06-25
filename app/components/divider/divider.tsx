@@ -1,26 +1,24 @@
 import React from "react";
 import styled from "styled-components/native";
+import {
+  PipelandFlexProps,
+  pipelandFlexStyle,
+  PipelandSystemStyleProps,
+} from "../pipeland-system";
 
 import { DividerPresets, presets } from "./divider.presets";
 import { DividerProps } from "./divider.props";
 
-const StyledDivider = styled.View<{ preset: DividerPresets }>`
-  ${(prop) => prop.preset && presets[prop.preset]}
+const StyledDivider = styled.View<
+  PipelandSystemStyleProps & { preset: DividerPresets }
+>`
+  ${(prop) => prop.preset && presets[prop.preset]};
+  ${(props) => props.customStyle && pipelandFlexStyle(props.customStyle)}
 `;
 
 export const Divider: React.FC<DividerProps> = ({
   preset = "horizontal",
-  marginBottom = 0,
-  marginTop = 0,
-  marginRight = 0,
-  marginLeft = 0,
+  ...customStyle
 }) => {
-  const overrideStyle = {
-    marginBottom,
-    marginTop,
-    marginRight,
-    marginLeft,
-  };
-
-  return <StyledDivider preset={preset} style={overrideStyle} />;
+  return <StyledDivider preset={preset} customStyle={customStyle} />;
 };
