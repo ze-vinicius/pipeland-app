@@ -7,20 +7,8 @@ export const Icon: React.FC<IconProps> = ({
   name,
   uri,
   size = 16,
-  marginBottom = 0,
-  marginTop = 0,
-  marginLeft = 0,
-  marginRight = 0,
+  ...customStyle
 }) => {
-  const overrideStyle = {
-    marginBottom,
-    marginTop,
-    marginLeft,
-    marginRight,
-    width: size,
-    height: size,
-  };
-
   return (
     <Image
       resizeMode="contain"
@@ -31,7 +19,7 @@ export const Icon: React.FC<IconProps> = ({
             }
           : icons[name || "coin"]
       }
-      customStyle={overrideStyle}
+      customStyle={{ height: size, width: size, ...customStyle }}
     />
   );
 };

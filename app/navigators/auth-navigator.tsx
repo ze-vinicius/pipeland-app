@@ -3,10 +3,15 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import { observer } from "mobx-react";
 import { SignInScreen } from "../screens/sign-in-screen";
+import {
+  SignUpFirstStepScreen,
+  SignUpSecondStepScreen,
+} from "../screens/sign-up-screen";
 
 type AuthNavigatorParamsList = {
   signIn: undefined;
-  signUp: undefined;
+  signUpFirstStep: undefined;
+  signUpSecondStep: undefined;
 };
 
 const { Navigator, Screen } = createStackNavigator<AuthNavigatorParamsList>();
@@ -17,7 +22,18 @@ const AuthNavigator = observer(() => {
       <Screen
         name="signIn"
         component={SignInScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, title: "Entrar" }}
+      />
+
+      <Screen
+        name="signUpFirstStep"
+        component={SignUpFirstStepScreen}
+        options={{ headerShown: true, title: "Criar conta" }}
+      />
+      <Screen
+        name="signUpSecondStep"
+        component={SignUpSecondStepScreen}
+        options={{ headerShown: true, title: "Criar conta" }}
       />
     </Navigator>
   );

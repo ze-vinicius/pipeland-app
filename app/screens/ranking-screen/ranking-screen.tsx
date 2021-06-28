@@ -7,15 +7,17 @@ import { Container } from "../../components/container";
 import { LoadingContainer } from "../../components/loading-container";
 import { useStores } from "../../store";
 
-import {
-  RankingTableContainer,
-  Row,
-  RankingNumberContainer,
-  CoinContainer,
-} from "./ranking-screen.styles";
+import { RankingNumberContainer, CoinContainer } from "./ranking-screen.styles";
 
 const RankingScreen: React.FC = observer(() => {
   const { classesStore } = useStores();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await classesStore.fetchClassRanking();
+    setIsRefreshing(false);
+  };
 
   useEffect(() => {
     classesStore.fetchClassRanking();
@@ -31,6 +33,8 @@ const RankingScreen: React.FC = observer(() => {
         <FlatList
           data={classesStore.selectedClass?.classRanking}
           keyExtractor={(item) => item.student_id}
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
           renderItem={({ item: student }) => (
             <Container
               flexDirection="row"
@@ -44,7 +48,7 @@ const RankingScreen: React.FC = observer(() => {
                 <Text>{student.ranking}</Text>
               </RankingNumberContainer>
               <Avatar />
-              <Text marginLeft={6} flex={1} maxWidth="100%">
+              <Text marginLeft={4} flex={1} numberOfLines={1}>
                 {student.name}
               </Text>
               <CoinContainer>

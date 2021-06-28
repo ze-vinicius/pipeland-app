@@ -5,7 +5,7 @@ import { ProgressBar } from "../progress-bar";
 import { Text } from "../text";
 
 import {
-  Container,
+  CardContainer,
   UserAvatarContainer,
   UserInfoContainer,
   GameElementsList,
@@ -14,6 +14,8 @@ import {
 import { Icon } from "../icon/icon";
 import { useStores } from "../../store";
 import { observer } from "mobx-react";
+
+import { Container } from "../container";
 
 const marioAvatars = {
   mario: "Mario",
@@ -29,10 +31,10 @@ export const UserCard = observer(() => {
     return null;
 
   return (
-    <Container>
-      <UserAvatarContainer>
-        <Avatar size={64} uri={classesStore.selectedClass.student_info.photo} />
-        <GameElementContainer>
+    <CardContainer>
+      <Container alignItems="center" justifyContent="center">
+        <Avatar size={80} uri={classesStore.selectedClass.student_info.photo} />
+        {/* <GameElementContainer>
           <Icon
             name={classesStore.selectedClass.student_info.current_avatar}
             marginRight={2}
@@ -44,13 +46,20 @@ export const UserCard = observer(() => {
               ]
             }
           </Text>
-        </GameElementContainer>
-      </UserAvatarContainer>
+        </GameElementContainer> */}
+      </Container>
       <UserInfoContainer>
-        <Text preset="title">
-          {classesStore.selectedClass.student_info.nickname ||
-            classesStore.selectedClass.student_info.student_name}
-        </Text>
+        <Container flexDirection="row" alignItems="center" width="100%">
+          <Text preset="title" flexShrink={1} numberOfLines={1}>
+            {classesStore.selectedClass.student_info.nickname ||
+              classesStore.selectedClass.student_info.student_name}
+          </Text>
+          <Icon
+            name={classesStore.selectedClass.student_info.current_avatar}
+            marginLeft={2}
+            size={16}
+          />
+        </Container>
         <ProgressBar
           currentPoints={
             classesStore.selectedClass.student_info.current_coinst_qty
@@ -58,18 +67,20 @@ export const UserCard = observer(() => {
           totalPoints={classesStore.selectedClass.coins_max}
         />
         <GameElementsList>
-          <GameElementContainer>
+          <Container flexDirection="row" alignItems="center">
+            <Icon marginRight={2} name="attendanceAnchor" />
+            <Text>
+              {classesStore.selectedClass.student_info.attendances_count}
+            </Text>
+          </Container>
+          <Container flexDirection="row" alignItems="center" marginLeft={4}>
             <Icon marginRight={2} name="mushroomUp" />
             <Text>
               {classesStore.selectedClass.student_info.current_mushroom_ups_qty}
             </Text>
-          </GameElementContainer>
-          {/* <GameElementContainer>
-            <Icon marginRight={2} name="cherry" />
-            <Text>2</Text>
-          </GameElementContainer> */}
+          </Container>
         </GameElementsList>
       </UserInfoContainer>
-    </Container>
+    </CardContainer>
   );
 });

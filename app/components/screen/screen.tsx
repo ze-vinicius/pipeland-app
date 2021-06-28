@@ -25,11 +25,11 @@ function ScreenWithoutScrolling(props: ScreenProps) {
       }}
       behavior={isIos ? "padding" : "height"}
     >
-      <StatusBar barStyle={"default"} />
+      <StatusBar barStyle={"dark-content"} />
       <View
         style={{
           flex: 1,
-          paddingTop: props.unsafe ? 0 : insets.top,
+          paddingBottom: props.unsafe ? 0 : insets.bottom,
           justifyContent: "flex-start",
           alignItems: "stretch",
           height: "100%",
@@ -68,11 +68,11 @@ function ScreenWithScrolling(props: ScreenProps) {
       }}
       behavior={isIos ? "padding" : "height"}
     >
-      <StatusBar barStyle={"default"} />
+      <StatusBar barStyle={"dark-content"} />
       <View
         style={{
           flex: 1,
-          paddingTop: props.unsafe ? 0 : insets.top,
+          paddingBottom: props.unsafe ? 0 : insets.bottom,
           justifyContent: "flex-start",
           alignItems: "stretch",
           height: "100%",

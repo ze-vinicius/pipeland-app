@@ -1,14 +1,16 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { parseISO } from "date-fns";
 import {
-  StudentAttendance,
-  AttendanceList,
   Class,
   ClassDetail,
-  StudentInfo,
   StudentRanking,
 } from "../../store/classes-store/class";
 import {
+  StudentAttendance,
+  StudentInfo,
+} from "../../store/classes-store/student";
+import {
+  StudentTaskCorrection,
   TaskCorrection,
   TaskCorrectionElement,
   TaskDetail,
@@ -62,6 +64,36 @@ class Api {
     return session;
   }
 
+  async signUp({
+    name,
+    email,
+    password,
+    role,
+  }: {
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+  }): Promise<User> {
+    const response = await this.axios.post("users", {
+      name,
+      role,
+      email,
+      password,
+    });
+
+    const raw = response.data;
+
+    const user = new User({
+      id: raw.id,
+      name: raw.name,
+      email: raw.email,
+      role: raw.role,
+    });
+
+    return user;
+  }
+
   async getClassDetail(class_id: string) {
     const response = await this.axios.get(`/classes/${class_id}`);
 
@@ -76,6 +108,7 @@ class Api {
             nickname: raw.student_info.nickname,
             photo: raw.student_info.photo,
             current_mushroom_ups_qty: raw.student_info.current_mushroom_ups_qty,
+            attendances_count: raw.student_info.attendances_count,
           })
         : null;
 
@@ -344,7 +377,7 @@ class Api {
   async getGameElements(): Promise<GameElement[]> {
     const response = await this.axios.get(`/classes/game-elements`);
 
-    const gamElements = response.data.map(
+    const gameElements = response.data.map(
       (raw: any) =>
         new GameElement({
           id: raw.id,
@@ -356,7 +389,75 @@ class Api {
         })
     );
 
-    return gamElements;
+    return gameElements;
+  }
+
+  async getStudentsTaskCorrections(
+    task_id: string
+  ): Promise<StudentTaskCorrection[]> {
+    const response = await this.axios.get(`/tasks/${task_id}/corrections`);
+
+    const student_task_corrections = response.data.map((raw: any) => {
+      return new StudentTaskCorrection({
+        id: raw.id,
+        name: raw.name,
+        photo: raw.photo,
+        task_correction: raw.task_correction
+          ? new TaskCorrection({
+              id: raw.task_correction.id,
+              earned_coins: raw.task_correction.earned_coins,
+              comment: raw.task_correction.comment,
+              create_date: raw.task_correction.created_at,
+              student_id: raw.task_correction.student_id,
+              task_id: raw.task_correction.task_id,
+              applied_bonuses: raw.task_correction.applied_bonuses.map(
+                (applied_bonus: any) =>
+                  new TaskCorrectionElement({
+                    id: applied_bonus.id,
+                    imageUrl: applied_bonus.imageUrl,
+                    name: applied_bonus.name,
+                    type: applied_bonus.type,
+                  })
+              ),
+              applied_penalties: raw.task_correction.applied_penalties.map(
+                (applied_penalty: any) =>
+                  new TaskCorrectionElement({
+                    id: applied_penalty.id,
+                    imageUrl: applied_penalty.imageUrl,
+                    name: applied_penalty.name,
+                    type: applied_penalty.type,
+                  })
+              ),
+            })
+          : undefined,
+      });
+    });
+
+    return student_task_corrections;
+  }
+
+  async postTaskCorrection({
+    coins,
+    delivered_date,
+    got_shell,
+    student_id,
+    task_id,
+    comment,
+  }: {
+    task_id: string;
+    student_id: string;
+    coins: number;
+    comment: string;
+    delivered_date: Date | undefined;
+    got_shell: boolean;
+  }) {
+    const response = await this.axios.post(`/tasks/${task_id}/corrections`, {
+      coins,
+      delivered_date,
+      got_shell,
+      student_id,
+      comment,
+    });
   }
 }
 

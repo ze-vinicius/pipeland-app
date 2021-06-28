@@ -23,6 +23,7 @@ import {
 } from "./store";
 import { AuthNavigator } from "./navigators/auth-navigator";
 import { ActivityIndicator, View } from "react-native";
+import { DrawerMenu } from "./components/drawer-menu";
 
 const prefix = Linking.createURL("/");
 

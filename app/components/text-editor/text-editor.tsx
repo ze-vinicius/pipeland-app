@@ -1,14 +1,12 @@
-import { useTheme } from "@react-navigation/native";
 import React, { useRef } from "react";
 import {
   actions,
-  getContentCSS,
   RichEditor,
   RichToolbar,
 } from "react-native-pell-rich-editor";
-import { Text } from "../";
+import { useTheme } from "styled-components";
+import { Text } from "../text";
 import { Container } from "../container";
-// import { Container } from './styles';
 
 interface TextEditorProps {
   onChange: (text: string) => void;
@@ -28,11 +26,6 @@ const TextEditor: React.FC<TextEditorProps> = ({
     ritchTextRef.current?.registerToolbar(function (items) {});
   };
 
-  //   const handleCursorPosition = (scrollY: string) => {
-  //     // Positioning scroll bar
-  //     scrollRef.current.scrollTo({y: scrollY - 30, animated: true});
-  // }
-
   return (
     <Container>
       {!!label && (
@@ -44,7 +37,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
       <Container borderColor="line" borderWidth={2} borderRadius={4}>
         <RichToolbar
           editor={ritchTextRef}
-          selectedIconTint={theme.colors.primary}
+          selectedIconTint={theme.color.primary}
           actions={[
             actions.undo,
             actions.redo,

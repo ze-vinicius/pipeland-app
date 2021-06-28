@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 
-export const Container = styled.View`
+export const CardContainer = styled.View`
   padding-horizontal: 32px;
   padding-vertical: 24px;
   flex-direction: row;

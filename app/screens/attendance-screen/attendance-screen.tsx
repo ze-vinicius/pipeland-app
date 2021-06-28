@@ -67,30 +67,32 @@ const AttendanceScreen: React.FC = observer(() => {
           marginTop={6}
           flex={1}
         >
-          {students?.map((student) => (
-            <Container
-              flexDirection="row"
-              alignItems="center"
-              paddingVertical={4}
-              paddingHorizontal={4}
-              key={student.student_id}
-              scroll
-            >
-              <Avatar uri={student.photo} />
-              <Text marginLeft={6} flex={1}>
-                {student.name}
-              </Text>
-              <Switch
-                value={student.is_present}
-                onValueChange={() =>
-                  classesStore.handleChangeStudentAttendance({
-                    is_present: !student.is_present,
-                    student_id: student.student_id,
-                  })
-                }
-              />
-            </Container>
-          ))}
+          <Container scroll>
+            {students?.map((student) => (
+              <Container
+                flexDirection="row"
+                alignItems="center"
+                paddingVertical={4}
+                paddingHorizontal={4}
+                key={student.student_id}
+                scroll
+              >
+                <Avatar uri={student.photo} />
+                <Text marginLeft={6} flex={1}>
+                  {student.name}
+                </Text>
+                <Switch
+                  value={student.is_present}
+                  onValueChange={() =>
+                    classesStore.handleChangeStudentAttendance({
+                      is_present: !student.is_present,
+                      student_id: student.student_id,
+                    })
+                  }
+                />
+              </Container>
+            ))}
+          </Container>
         </LoadingContainer>
         <Button onPress={() => classesStore.saveDayAttendanceList()}>
           Salvar

@@ -26,6 +26,7 @@ const StyledText = styled.Text<StyledTextProps>`
 export const Text: React.FC<TextProps> = ({
   children,
   preset,
+  numberOfLines,
   selectable = false,
   ...overrideStyle
 }) => {
@@ -33,6 +34,7 @@ export const Text: React.FC<TextProps> = ({
     <StyledText
       preset={preset || "default"}
       customStyle={overrideStyle}
+      numberOfLines={numberOfLines}
       selectable={selectable}
     >
       {children}

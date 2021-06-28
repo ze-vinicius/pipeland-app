@@ -10,6 +10,8 @@ import { useStores } from "../../store";
 // import { Container } from "./classes-screen.styles";
 import { IconButton } from "../../components/icon-button";
 import { FlatList } from "react-native";
+import { DrawerMenu } from "../../components/drawer-menu";
+import { Text } from "../../components";
 
 export const ClassesScreen: React.FC = observer(() => {
   const navigation = useNavigation();
@@ -47,6 +49,8 @@ export const ClassesScreen: React.FC = observer(() => {
   return (
     <Screen unsafe isLoading={classesStore.isLoading.classes}>
       <Container flex={1} height={"100%"} padding={2}>
+        <DrawerMenu />
+
         <FlatList
           data={classesStore.classes}
           keyExtractor={(item) => item.id}
@@ -58,6 +62,13 @@ export const ClassesScreen: React.FC = observer(() => {
               classInfo={c}
               onPress={() => handleOpenClass(c.id)}
             />
+          )}
+          ListEmptyComponent={() => (
+            <Container alignItems="center">
+              <Text preset="secondary" marginTop={1}>
+                Você está vinculado em nenhuma classe
+              </Text>
+            </Container>
           )}
         />
       </Container>

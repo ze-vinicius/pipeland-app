@@ -1,11 +1,15 @@
 import React from "react";
+import Feather from "@expo/vector-icons/Feather";
+
 import { Text } from "../text/text";
 import { TextFieldProps } from "./text-field.props";
 import { Container, InputContainer } from "./text-field.styles";
-import Feather from "@expo/vector-icons/Feather";
 import { TextInput, ViewStyle } from "react-native";
 import { useTheme } from "styled-components";
 import { Controller } from "react-hook-form";
+import { FeatherIconType } from "../../utils/icon-type";
+import { icons, IconTypes } from "../../../assets/icons";
+import { Icon } from "../icon";
 
 const TextFieldBase: React.ForwardRefRenderFunction<TextInput, TextFieldProps> =
   (
@@ -18,47 +22,50 @@ const TextFieldBase: React.ForwardRefRenderFunction<TextInput, TextFieldProps> =
       icon,
       error,
       control,
-      marginBottom = 0,
-      marginTop = 0,
-      marginLeft = 0,
-      marginRight = 0,
-      ...rest
+      autoCapitalize = "none",
+      keyboardType = "default",
+      ...customStyle
     },
     ref
   ) => {
-    const overrideStyle = {
-      marginBottom,
-      marginTop,
-      marginLeft,
-      marginRight,
-    };
-
     const theme = useTheme();
 
+    const haveIcon = !!icon;
+    const isNotFeather = Object.keys(icons).includes(icon as string);
+
     return (
-      <Container customStyle={overrideStyle}>
+      <Container customStyle={customStyle}>
         {!!label && <Text preset="inputLabel">{label}</Text>}
         <InputContainer>
-          {icon && (
-            <Feather
-              name={icon}
-              size={16}
-              style={{
-                marginRight: theme.spacing[2],
-              }}
-              color={theme.color.dim}
-            />
-          )}
+          {icon &&
+            (isNotFeather ? (
+              <Icon
+                name={icon as IconTypes}
+                size={16}
+                marginRight={2}
+                color={"dim"}
+              />
+            ) : (
+              <Feather
+                name={icon as FeatherIconType}
+                size={16}
+                style={{
+                  marginRight: theme.spacing[2],
+                }}
+                color={theme.color.dim}
+              />
+            ))}
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 placeholder={placeholder || ""}
                 secureTextEntry={secureTextEntry}
+                autoCapitalize={autoCapitalize}
+                keyboardType={keyboardType}
                 onChangeText={(value) => onChange(value)}
                 value={value}
                 onBlur={onBlur}
-                {...rest}
                 ref={ref}
                 style={{
                   flex: 1,

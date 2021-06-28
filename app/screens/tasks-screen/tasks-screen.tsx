@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FlatList } from "react-native";
 
 import { Screen, UserCard, Text } from "../../components";
@@ -13,7 +13,6 @@ import { TaskCard } from "./components/task-card";
 
 export const TasksScreen: React.FC = observer(() => {
   const { classesStore, sessionsStore } = useStores();
-
   const navigation = useNavigation();
 
   const handleTaskCardPress = useCallback((task_id: string) => {
@@ -24,6 +23,14 @@ export const TasksScreen: React.FC = observer(() => {
       navigation.navigate("taskDetail");
     }
   }, []);
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await classesStore.fetchClassRanking();
+    setIsRefreshing(false);
+  };
 
   useEffect(() => {
     if (!!classesStore.selectedClass) {
@@ -41,23 +48,26 @@ export const TasksScreen: React.FC = observer(() => {
           paddingBottom={0}
           flex={1}
         >
-          {!!classesStore.selectedClass?.tasks?.length ? (
-            <FlatList
-              data={classesStore.selectedClass?.tasks}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item) => String(item.id)}
-              renderItem={({ item }) => (
-                <TaskCard
-                  onPress={() => handleTaskCardPress(item.id)}
-                  taskInfo={item}
-                />
-              )}
-            />
-          ) : (
-            <Text preset="secondary" marginTop={1}>
-              Nenhuma atividade cadastrada
-            </Text>
-          )}
+          <FlatList
+            data={classesStore.selectedClass?.tasks}
+            onRefresh={onRefresh}
+            refreshing={isRefreshing}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => (
+              <TaskCard
+                onPress={() => handleTaskCardPress(item.id)}
+                taskInfo={item}
+              />
+            )}
+            ListEmptyComponent={() => (
+              <Container alignItems="center">
+                <Text preset="secondary" marginTop={1}>
+                  Nenhuma atividade cadastrada
+                </Text>
+              </Container>
+            )}
+          />
         </LoadingContainer>
         {sessionsStore.activeSession?.user?.role === "TEACHER" && (
           <IconButton

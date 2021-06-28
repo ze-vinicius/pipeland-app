@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 
 import { FeatherIconType } from "../../utils/icon-type";
 import {
+  formatColor,
   PipelandFlexProps,
   pipelandSystemStyle,
   PipelandSystemStyleProps,
@@ -27,7 +28,12 @@ const FeatherIcon: React.FC<FeatherIconProps> = ({
   ...style
 }) => {
   return (
-    <StyledFeather name={name} size={size} color={color} customStyle={style} />
+    <StyledFeather
+      name={name}
+      size={size}
+      color={color && formatColor(color)}
+      customStyle={style}
+    />
   );
 };
 

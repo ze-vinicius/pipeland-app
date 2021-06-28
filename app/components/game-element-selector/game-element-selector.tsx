@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 
 import { Icon } from "..";
 import { useStores } from "../../store";
-import { GameElement } from "../../store/game-element-store/game-element";
 import { Button } from "../button";
 import { Container } from "../container";
 import { IconButton } from "../icon-button";

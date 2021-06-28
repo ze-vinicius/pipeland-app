@@ -5,7 +5,8 @@ import RNModal from "react-native-modal";
 import { Container } from "../container";
 import { Text } from "../text";
 import { PipelandFlexProps } from "../pipeland-system";
-import { Divider, Icon } from "..";
+import { Divider } from "../divider";
+import { Icon } from "../icon";
 
 interface Item {
   label: string;
@@ -54,7 +55,7 @@ const InputSelector: <T extends Item>(
             {selected && selected.icon && (
               <Icon key={selected.value} uri={selected.icon} marginRight={2} />
             )}
-            <Text>{selected?.label}</Text>
+            <Text textTransform={"capitalize"}>{selected?.label}</Text>
           </Container>
         </Container>
       </TouchableOpacity>
@@ -75,13 +76,16 @@ const InputSelector: <T extends Item>(
                     flexDirection="row"
                     alignItems="center"
                     width="100%"
+                    paddingVertical={2}
                   >
                     {item.icon && <Icon uri={item.icon} marginRight={2} />}
-                    <Text>{item.label}</Text>
+                    <Text textTransform={"capitalize"}>{item.label}</Text>
                   </Container>
                 </TouchableOpacity>
               )}
-              ItemSeparatorComponent={() => <Divider marginVertical={2} />}
+              ItemSeparatorComponent={() => (
+                <Divider marginVertical={2} height={1} />
+              )}
             />
           </Container>
         </RNModal>

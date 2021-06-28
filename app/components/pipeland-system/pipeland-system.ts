@@ -31,6 +31,8 @@ export interface PipelandFlexProps {
 
   display?: "none" | "flex";
   flex?: number;
+  flexGrow?: number;
+  flexShrink?: number;
   flexDirection?: "row" | "column" | "row-reverse" | "column-reverse";
 
   margin?: number | string | SpacingType;
@@ -131,7 +133,7 @@ export const formatColor = (colorString: ColorType | string) => {
 };
 
 export const pipelandTextStyle = (customStyle: PipelandTextProps) => css`
-  ${customStyle.color && `color: ${customStyle.color}`};
+  ${customStyle.color && `color: ${formatColor(customStyle.color)}`};
   ${customStyle.fontSize &&
   `font-size: ${addUnitToValue(customStyle.fontSize)}`};
   ${customStyle.fontStyle && `font-style: ${customStyle.fontStyle}`};
@@ -182,6 +184,8 @@ export const pipelandFlexStyle = (customStyle: PipelandSystemProps) => css`
   ${customStyle.bottom !== undefined && `bottom: ${customStyle.bottom}`};
 
   ${customStyle.flex && `flex: ${customStyle.flex}`};
+  ${customStyle.flexGrow && `flex-grow: ${customStyle.flexGrow}`};
+  ${customStyle.flexShrink && `flex-shrink: ${customStyle.flexShrink}`};
   ${customStyle.flexDirection &&
   `flex-direction: ${customStyle.flexDirection}`};
   ${customStyle.alignItems && `align-items: ${customStyle.alignItems}`};

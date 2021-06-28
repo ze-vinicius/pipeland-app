@@ -1,11 +1,8 @@
 import React from "react";
-// import { ViewStyle } from "react-native";
-import { ButtonProps } from "./button.props";
-
-import { ButtonText, ButtonContainer } from "./button.styles";
-
-import { Feather } from "@expo/vector-icons";
 import { ActivityIndicator } from "react-native";
+
+import { ButtonProps } from "./button.props";
+import { ButtonText, ButtonContainer, ButtonIcon } from "./button.styles";
 import { FeatherIcon } from "../feather-icon";
 
 const Button: React.FC<ButtonProps> = ({
@@ -32,14 +29,15 @@ const Button: React.FC<ButtonProps> = ({
       ) : (
         <>
           {!!icon && (
-            <FeatherIcon
+            <ButtonIcon
               name={icon}
-              size={20}
-              marginRight={2}
-              color={preset === "primary" ? "#fff" : "#000"}
+              preset={preset}
+              disabled={!!disabled || !!isLoading}
             />
           )}
-          <ButtonText preset={preset}>{children}</ButtonText>
+          <ButtonText preset={preset} disabled={!!disabled || !!isLoading}>
+            {children}
+          </ButtonText>
         </>
       )}
     </ButtonContainer>

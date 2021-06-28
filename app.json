@@ -6,6 +6,10 @@
     "slug": "pipeland",
     "scheme": "pipeland",
     "version": "1.0.0",
+    "splash": {
+      "image": "./assets/splash.png"
+    },
+    "icon": "./assets/icon.png",
     "assetBundlePatterns": [
       "**/*"
     ]

@@ -6,6 +6,8 @@ const BASE_BUTTON = css`
 
   border-radius: 4px;
   align-items: center;
+  justify-content: center;
+  flex-direction: row;
 `;
 
 const BASE_TEXT = css`
@@ -22,6 +24,12 @@ export const buttonPresets = {
   secondary: css`
     ${BASE_BUTTON}
   `,
+
+  link: css`
+    ${BASE_BUTTON}
+    align-items: center;
+    justify-content: flex-start;
+  `,
 };
 
 export const textPresets = {
@@ -33,6 +41,11 @@ export const textPresets = {
   `,
   secondary: css`
     ${BASE_TEXT}
+  `,
+
+  link: css`
+    ${BASE_TEXT}
+    color: ${(props) => props.theme.color.text}
   `,
 };
 

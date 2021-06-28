@@ -1,4 +1,4 @@
-import { isEqual, startOfDay } from "date-fns";
+import { isEqual } from "date-fns";
 import {
   model,
   Model,
@@ -8,15 +8,13 @@ import {
   prop,
   getRootStore,
   modelAction,
-  getSnapshot,
-  fromSnapshot,
-  applySnapshot,
 } from "mobx-keystone";
 import { api } from "../../services/api/api";
 import { formatDate } from "../../utils/date";
 import { GameElement } from "../game-element-store/game-element";
 import { RootStore } from "../root-store/root-store";
-import { AttendanceList, Class, ClassDetail, StudentAttendance } from "./class";
+import { Class, ClassDetail } from "./class";
+import { AttendanceList } from "./student";
 import { TaskDetail } from "./task";
 
 interface LoadingPages {
@@ -26,6 +24,7 @@ interface LoadingPages {
   classInfo: boolean;
   classRanking: boolean;
   attendance: boolean;
+  taskCorrections: boolean;
 }
 
 @model("pipeland/ClassesStore")
@@ -37,6 +36,7 @@ export class ClassesStore extends Model({
     classInfo: false,
     classRanking: false,
     attendance: false,
+    taskCorrections: false,
   })),
   classes: prop<Class[]>(() => []),
   selectedClass: prop<ClassDetail | null>(null),
@@ -405,6 +405,76 @@ export class ClassesStore extends Model({
       }
     } finally {
       this.isLoading.tasks = false;
+    }
+  });
+
+  @modelFlow
+  fetchTaskCorrections = _async(function* (this: ClassesStore) {
+    this.isLoading.taskCorrections = true;
+
+    if (!this.taskDetail) {
+      return;
+    }
+
+    try {
+      const students_task_corrections = yield* _await(
+        api.getStudentsTaskCorrections(this.taskDetail.id)
+      );
+
+      this.taskDetail.students_task_corrections = students_task_corrections;
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        this.errorMessage = error.response.data.message;
+      } else {
+        this.errorMessage = error.message;
+      }
+    } finally {
+      this.isLoading.taskCorrections = false;
+    }
+  });
+
+  @modelFlow
+  saveTaskCorrection = _async(function* (
+    this: ClassesStore,
+    {
+      coins,
+      delivered_date,
+      got_shell,
+      comment,
+      student_id,
+    }: {
+      student_id: string;
+      coins: number;
+      comment: string;
+      delivered_date: Date | undefined;
+      got_shell: boolean;
+    }
+  ) {
+    this.isLoading.taskCorrections = true;
+
+    if (!this.taskDetail) {
+      return;
+    }
+
+    try {
+      yield* _await(
+        api.postTaskCorrection({
+          task_id: this.taskDetail.id,
+          coins,
+          delivered_date,
+          comment,
+          got_shell,
+          student_id,
+        })
+      );
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        this.errorMessage = error.response.data.message;
+      } else {
+        this.errorMessage = error.message;
+      }
+    } finally {
+      this.isLoading.taskCorrections = false;
     }
   });
 

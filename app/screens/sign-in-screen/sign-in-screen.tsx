@@ -4,13 +4,14 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { Screen } from "../../components";
+import { Screen, Container, Icon } from "../../components";
 import { TextField } from "../../components/text-field";
 import { Text } from "../../components";
 import { Button } from "../../components/button";
 
-import { Container } from "./sign-in-screen.styles";
+// import { Container } from "./sign-in-screen.styles";
 import { useStores } from "../../store";
+import { useNavigation } from "@react-navigation/native";
 
 const schema = yup.object().shape({
   email: yup.string().required(),
@@ -33,6 +34,7 @@ const SignInScreen: React.FC = observer(() => {
   });
 
   const { sessionsStore } = useStores();
+  const navigation = useNavigation();
 
   const onSubmit = (data: SignInFormData) => {
     const { email, password } = data;
@@ -42,7 +44,10 @@ const SignInScreen: React.FC = observer(() => {
 
   return (
     <Screen>
-      <Container>
+      <Container paddingTop={6} paddingHorizontal={4}>
+        <Container alignItems="center" marginTop={8}>
+          <Icon height={50} width={150} name="logo" />
+        </Container>
         <Text preset="header" marginBottom={5} marginTop={5}>
           Entrar
         </Text>
@@ -81,6 +86,15 @@ const SignInScreen: React.FC = observer(() => {
           isLoading={isSubmitting}
         >
           Entrar
+        </Button>
+
+        <Button
+          preset="secondary"
+          icon="log-in"
+          onPress={() => navigation.navigate("signUpFirstStep")}
+          marginTop={8}
+        >
+          Criar conta
         </Button>
       </Container>
     </Screen>

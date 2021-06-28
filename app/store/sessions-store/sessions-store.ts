@@ -60,6 +60,52 @@ export class SessionsStore extends Model({
   });
 
   @modelFlow
+  signUp = _async(function* (
+    this: SessionsStore,
+    {
+      name,
+      email,
+      password,
+      role,
+    }: {
+      name: string;
+      email: string;
+      password: string;
+      role: string;
+    }
+  ) {
+    this.isLoading = true;
+    this.errorMessage = null;
+
+    try {
+      yield* _await(
+        api.signUp({
+          email,
+          password,
+          name,
+          role,
+        })
+      );
+
+      yield* _await(
+        this.login({
+          email,
+          password,
+        })
+      );
+    } catch (error: any) {
+      let errorMessage =
+        error.response && error.response.data
+          ? error.response.data.message
+          : error.message;
+
+      this.errorMessage = errorMessage;
+    } finally {
+      this.isLoading = false;
+    }
+  });
+
+  @modelFlow
   logout = _async(function* (this: SessionsStore) {
     this.isLoading = true;
 

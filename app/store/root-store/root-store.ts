@@ -1,5 +1,6 @@
 import { model, Model, registerRootStore, prop } from "mobx-keystone";
 import { ClassesStore } from "../classes-store/classes-store";
+import { DrawerMenuStore } from "../drawer-menu-store/drawer-menu-store";
 import { GameElementsStore } from "../game-element-store/game-element-store";
 import { SessionsStore } from "../sessions-store/sessions-store";
 
@@ -12,6 +13,7 @@ export class RootStore extends Model({
   classesStore: prop<ClassesStore>(() => new ClassesStore({})),
   sessionsStore: prop<SessionsStore>(() => new SessionsStore({})),
   gameElementsStore: prop<GameElementsStore>(() => new GameElementsStore({})),
+  drawerMenuStore: prop<DrawerMenuStore>(() => new DrawerMenuStore({})),
 }) {}
 
 export function createRootStore(): RootStore {

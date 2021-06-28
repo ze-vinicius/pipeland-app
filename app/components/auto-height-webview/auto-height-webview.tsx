@@ -1,6 +1,6 @@
-import { useTheme } from "@react-navigation/native";
 import React from "react";
 import RNAutoHeightWebView from "react-native-autoheight-webview";
+import { useTheme } from "styled-components/native";
 
 interface AutoHeightWebvViewProps {
   html: string;
@@ -27,7 +27,7 @@ const AutoHeightWebvView: React.FC<AutoHeightWebvViewProps> = ({ html }) => {
     * {
       font-family: sans-serif;
       font-size: 14px;
-      color: ${theme.colors.text};
+      color: ${theme.color.text};
     }
 
     br {

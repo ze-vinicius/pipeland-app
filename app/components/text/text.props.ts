@@ -5,4 +5,5 @@ import { TextPresets } from "./text.presets";
 export interface TextProps extends PipelandFlexProps, PipelandTextProps {
   preset?: TextPresets;
   selectable?: boolean;
+  numberOfLines?: number;
 }

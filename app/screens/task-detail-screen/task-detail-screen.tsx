@@ -1,21 +1,24 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { useNavigation, useTheme } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
-import { ProgressBar } from "../../components";
-import { Container } from "../../components/container";
-import { Divider } from "../../components/divider";
-import { FeatherIcon } from "../../components/feather-icon";
-import { Icon } from "../../components/icon/icon";
-import { Screen } from "../../components/screen";
-import { StatusLabel } from "../../components/status-label";
-import { Text } from "../../components/text";
+import {
+  ProgressBar,
+  Container,
+  Divider,
+  FeatherIcon,
+  Icon,
+  Screen,
+  StatusLabel,
+  Text,
+  AutoHeightWebvView,
+  Button,
+} from "../../components";
 import { useStores } from "../../store";
 import { formatDate } from "../../utils/date";
-import { AutoHeightWebvView } from "../../components/auto-height-webview/auto-height-webview";
 
 const TaskDetailScreen: React.FC = observer(() => {
-  const { classesStore } = useStores();
+  const { classesStore, sessionsStore } = useStores();
   const navigation = useNavigation();
 
   return (
@@ -150,13 +153,15 @@ const TaskDetailScreen: React.FC = observer(() => {
             )}
           </Container>
         )}
-        {/* <Button
-          onPress={() => navigation.navigate("correctTask")}
-          marginHorizontal={4}
-          marginBottom={6}
-        >
-          Corrigir
-        </Button> */}
+        {sessionsStore.activeSession?.user?.role === "TEACHER" && (
+          <Button
+            onPress={() => navigation.navigate("taskCorrections")}
+            marginHorizontal={4}
+            marginBottom={6}
+          >
+            Correções
+          </Button>
+        )}
       </Container>
     </Screen>
   );

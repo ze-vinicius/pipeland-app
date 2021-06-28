@@ -1,1 +1,1 @@
-export * from "./game-element-selector";
+export * from "./input-selector";
