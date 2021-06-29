@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components/native";
+import { formatColor } from "../../components";
 
 export const Container = styled.View``;
 
@@ -12,8 +13,16 @@ export const Row = styled.View`
   /* justify-content: space-between; */
 `;
 
+const rankingColors: {
+  [key: number]: string;
+} = {
+  1: "alert",
+  2: "primary",
+  3: "info",
+};
+
 export const RankingNumberContainer = styled.View<{
-  isInPodium?: boolean;
+  ranking: number;
 }>`
   margin-right: ${(props) => props.theme.spacing[5]}px;
   padding-vertical: ${(props) => props.theme.spacing[2]}px;
@@ -21,9 +30,9 @@ export const RankingNumberContainer = styled.View<{
   padding-right: ${(props) => props.theme.spacing[4]}px;
 
   ${(props) =>
-    props.isInPodium &&
+    props.ranking <= 3 &&
     css`
-      background-color: ${(props) => props.theme.color.dim};
+      background-color: ${formatColor(rankingColors[props.ranking])};
       border-top-right-radius: 8px;
       border-bottom-right-radius: 8px;
     `}

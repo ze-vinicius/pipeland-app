@@ -38,14 +38,17 @@ const RankingScreen: React.FC = observer(() => {
           renderItem={({ item: student }) => (
             <Container
               flexDirection="row"
-              paddingVertical={4}
+              paddingVertical={student.ranking <= 3 ? 4 : 1}
+              backgroundColor={student.ranking > 3 ? "line" : "white"}
               alignItems="center"
               key={student.student_id}
               borderBottomWidth={1}
-              borderBottomColor="line"
+              borderBottomColor={student.ranking >= 3 ? "dim" : "line"}
             >
-              <RankingNumberContainer isInPodium={student.ranking <= 3}>
-                <Text>{student.ranking}</Text>
+              <RankingNumberContainer ranking={student.ranking}>
+                <Text color={student.ranking <= 3 ? "white" : "text"}>
+                  {student.ranking}
+                </Text>
               </RankingNumberContainer>
               <Avatar />
               <Text marginLeft={4} flex={1} numberOfLines={1}>

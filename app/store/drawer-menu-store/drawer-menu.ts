@@ -11,6 +11,7 @@ export class DrawerMenuItem extends Model({
 @model("pipeland/DrawerMenu")
 export class DrawerMenu extends Model({
   isVisible: prop<boolean>(false),
+  currentRouteName: prop<string>("classes").withSetter(),
   menuItems: prop<DrawerMenuItem[]>(() => {
     return [
       new DrawerMenuItem({

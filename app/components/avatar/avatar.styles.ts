@@ -15,7 +15,7 @@ export const Container = styled.View<PipelandSystemStyleProps>`
 export const DefaultAvatar = styled(Feather).attrs({
   name: "user",
 })`
-  color: ${(props) => props.theme.color.primary};
+  color: ${(props) => props.theme.color.textSecondary};
 `;
 
 export const AvatarImage = styled.Image`

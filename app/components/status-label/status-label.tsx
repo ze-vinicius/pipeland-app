@@ -8,19 +8,23 @@ const labelTypes: {
   [key: string]: {
     text: string;
     color: string;
+    backgroundColor: string;
   };
 } = {
   CORRECTED: {
     text: "corrigida",
-    color: "",
+    color: "darkBlue",
+    backgroundColor: "blue",
   },
   OPEN: {
     text: "aberta",
-    color: "",
+    color: "darkGreen",
+    backgroundColor: "lightGreen",
   },
   CLOSED: {
     text: "encerrada",
-    color: "",
+    color: "textSecondary",
+    backgroundColor: "line",
   },
 };
 
@@ -43,8 +47,17 @@ export const StatusLabel: React.FC<StatusLabelProps> = ({
   };
 
   return (
-    <Container customStyle={overrideStyle}>
-      <Text fontSize={12} textTransform="uppercase">
+    <Container
+      customStyle={{
+        ...overrideStyle,
+        backgroundColor: labelTypes[type || "OPEN"].backgroundColor,
+      }}
+    >
+      <Text
+        fontSize={12}
+        textTransform="uppercase"
+        color={labelTypes[type || "OPEN"].color}
+      >
         {labelTypes[type || "OPEN"].text}
       </Text>
     </Container>

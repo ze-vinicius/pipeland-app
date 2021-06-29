@@ -42,6 +42,7 @@ export class TaskResume extends Model({
   id: prop<string>(),
   title: prop<string>(),
   delivery_date: prop<string>(),
+  create_date: prop<string>(),
   status: prop<string>(),
   task_value: prop<number>(),
   task_elements: prop<TaskElement[]>(() => []),
@@ -58,7 +59,6 @@ export class StudentTaskCorrection extends Model({
 @model("pipeland/TaskDetail")
 export class TaskDetail extends ExtendedModel(TaskResume, {
   description: prop<string>(),
-  create_date: prop<string>(),
   task_correction: prop<TaskCorrection | null>(null),
   students_task_corrections: prop<StudentTaskCorrection[]>(() => []),
 }) {

@@ -28,16 +28,6 @@ const SettingsScreen: React.FC = () => {
                 },
               ],
             },
-            {
-              title: "",
-              data: [
-                {
-                  icon: "help-circle",
-                  title: "Sobre o jogo",
-                  onPress: () => navigation.navigate("about"),
-                },
-              ],
-            },
           ]}
         />
       </Container>

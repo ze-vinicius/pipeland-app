@@ -45,5 +45,6 @@ export class StudentAttendance extends Model({
 @model("pipeland/AttendanceList")
 export class AttendanceList extends Model({
   date: prop<string>(),
+  is_saved: prop<boolean>().withSetter(),
   students: prop<Array<StudentAttendance>>(() => []),
 }) {}

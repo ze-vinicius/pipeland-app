@@ -15,11 +15,6 @@ export const StyledView = styled.View<
   ${(props) =>
     props.shadow &&
     css`
-      padding-horizontal: 32px;
-      padding-vertical: 24px;
-      flex-direction: row;
-      margin-bottom: 4px;
-
       background-color: ${(props) => props.theme.color.background};
       shadow-color: #000;
       shadow-offset: 0 1px;

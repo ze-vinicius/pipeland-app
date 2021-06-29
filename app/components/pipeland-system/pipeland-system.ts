@@ -19,6 +19,8 @@ export interface PipelandFlexProps {
   left?: number | string;
   bottom?: number | string;
 
+  opacity?: number;
+
   alignItems?: FlexAlignType;
   alignSelf?: "auto" | FlexAlignType;
   justifyContent?:
@@ -202,7 +204,9 @@ export const pipelandFlexStyle = (customStyle: PipelandSystemProps) => css`
     ${customStyle.minHeight &&
   `min-height: ${addUnitToValue(customStyle.minHeight)}`}
     ${customStyle.minWidth &&
-  `min-width: ${addUnitToValue(customStyle.minWidth)}`}
+  `min-width: ${addUnitToValue(customStyle.minWidth)}`};
+
+  ${customStyle.opacity && `opacity: ${customStyle.opacity}`}
 `;
 
 export const pipelandSystemStyle = (customStyle: PipelandSystemProps) => css`

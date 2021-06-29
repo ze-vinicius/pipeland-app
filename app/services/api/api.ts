@@ -155,6 +155,7 @@ class Api {
         id: raw.id,
         title: raw.title,
         delivery_date: raw.delivery_date,
+        create_date: raw.create_date,
         task_value: raw.task_value,
         status: raw.status,
         task_elements: raw.task_elements.map((task_element: any) => {
@@ -195,6 +196,7 @@ class Api {
       id: raw.id,
       title: raw.title,
       delivery_date: raw.delivery_date,
+      create_date: raw.create_date,
       task_value: raw.task_value,
       status: raw.status,
       task_elements: raw.task_elements.map((task_element: any) => {
@@ -330,8 +332,11 @@ class Api {
   }: {
     class_id: string;
     date: string;
-  }): Promise<StudentAttendance[]> {
-    const response = await this.axios.get<StudentAttendance[]>(
+  }): Promise<{
+    is_saved: boolean;
+    student_attendances: StudentAttendance[];
+  }> {
+    const response = await this.axios.get(
       `/classes/${class_id}/attendance-list`,
       {
         params: {
@@ -340,7 +345,7 @@ class Api {
       }
     );
 
-    const attendanceList = response.data.map(
+    const student_attendances = response.data.student_attendances.map(
       (raw: any) =>
         new StudentAttendance({
           id: raw.id,
@@ -353,7 +358,10 @@ class Api {
         })
     );
 
-    return attendanceList;
+    return {
+      is_saved: response.data.is_saved,
+      student_attendances,
+    };
   }
 
   async updateDayAttendanceList({

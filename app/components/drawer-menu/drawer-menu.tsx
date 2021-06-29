@@ -15,10 +15,10 @@ import { Icon } from "../icon";
 const DrawerMenu: React.FC = observer(() => {
   const { drawerMenuStore, sessionsStore } = useStores();
   const navigation = useNavigation();
-  const route = useRoute();
 
   const handleMenuButtonPress = (route: string) => {
     navigation.navigate(route);
+    drawerMenuStore.drawerMenu.setCurrentRouteName(route);
     drawerMenuStore.toggleMenu();
   };
 
@@ -77,7 +77,9 @@ const DrawerMenu: React.FC = observer(() => {
                 icon={item.icon}
                 preset="link"
                 onPress={() => handleMenuButtonPress(item.route)}
-                disabled={route.name === item.route}
+                disabled={
+                  drawerMenuStore.drawerMenu.currentRouteName === item.route
+                }
               >
                 {item.title}
               </Button>

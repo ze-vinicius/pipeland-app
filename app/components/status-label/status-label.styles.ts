@@ -8,7 +8,6 @@ import { Text } from "../text";
 
 export const Container = styled.View<PipelandSystemStyleProps>`
   ${(props) => props.customStyle && pipelandSystemStyle(props.customStyle)};
-  background-color: ${(props) => props.theme.color.line};
   align-self: flex-start;
 `;
 

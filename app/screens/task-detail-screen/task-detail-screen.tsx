@@ -16,16 +16,17 @@ import {
 } from "../../components";
 import { useStores } from "../../store";
 import { formatDate } from "../../utils/date";
+import { isAfter } from "date-fns/esm";
 
 const TaskDetailScreen: React.FC = observer(() => {
   const { classesStore, sessionsStore } = useStores();
   const navigation = useNavigation();
 
   return (
-    <Screen isLoading={classesStore.isLoading.taskDetails} unsafe scroll>
-      <Container flex={1} paddingBottom={8}>
-        {!!classesStore.taskDetail && (
-          <Container flex={1} padding={4} height="100%">
+    <Screen isLoading={classesStore.isLoading.taskDetails} unsafe>
+      {!!classesStore.taskDetail && (
+        <Container flex={1}>
+          <Container flex={1} padding={4} height="100%" scroll>
             <StatusLabel type={classesStore.taskDetail.status} />
             <Text preset="title" marginTop={4}>
               {classesStore.taskDetail.title}
@@ -37,31 +38,38 @@ const TaskDetailScreen: React.FC = observer(() => {
                 justifyContent="space-between"
                 marginBottom={4}
               >
-                <Container>
-                  <Text preset="secondary">DATA DE ENTREGA</Text>
-                  <Container
-                    flexDirection="row"
-                    alignItems="center"
-                    marginTop={2}
-                  >
-                    <FeatherIcon name="calendar" size={14} marginRight="2" />
-                    <Text>
-                      {formatDate(
-                        classesStore.taskDetail.delivery_date,
-                        "dd/MM/yyyy '-' hh:mm"
-                      )}
-                    </Text>
-                  </Container>
-                </Container>
-                <Container>
-                  <Text preset="secondary">COINS</Text>
-                  <Container
-                    flexDirection="row"
-                    alignItems="center"
-                    marginTop={2}
-                  >
-                    <Icon name="coin" />
-                    <Text> {classesStore.taskDetail.task_value}</Text>
+                <Container flex={1}>
+                  <Text preset="secondary" marginBottom={2}>
+                    PERÍODO DE ENTREGA
+                  </Text>
+                  <Container flexDirection="row" alignItems="center">
+                    <Container flexDirection="row" alignItems="center">
+                      <FeatherIcon name="calendar" marginRight={2} size={14} />
+                      <Text>
+                        {formatDate(
+                          classesStore.taskDetail.create_date,
+                          "dd/MM/yyyy '-' hh:mm"
+                        )}
+                      </Text>
+                    </Container>
+
+                    <FeatherIcon
+                      name="arrow-right"
+                      marginHorizontal={2}
+                      color="textSecondary"
+                      marginRight={2}
+                      size={14}
+                    />
+
+                    <Container flexDirection="row" alignItems="center">
+                      <FeatherIcon name="calendar" marginRight={2} size={14} />
+                      <Text>
+                        {formatDate(
+                          classesStore.taskDetail.delivery_date,
+                          "dd/MM/yyyy '-' hh:mm"
+                        )}
+                      </Text>
+                    </Container>
                   </Container>
                 </Container>
               </Container>
@@ -89,10 +97,21 @@ const TaskDetailScreen: React.FC = observer(() => {
                     )}
                   </Container>
                 </Container>
+                <Container>
+                  <Text preset="secondary">COINS</Text>
+                  <Container
+                    flexDirection="row"
+                    alignItems="center"
+                    marginTop={2}
+                  >
+                    <Icon name="coin" />
+                    <Text> {classesStore.taskDetail.task_value}</Text>
+                  </Container>
+                </Container>
               </Container>
             </Container>
-            <Divider />
-            <Container flex={1} marginTop={2}>
+            <Divider height={1} />
+            <Container flex={1} marginTop={4}>
               <AutoHeightWebvView html={classesStore.taskDetail.description} />
             </Container>
 
@@ -145,24 +164,38 @@ const TaskDetailScreen: React.FC = observer(() => {
                 </Container>
                 <Container marginTop={4}>
                   <Text preset="title">Comentário do professor</Text>
-                  <Text marginTop={2}>
-                    {classesStore.taskDetail.task_correction.comment}
-                  </Text>
+                  <Container flex={1} marginTop={2}>
+                    <AutoHeightWebvView
+                      html={classesStore.taskDetail.task_correction.comment}
+                    />
+                  </Container>
                 </Container>
               </Container>
             )}
           </Container>
-        )}
-        {sessionsStore.activeSession?.user?.role === "TEACHER" && (
-          <Button
-            onPress={() => navigation.navigate("taskCorrections")}
-            marginHorizontal={4}
-            marginBottom={6}
-          >
-            Correções
-          </Button>
-        )}
-      </Container>
+          {sessionsStore.activeSession?.user?.role === "TEACHER" &&
+            isAfter(
+              new Date(),
+              new Date(classesStore.taskDetail.delivery_date)
+            ) && (
+              <Container
+                borderTopColor="line"
+                borderTopWidth={1}
+                backgroundColor="white"
+                padding={4}
+              >
+                <Button
+                  onPress={() => navigation.navigate("taskCorrections")}
+                  marginHorizontal={4}
+                  marginBottom={4}
+                  icon="corner-down-right"
+                >
+                  Correções
+                </Button>
+              </Container>
+            )}
+        </Container>
+      )}
     </Screen>
   );
 });

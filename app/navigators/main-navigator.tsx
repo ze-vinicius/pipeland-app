@@ -36,6 +36,16 @@ const { Navigator, Screen } = createStackNavigator<MainNavigatorParamsList>();
 const MainNavigator = observer(() => {
   const { classesStore, drawerMenuStore } = useStores();
 
+  const renderHeaderLeftIcon = () => (
+    <IconButton
+      icon="menu"
+      preset="secondary"
+      iconSize={24}
+      marginLeft={2}
+      onPress={() => drawerMenuStore.toggleMenu()}
+    />
+  );
+
   return (
     <>
       <Navigator>
@@ -44,15 +54,7 @@ const MainNavigator = observer(() => {
           component={ClassesScreen}
           options={{
             title: "Turmas",
-            headerLeft: () => (
-              <IconButton
-                icon="menu"
-                preset="secondary"
-                iconSize={24}
-                marginLeft={2}
-                onPress={() => drawerMenuStore.toggleMenu()}
-              />
-            ),
+            headerLeft: () => renderHeaderLeftIcon(),
           }}
         />
 
@@ -93,13 +95,19 @@ const MainNavigator = observer(() => {
         <Screen
           name="settings"
           component={SettingsScreen}
-          options={{ title: "Configurações" }}
+          options={{
+            title: "Configurações",
+            headerLeft: () => renderHeaderLeftIcon(),
+          }}
         />
 
         <Screen
           name="about"
           component={AboutScreen}
-          options={{ title: "Sobre o jogo" }}
+          options={{
+            title: "Sobre o jogo",
+            headerLeft: () => renderHeaderLeftIcon(),
+          }}
         />
 
         <Screen

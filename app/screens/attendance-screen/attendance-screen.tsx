@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import DateTimePicker, { Event } from "@react-native-community/datetimepicker";
 import {
   FlatList,
   Platform,
@@ -8,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 
-import { Avatar, Screen, Text } from "../../components";
+import { Avatar, Screen, Text, DateTimePicker } from "../../components";
 import { Container } from "../../components/container";
 import { formatDate } from "../../utils/date";
 import { FeatherIcon } from "../../components/feather-icon";
@@ -23,49 +22,33 @@ const AttendanceScreen: React.FC = observer(() => {
   const [show, setShow] = useState(false);
   const today = new Date();
 
-  const handleDateChance = (event: Event, selectedDate?: Date) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
+  const handleDateChance = (selectedDate?: Date) => {
+    setDate(selectedDate || date);
   };
 
   useEffect(() => {
     classesStore.fetchDayAttendanceList(date);
   }, [classesStore.selectedClass, date]);
 
+  const isSaved =
+    classesStore.selectedClass?.selectedDayAttendanceList?.is_saved;
   const students =
     classesStore.selectedClass?.selectedDayAttendanceList?.students;
 
   return (
     <Screen unsafe>
-      <Container padding={4} flex={1}>
-        <TouchableOpacity onPress={() => setShow(!show)}>
-          <Container
-            paddingHorizontal={4}
-            paddingVertical={2}
-            borderColor="line"
-            borderWidth={2}
-            alignItems="center"
-            flexDirection="row"
-            borderRadius={4}
-          >
-            <FeatherIcon name="calendar" marginRight="4" size={16} />
-            <Text>{formatDate(date)}</Text>
-          </Container>
-        </TouchableOpacity>
-        {show && (
+      <Container flex={1}>
+        <Container padding={4} shadow>
           <DateTimePicker
             value={date}
-            mode="date"
-            display={Platform.OS === "ios" ? "spinner" : "default"}
             onChange={handleDateChance}
             maximumDate={today}
           />
-        )}
+        </Container>
         <LoadingContainer
           isLoading={classesStore.isLoading.attendance}
-          marginTop={6}
           flex={1}
+          marginTop={2}
         >
           <Container scroll>
             {students?.map((student) => (
@@ -94,9 +77,16 @@ const AttendanceScreen: React.FC = observer(() => {
             ))}
           </Container>
         </LoadingContainer>
-        <Button onPress={() => classesStore.saveDayAttendanceList()}>
-          Salvar
-        </Button>
+        <Container
+          backgroundColor="white"
+          padding={4}
+          borderTopColor="line"
+          borderTopWidth={1}
+        >
+          <Button onPress={() => classesStore.saveDayAttendanceList()}>
+            {`${isSaved ? "Atualizar" : "Registrar"} lista de presença`}
+          </Button>
+        </Container>
       </Container>
     </Screen>
   );

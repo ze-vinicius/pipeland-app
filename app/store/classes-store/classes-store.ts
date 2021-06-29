@@ -298,7 +298,8 @@ export class ClassesStore extends Model({
 
       const newAttendance = new AttendanceList({
         date: formattedDate,
-        students: attendances,
+        is_saved: attendances.is_saved,
+        students: attendances.student_attendances,
       });
 
       // this.selectedClass.attendancesList.push(newAttendance);
@@ -345,6 +346,7 @@ export class ClassesStore extends Model({
       };
 
       yield* _await(api.updateDayAttendanceList(formatedRequestBody));
+      this.selectedClass.selectedDayAttendanceList?.setIs_saved(true);
     } catch (error: any) {
       console.log(error);
       if (error.response && error.response.data) {

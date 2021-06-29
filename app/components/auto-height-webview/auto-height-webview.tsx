@@ -53,12 +53,14 @@ const AutoHeightWebvView: React.FC<AutoHeightWebvViewProps> = ({ html }) => {
       originWhitelist={["*"]}
       style={{
         width: "100%",
+        opacity: 0.99,
+        overflow: "hidden",
       }}
       source={{
         html: formatedHtml,
       }}
       scrollEnabled={false}
-      scalesPageToFit={true}
+      androidHardwareAccelerationDisabled
       scrollEnabledWithZoomedin={false}
       bounces={false}
       customStyle={customStyle}

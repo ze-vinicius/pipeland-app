@@ -31,7 +31,7 @@ const FeatherIcon: React.FC<FeatherIconProps> = ({
     <StyledFeather
       name={name}
       size={size}
-      color={color && formatColor(color)}
+      color={formatColor(color || "text")}
       customStyle={style}
     />
   );

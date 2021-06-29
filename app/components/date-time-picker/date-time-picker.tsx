@@ -8,6 +8,8 @@ import { FeatherIcon } from "../feather-icon";
 import { Text } from "../text";
 import { formatDate, FormatDateType } from "../../utils/date";
 import { PipelandFlexProps } from "../pipeland-system";
+import Modal from "react-native-modal";
+import { useTheme } from "styled-components/native";
 
 // import { Container } from './styles';
 
@@ -35,6 +37,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
   ...customStyle
 }) => {
   const [show, setShow] = useState(false);
+  const theme = useTheme();
 
   const handleChange = (event: Event, date?: Date) => {
     setShow(Platform.OS === "ios");
@@ -64,15 +67,30 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
           </Text>
         </Container>
       </TouchableOpacity>
-      {show && (
+      {show && Platform.OS === "android" && (
         <RNDateTimePicker
           value={value}
           mode={mode}
-          display={Platform.OS === "ios" ? "spinner" : "default"}
+          display={"default"}
           onChange={handleChange}
           maximumDate={maximumDate}
           minimumDate={minimumDate}
         />
+      )}
+      {show && Platform.OS === "ios" && (
+        <Modal isVisible={show} onBackdropPress={() => setShow(false)}>
+          <Container backgroundColor="white" padding={4} borderRadius={8}>
+            <RNDateTimePicker
+              value={value}
+              mode={mode}
+              display={"spinner"}
+              textColor={theme.color.text}
+              onChange={handleChange}
+              maximumDate={maximumDate}
+              minimumDate={minimumDate}
+            />
+          </Container>
+        </Modal>
       )}
     </Container>
   );

@@ -60,11 +60,18 @@ const AdjustsScreen: React.FC = observer(() => {
   return (
     <Screen unsafe>
       <Container alignItems="center" flex={1}>
-        <Container width={"100%"} padding={4} backgroundColor="dim">
-          <Text marginBottom={2} preset="title">
+        <Container width={"100%"} padding={4} backgroundColor="primary">
+          <Text marginBottom={1} preset="title" color="white">
             Código de convite da turma
           </Text>
-          <Button onPress={handleCopyToClipboard}>
+          <Text preset="inputLabel" color="line" marginBottom={4}>
+            Clique para copiar
+          </Text>
+          <Button
+            onPress={handleCopyToClipboard}
+            borderRadius={100}
+            backgroundColor="white"
+          >
             <Text selectable>{classInviteToken}</Text>
           </Button>
         </Container>

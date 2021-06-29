@@ -113,8 +113,9 @@ const CorrectTaskScreen: React.FC = () => {
             </Container>
             <Container
               flexDirection="row"
-              alignItems="flex-end"
+              alignItems="flex-start"
               marginBottom={4}
+              flex={1}
             >
               <TextField
                 flex={1}
@@ -125,7 +126,12 @@ const CorrectTaskScreen: React.FC = () => {
                 {...register("coins")}
                 error={errors.coins && errors.coins.message}
               />
-              <Container paddingBottom={2} marginLeft={6} alignItems="flex-end">
+              <Container
+                marginLeft={6}
+                alignItems="flex-end"
+                height="100%"
+                justifyContent="space-between"
+              >
                 <Text preset="inputLabel" marginBottom={4}>
                   Pontuação máxima
                 </Text>
@@ -145,7 +151,12 @@ const CorrectTaskScreen: React.FC = () => {
                     value={hasSend}
                     onValueChange={() => setHasSend(!hasSend)}
                   />
-                  <FeatherIcon name="send" size={20} marginLeft={4} />
+                  <FeatherIcon
+                    name="send"
+                    size={20}
+                    marginLeft={4}
+                    color="textSecondary"
+                  />
                 </Container>
               </Container>
               {!!hasShell && !!hasSend && (

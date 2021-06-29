@@ -1,8 +1,8 @@
 import React from "react";
-import Feather from "@expo/vector-icons/Feather";
 
 import { Container } from "./icon-button.styles";
 import { IconButtonProps } from "./icon-button.props";
+import { FeatherIcon } from "../feather-icon";
 
 const IconButton: React.FC<IconButtonProps> = ({
   icon,
@@ -13,7 +13,11 @@ const IconButton: React.FC<IconButtonProps> = ({
 }) => {
   return (
     <Container preset={preset} customStyle={customStyle} onPress={onPress}>
-      <Feather name={icon} size={iconSize} />
+      <FeatherIcon
+        name={icon}
+        size={iconSize}
+        color={preset === "primary" ? "darkGreen" : "text"}
+      />
     </Container>
   );
 };

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import { FlatList, TouchableOpacity } from "react-native";
 import {
+  AutoHeightWebvView,
   Avatar,
   Container,
   Icon,
@@ -46,6 +47,7 @@ const TaskCorrectionsScreen: React.FC = observer(() => {
                   student_id: item.id,
                 })
               }
+              disabled={!!item.task_correction}
             >
               <Container
                 shadow
@@ -74,9 +76,11 @@ const TaskCorrectionsScreen: React.FC = observer(() => {
                       />
                       <Container marginTop={4}>
                         <Text preset="subtitle">Comentário</Text>
-                        <Text marginTop={2} preset="secondary">
-                          {item.task_correction.comment}
-                        </Text>
+                        <Container marginTop={2}>
+                          <AutoHeightWebvView
+                            html={item.task_correction.comment}
+                          />
+                        </Container>
                       </Container>
                       <Container marginTop={4} flexDirection="row">
                         <Container marginRight={2} flex={1}>
@@ -99,7 +103,7 @@ const TaskCorrectionsScreen: React.FC = observer(() => {
                         </Container>
                         <Container marginLeft={2} flex={1}>
                           <Text preset="secondary" marginBottom={2}>
-                            BONUS
+                            RECOMPENSAS
                           </Text>
                           {!item.task_correction.applied_bonuses.length ? (
                             <Text preset="secondary">Vazio</Text>

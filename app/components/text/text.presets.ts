@@ -32,20 +32,20 @@ export const presets = {
   subtitle: css`
     ${BASE}
 
-    color: ${(props) => props.theme.color.dim};
+    color: ${(props) => props.theme.color.textSecondary};
   `,
 
   secondary: css`
     ${BASE}
 
     font-size: 12px;
-    color: ${(props) => props.theme.color.dim};
+    color: ${(props) => props.theme.color.textSecondary};
   `,
 
   inputLabel: css`
     ${BASE}
 
-    color: ${(props) => props.theme.color.dim};
+    color: ${(props) => props.theme.color.textSecondary};
   `,
 
   errorMessage: css`
