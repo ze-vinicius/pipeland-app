@@ -10,6 +10,7 @@ import {
   modelAction,
 } from "mobx-keystone";
 import { api } from "../../services/api/api";
+import utils from "../../utils";
 import { formatDate } from "../../utils/date";
 import { GameElement } from "../game-element-store/game-element";
 import { RootStore } from "../root-store/root-store";
@@ -62,17 +63,19 @@ export class ClassesStore extends Model({
       this.classes.push(newClass);
     } catch (error: any) {
       console.log(error);
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
-      }
+      const err = utils.handleResponseError(error);
 
-      if (error.status === 401 || error.response.status === 401) {
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
         const rootStore = getRootStore<RootStore>(this);
 
         rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.classes = false;
     }
@@ -95,22 +98,19 @@ export class ClassesStore extends Model({
       this.classes.push(newClass);
     } catch (error: any) {
       console.log(error);
-      const errorMessage =
-        error.response && error.response.data
-          ? error.response.data.message
-          : error.message;
+      const err = utils.handleResponseError(error);
 
-      this.setErrorMessage(errorMessage);
+      this.setErrorMessage(err.message);
 
-      setTimeout(() => {
-        this.setErrorMessage("");
-      }, 3000);
-
-      if (error.status === 401 || error.response.status === 401) {
+      if (err.status === 401) {
         const rootStore = getRootStore<RootStore>(this);
 
         rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.classes = false;
     }
@@ -126,20 +126,19 @@ export class ClassesStore extends Model({
       this.classes = classes;
     } catch (error: any) {
       console.log(error);
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
-      }
+      const err = utils.handleResponseError(error);
 
-      if (
-        error.status === 401 ||
-        (error.response && error.response.status === 401)
-      ) {
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
         const rootStore = getRootStore<RootStore>(this);
 
         rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.classes = false;
     }
@@ -155,20 +154,19 @@ export class ClassesStore extends Model({
       this.selectedClass = selectedClass;
     } catch (error: any) {
       console.log(error);
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
-      }
+      const err = utils.handleResponseError(error);
 
-      if (
-        error.status === 401 ||
-        (error.response && error.response.status === 401)
-      ) {
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
         const rootStore = getRootStore<RootStore>(this);
 
         rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.classInfo = false;
     }
@@ -187,11 +185,20 @@ export class ClassesStore extends Model({
         this.selectedClass.tasks = tasks;
       }
     } catch (error: any) {
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
+      console.log(error);
+      const err = utils.handleResponseError(error);
+
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.tasks = false;
     }
@@ -210,11 +217,20 @@ export class ClassesStore extends Model({
         this.selectedClass.setStudent_info(classDetail.student_info);
       }
     } catch (error: any) {
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
+      console.log(error);
+      const err = utils.handleResponseError(error);
+
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     }
   });
 
@@ -239,20 +255,19 @@ export class ClassesStore extends Model({
       this.taskDetail = taskDetail;
     } catch (error: any) {
       console.log(error);
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
-      }
+      const err = utils.handleResponseError(error);
 
-      if (
-        error.status === 401 ||
-        (error.response && error.response.status === 401)
-      ) {
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
         const rootStore = getRootStore<RootStore>(this);
 
         rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.taskDetails = false;
     }
@@ -274,20 +289,19 @@ export class ClassesStore extends Model({
       this.selectedClass.classRanking = classRanking;
     } catch (error: any) {
       console.log(error);
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
-      }
+      const err = utils.handleResponseError(error);
 
-      if (
-        error.status === 401 ||
-        (error.response && error.response.status === 401)
-      ) {
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
         const rootStore = getRootStore<RootStore>(this);
 
         rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.classRanking = false;
     }
@@ -332,20 +346,19 @@ export class ClassesStore extends Model({
       this.selectedClass.selectedDayAttendanceList = newAttendance;
     } catch (error: any) {
       console.log(error);
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
-      }
+      const err = utils.handleResponseError(error);
 
-      if (
-        error.status === 401 ||
-        (error.response && error.response.status === 401)
-      ) {
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
         const rootStore = getRootStore<RootStore>(this);
 
         rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.attendance = false;
     }
@@ -375,20 +388,19 @@ export class ClassesStore extends Model({
       this.selectedClass.selectedDayAttendanceList?.setIs_saved(true);
     } catch (error: any) {
       console.log(error);
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
-      }
+      const err = utils.handleResponseError(error);
 
-      if (
-        error.status === 401 ||
-        (error.response && error.response.status === 401)
-      ) {
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
         const rootStore = getRootStore<RootStore>(this);
 
         rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.attendance = false;
     }
@@ -423,14 +435,23 @@ export class ClassesStore extends Model({
       );
 
       if (this.selectedClass) {
-        this.selectedClass.tasks.push(task);
+        this.selectedClass.tasks.unshift(task);
       }
     } catch (error: any) {
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
+      console.log(error);
+      const err = utils.handleResponseError(error);
+
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.tasks = false;
     }
@@ -451,11 +472,20 @@ export class ClassesStore extends Model({
 
       this.taskDetail.students_task_corrections = students_task_corrections;
     } catch (error: any) {
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
+      console.log(error);
+      const err = utils.handleResponseError(error);
+
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.taskCorrections = false;
     }
@@ -499,11 +529,20 @@ export class ClassesStore extends Model({
         })
       );
     } catch (error: any) {
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
+      console.log(error);
+      const err = utils.handleResponseError(error);
+
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
       }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading.taskCorrections = false;
     }

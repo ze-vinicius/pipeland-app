@@ -9,8 +9,6 @@ import {
 
 import { Avatar, Screen, Text, DateTimePicker } from "../../components";
 import { Container } from "../../components/container";
-import { formatDate } from "../../utils/date";
-import { FeatherIcon } from "../../components/feather-icon";
 import { Button } from "../../components/button";
 import { observer } from "mobx-react";
 import { useStores } from "../../store";
@@ -19,7 +17,6 @@ import { LoadingContainer } from "../../components/loading-container";
 const AttendanceScreen: React.FC = observer(() => {
   const { classesStore } = useStores();
   const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
   const today = new Date();
 
   const handleDateChance = (selectedDate?: Date) => {
@@ -36,7 +33,7 @@ const AttendanceScreen: React.FC = observer(() => {
     classesStore.selectedClass?.selectedDayAttendanceList?.students;
 
   return (
-    <Screen unsafe>
+    <Screen unsafe errorMessage={classesStore.errorMessage}>
       <Container flex={1}>
         <Container padding={4} shadow>
           <DateTimePicker

@@ -10,8 +10,31 @@ import {
 import { useTheme } from "styled-components";
 import { ScreenProps } from "./screen.props";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Container } from "../container";
+import { Text } from "../text";
+import { FeatherIcon } from "../feather-icon";
 
 const isIos = Platform.OS === "ios";
+
+const ErrorMessage = ({ errorMessage }: { errorMessage?: string }) =>
+  !!errorMessage ? (
+    <Container
+      width="100%"
+      padding={2}
+      alignItems="center"
+      backgroundColor="alert"
+      flexDirection="row"
+      justifyContent="center"
+    >
+      <FeatherIcon
+        name="alert-triangle"
+        marginRight={2}
+        size={16}
+        color="darkRed"
+      />
+      <Text color="darkRed">{errorMessage}</Text>
+    </Container>
+  ) : null;
 
 function ScreenWithoutScrolling(props: ScreenProps) {
   const insets = useSafeAreaInsets();
@@ -37,6 +60,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
           backgroundColor: theme.color.background,
         }}
       >
+        <ErrorMessage errorMessage={props.errorMessage} />
         {props.isLoading ? (
           <View
             style={{
@@ -80,6 +104,8 @@ function ScreenWithScrolling(props: ScreenProps) {
           backgroundColor: theme.color.background,
         }}
       >
+        <ErrorMessage errorMessage={props.errorMessage} />
+
         {props.isLoading ? (
           <View
             style={{

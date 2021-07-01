@@ -17,7 +17,7 @@ import { TouchableOpacity } from "react-native";
 
 export const TaskCard: React.FC<TaskCardProps> = ({ onPress, taskInfo }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.7} delayPressIn={100}>
       <Container shadow margin={2} padding={4} borderRadius={4}>
         <CardHeader>
           <StatusLabel type={taskInfo.status} marginBottom={2} />

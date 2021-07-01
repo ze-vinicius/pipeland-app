@@ -14,7 +14,7 @@ const ClassCard: React.FC<ClassCardProps> = ({ onPress, classInfo }) => {
   }, []);
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.7} delayPressIn={100}>
       <Container shadow padding={4} margin={2} borderRadius={4}>
         <StatusLabel type={classInfo.active ? "OPEN" : "CLOSED"} />
         <Text preset="title" marginTop={2} marginBottom={2}>

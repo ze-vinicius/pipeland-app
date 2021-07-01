@@ -111,9 +111,19 @@ const TaskDetailScreen: React.FC = observer(() => {
               </Container>
             </Container>
             <Divider height={1} />
-            <Container flex={1} marginTop={4}>
-              <AutoHeightWebvView html={classesStore.taskDetail.description} />
-            </Container>
+            {!!classesStore.taskDetail.description ? (
+              <Container flex={1} marginTop={4} minHeight={200}>
+                <AutoHeightWebvView
+                  html={classesStore.taskDetail.description}
+                />
+              </Container>
+            ) : (
+              <Container flex={1} marginTop={4} marginBottom={8}>
+                <Text preset="secondary">
+                  Não há descrição para a atividade
+                </Text>
+              </Container>
+            )}
 
             {classesStore.taskDetail.task_correction && (
               <Container>
@@ -121,6 +131,7 @@ const TaskDetailScreen: React.FC = observer(() => {
                   Correção
                 </Text>
                 <ProgressBar
+                  marginTop={4}
                   totalPoints={classesStore.taskDetail.task_value}
                   currentPoints={
                     classesStore.taskDetail.task_correction.earned_coins
@@ -168,11 +179,17 @@ const TaskDetailScreen: React.FC = observer(() => {
                 </Container>
                 <Container marginTop={4}>
                   <Text preset="title">Comentário do professor</Text>
-                  <Container flex={1} marginTop={2}>
-                    <AutoHeightWebvView
-                      html={classesStore.taskDetail.task_correction.comment}
-                    />
-                  </Container>
+                  {classesStore.taskDetail.task_correction.comment ? (
+                    <Container flex={1} marginTop={2}>
+                      <AutoHeightWebvView
+                        html={classesStore.taskDetail.task_correction.comment}
+                      />
+                    </Container>
+                  ) : (
+                    <Text preset="secondary" marginTop={2}>
+                      Sem comentários do professor
+                    </Text>
+                  )}
                 </Container>
               </Container>
             )}

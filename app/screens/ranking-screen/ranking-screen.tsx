@@ -27,7 +27,7 @@ const RankingScreen: React.FC = observer(() => {
   }, [classesStore.selectedClass]);
 
   return (
-    <Screen unsafe>
+    <Screen unsafe errorMessage={classesStore.errorMessage}>
       <UserCard />
       <LoadingContainer
         flex={1}

@@ -80,7 +80,9 @@ const NewTaskScreen: React.FC = observer(() => {
 
     setIsSubmitting(false);
 
-    navigation.navigate("tasks");
+    if (!classesStore.errorMessage) {
+      navigation.navigate("tasks");
+    }
   };
 
   return (

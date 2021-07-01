@@ -40,7 +40,7 @@ export const TasksScreen: React.FC = observer(() => {
   }, [classesStore.selectedClass]);
 
   return (
-    <Screen unsafe>
+    <Screen unsafe errorMessage={classesStore.errorMessage}>
       <Container flex={1}>
         <UserCard />
         <LoadingContainer

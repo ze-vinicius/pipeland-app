@@ -20,6 +20,7 @@ const Button: React.FC<ButtonProps> = ({
       customStyle={overrideStyle}
       onPress={onPress}
       disabled={!!disabled || !!isLoading}
+      activeOpacity={0.8}
     >
       {isLoading ? (
         <ActivityIndicator

@@ -22,4 +22,9 @@ export interface ScreenProps {
    * Props that indicates if the children will be wrapped with a scrollview
    */
   scroll?: boolean;
+
+  /**
+   * Props that indiates if screen has an error to render
+   */
+  errorMessage?: string | null;
 }
