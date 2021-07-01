@@ -16,7 +16,7 @@ import { FeatherIcon } from "../feather-icon";
 
 const isIos = Platform.OS === "ios";
 
-const ErrorMessage = ({ errorMessage }: { errorMessage?: string }) =>
+const ErrorMessage = ({ errorMessage }: { errorMessage?: string | null }) =>
   !!errorMessage ? (
     <Container
       width="100%"
@@ -48,7 +48,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
       }}
       behavior={isIos ? "padding" : "height"}
     >
-      <StatusBar barStyle={"dark-content"} />
+      <StatusBar barStyle={"dark-content"} backgroundColor={"#fff"} />
       <View
         style={{
           flex: 1,
@@ -92,7 +92,7 @@ function ScreenWithScrolling(props: ScreenProps) {
       }}
       behavior={isIos ? "padding" : "height"}
     >
-      <StatusBar barStyle={"dark-content"} />
+      <StatusBar barStyle={"dark-content"} backgroundColor={"#fff"} />
       <View
         style={{
           flex: 1,
