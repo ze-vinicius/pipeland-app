@@ -12,6 +12,14 @@
     "icon": "./assets/icon.png",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.vinicius.pipelandapp",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.vinicius.pipelandapp",
+      "versionCode": 1
+    }
   }
 }

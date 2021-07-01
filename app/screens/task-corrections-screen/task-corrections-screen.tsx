@@ -67,7 +67,7 @@ const TaskCorrectionsScreen: React.FC = observer(() => {
                   </Container>
                   {item.task_correction && (
                     <>
-                      <Text preset="title" marginTop={4}>
+                      <Text preset="title" marginTop={4} marginBottom={2}>
                         Correção
                       </Text>
                       <ProgressBar
@@ -87,37 +87,41 @@ const TaskCorrectionsScreen: React.FC = observer(() => {
                           <Text preset="secondary" marginBottom={2}>
                             PENALIDADES
                           </Text>
-                          {!item.task_correction.applied_penalties.length ? (
-                            <Text preset="secondary">Vazio</Text>
-                          ) : (
-                            item.task_correction.applied_penalties.map(
-                              (applied_penalty) => (
-                                <Icon
-                                  key={applied_penalty.id}
-                                  marginRight={2}
-                                  uri={applied_penalty.imageUrl}
-                                />
+                          <Container flexDirection="row">
+                            {!item.task_correction.applied_penalties.length ? (
+                              <Text preset="secondary">Vazio</Text>
+                            ) : (
+                              item.task_correction.applied_penalties.map(
+                                (applied_penalty) => (
+                                  <Icon
+                                    key={applied_penalty.id}
+                                    marginRight={2}
+                                    uri={applied_penalty.imageUrl}
+                                  />
+                                )
                               )
-                            )
-                          )}
+                            )}
+                          </Container>
                         </Container>
                         <Container marginLeft={2} flex={1}>
                           <Text preset="secondary" marginBottom={2}>
                             RECOMPENSAS
                           </Text>
-                          {!item.task_correction.applied_bonuses.length ? (
-                            <Text preset="secondary">Vazio</Text>
-                          ) : (
-                            item.task_correction.applied_bonuses.map(
-                              (applied_bonus) => (
-                                <Icon
-                                  key={applied_bonus.id}
-                                  marginRight={2}
-                                  uri={applied_bonus.imageUrl}
-                                />
+                          <Container flexDirection="row">
+                            {!item.task_correction.applied_bonuses.length ? (
+                              <Text preset="secondary">Vazio</Text>
+                            ) : (
+                              item.task_correction.applied_bonuses.map(
+                                (applied_bonus) => (
+                                  <Icon
+                                    key={applied_bonus.id}
+                                    marginRight={2}
+                                    uri={applied_bonus.imageUrl}
+                                  />
+                                )
                               )
-                            )
-                          )}
+                            )}
+                          </Container>
                         </Container>
                       </Container>
                     </>

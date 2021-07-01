@@ -28,7 +28,8 @@ export const TasksScreen: React.FC = observer(() => {
 
   const onRefresh = async () => {
     setIsRefreshing(true);
-    await classesStore.fetchClassRanking();
+
+    await classesStore.fetchClassTasks();
     setIsRefreshing(false);
   };
 

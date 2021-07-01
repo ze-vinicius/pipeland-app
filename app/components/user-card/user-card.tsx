@@ -6,23 +6,14 @@ import { Text } from "../text";
 
 import {
   CardContainer,
-  UserAvatarContainer,
   UserInfoContainer,
   GameElementsList,
-  GameElementContainer,
 } from "./user-card.styles";
 import { Icon } from "../icon/icon";
 import { useStores } from "../../store";
 import { observer } from "mobx-react";
 
 import { Container } from "../container";
-
-const marioAvatars = {
-  mario: "Mario",
-  superMario: "Super Mario",
-  fireMario: "Fire Mario",
-  capeMario: "Cape Mario",
-};
 
 export const UserCard = observer(() => {
   const { classesStore } = useStores();
@@ -34,19 +25,6 @@ export const UserCard = observer(() => {
     <CardContainer>
       <Container alignItems="center" justifyContent="center">
         <Avatar size={80} uri={classesStore.selectedClass.student_info.photo} />
-        {/* <GameElementContainer>
-          <Icon
-            name={classesStore.selectedClass.student_info.current_avatar}
-            marginRight={2}
-          />
-          <Text>
-            {
-              marioAvatars[
-                classesStore.selectedClass.student_info.current_avatar
-              ]
-            }
-          </Text>
-        </GameElementContainer> */}
       </Container>
       <UserInfoContainer>
         <Container flexDirection="row" alignItems="center" width="100%">
@@ -61,6 +39,7 @@ export const UserCard = observer(() => {
           />
         </Container>
         <ProgressBar
+          marginTop={2}
           currentPoints={
             classesStore.selectedClass.student_info.current_coinst_qty
           }

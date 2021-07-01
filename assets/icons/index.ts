@@ -1,24 +1,29 @@
+const AWS_BUCKET = "https://pipeland-api.s3.sa-east-1.amazonaws.com/assets";
+
 export const icons = {
   // Coin
-  coin: require("./coin.png"),
+  coin: `${AWS_BUCKET}/coin.png`,
 
-  // Game Elements
-  shell: require("./shell.png"),
-  bomb: require("./bomb.png"),
-  midMushroom: require("./mid-mushroom.png"),
-  redMushroom: require("./red-mushroom.png"),
-  mushroomUp: require("./mushroom-up.png"),
-  cherry: require("./cherry.png"),
-  attendanceAnchor: require("./attendance-anchor.png"),
+  // Game REWARDS
+  midMushroom: `${AWS_BUCKET}/mid-mushroom.png`,
+  redMushroom: `${AWS_BUCKET}/red-mushroom.png`,
+  mushroomUp: `${AWS_BUCKET}/mushroom-up.png`,
+  cherry: `${AWS_BUCKET}/cherry.png`,
+  attendanceAnchor: `${AWS_BUCKET}/attendance-anchor.png`,
+
+  // Game PENALTIES
+  bomb: `${AWS_BUCKET}/bomb.png`,
+  shell: `${AWS_BUCKET}/shell.png`,
+  autobomb: `${AWS_BUCKET}/auto-bomb.png`,
 
   // Avatars
-  mario: require("./mario.png"),
-  superMario: require("./super-mario.png"),
-  fireMario: require("./fire-mario.png"),
-  capeMario: require("./cape-mario.png"),
+  mario: `${AWS_BUCKET}/mario.png`,
+  superMario: `${AWS_BUCKET}/super-mario.png`,
+  fireMario: `${AWS_BUCKET}/fire-mario.png`,
+  capeMario: `${AWS_BUCKET}/cape-mario.png`,
 
   // Logo
-  logo: require("./logo.png"),
+  logo: `${AWS_BUCKET}/logo.png`,
 };
 
 export type IconTypes = keyof typeof icons;

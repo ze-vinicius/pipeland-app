@@ -450,11 +450,13 @@ class Api {
     got_shell,
     student_id,
     task_id,
+    autobombs_qty,
     comment,
   }: {
     task_id: string;
     student_id: string;
     coins: number;
+    autobombs_qty?: number;
     comment: string;
     delivered_date: Date | undefined;
     got_shell: boolean;
@@ -465,6 +467,7 @@ class Api {
       got_shell,
       student_id,
       comment,
+      autobombs_qty,
     });
   }
 }

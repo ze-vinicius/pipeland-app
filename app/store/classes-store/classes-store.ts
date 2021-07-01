@@ -43,7 +43,7 @@ export class ClassesStore extends Model({
   selectedClassIsLoading: prop<boolean>(false),
   taskDetail: prop<TaskDetail | null>(null),
   taskDetailIsLoading: prop<boolean>(false),
-  errorMessage: prop<string | null>(null),
+  errorMessage: prop<string | null>(null).withSetter(),
 }) {
   @modelFlow
   createClass = _async(function* (
@@ -95,11 +95,16 @@ export class ClassesStore extends Model({
       this.classes.push(newClass);
     } catch (error: any) {
       console.log(error);
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
-      }
+      const errorMessage =
+        error.response && error.response.data
+          ? error.response.data.message
+          : error.message;
+
+      this.setErrorMessage(errorMessage);
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
 
       if (error.status === 401 || error.response.status === 401) {
         const rootStore = getRootStore<RootStore>(this);
@@ -189,6 +194,27 @@ export class ClassesStore extends Model({
       }
     } finally {
       this.isLoading.tasks = false;
+    }
+  });
+
+  @modelFlow
+  fetchStudentCard = _async(function* (this: ClassesStore) {
+    const id = this.selectedClass?.id;
+
+    if (!id) return;
+
+    try {
+      const classDetail = yield* _await(api.getClassDetail(id));
+
+      if (this.selectedClass) {
+        this.selectedClass.setStudent_info(classDetail.student_info);
+      }
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        this.errorMessage = error.response.data.message;
+      } else {
+        this.errorMessage = error.message;
+      }
     }
   });
 
@@ -444,9 +470,11 @@ export class ClassesStore extends Model({
       got_shell,
       comment,
       student_id,
+      autobombs_qty,
     }: {
       student_id: string;
       coins: number;
+      autobombs_qty?: number;
       comment: string;
       delivered_date: Date | undefined;
       got_shell: boolean;
@@ -467,6 +495,7 @@ export class ClassesStore extends Model({
           comment,
           got_shell,
           student_id,
+          autobombs_qty,
         })
       );
     } catch (error: any) {

@@ -35,7 +35,10 @@ const JoinClassScreen: React.FC = observer(() => {
 
   const onSubmit = async ({ classInviteToken }: JoinClassFormData) => {
     await classesStore.joinClass({ class_invite_token: classInviteToken });
-    navigation.navigate("classes");
+
+    if (!classesStore.errorMessage) {
+      navigation.navigate("classes");
+    }
   };
 
   return (
@@ -47,7 +50,11 @@ const JoinClassScreen: React.FC = observer(() => {
           placeholder="Código de convite"
           marginBottom={4}
           {...register("classInviteToken")}
-          error={errors.classInviteToken && errors.classInviteToken.message}
+          error={
+            errors.classInviteToken
+              ? errors.classInviteToken.message
+              : classesStore.errorMessage || ""
+          }
         />
 
         <Button

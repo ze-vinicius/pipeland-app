@@ -12,13 +12,9 @@ export const Icon: React.FC<IconProps> = ({
   return (
     <Image
       resizeMode="contain"
-      source={
-        uri
-          ? {
-              uri,
-            }
-          : icons[name || "coin"]
-      }
+      source={{
+        uri: uri ?? icons[name || "coin"],
+      }}
       customStyle={{ height: size, width: size, ...customStyle }}
     />
   );

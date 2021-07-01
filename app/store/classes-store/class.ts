@@ -25,7 +25,7 @@ export class StudentRanking extends Model({
 export class ClassDetail extends ExtendedModel(Class, {
   coins_max: prop<number>(),
   invite_token: prop<string | null>(null),
-  student_info: prop<StudentInfo | null>(null),
+  student_info: prop<StudentInfo | null>(null).withSetter(),
   tasks: prop<TaskResume[]>(() => []),
   classRanking: prop<StudentRanking[]>(() => []),
   attendancesList: prop<AttendanceList[]>(() => []),

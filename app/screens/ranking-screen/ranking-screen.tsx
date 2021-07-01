@@ -15,6 +15,9 @@ const RankingScreen: React.FC = observer(() => {
 
   const onRefresh = async () => {
     setIsRefreshing(true);
+    if (classesStore.selectedClass && classesStore.selectedClass.student_info) {
+      await classesStore.fetchStudentCard();
+    }
     await classesStore.fetchClassRanking();
     setIsRefreshing(false);
   };

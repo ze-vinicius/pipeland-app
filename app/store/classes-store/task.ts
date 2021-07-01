@@ -46,7 +46,12 @@ export class TaskResume extends Model({
   status: prop<string>(),
   task_value: prop<number>(),
   task_elements: prop<TaskElement[]>(() => []),
-}) {}
+}) {
+  @modelAction
+  findTaskElement = (elementName: string) => {
+    return this.task_elements.find((element) => element.name === elementName);
+  };
+}
 
 @model("pipeland/StudentTaskCorrection")
 export class StudentTaskCorrection extends Model({

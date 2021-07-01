@@ -128,39 +128,43 @@ const TaskDetailScreen: React.FC = observer(() => {
                 />
                 <Container marginTop={4}>
                   <Text marginBottom={2}>PENALIDADES APLICADAS</Text>
-                  {!classesStore.taskDetail.task_correction.applied_penalties
-                    .length ? (
-                    <Text preset="secondary">
-                      Nenhuma penalidade foi aplicada
-                    </Text>
-                  ) : (
-                    classesStore.taskDetail.task_correction.applied_penalties.map(
-                      (applied_penalty) => (
-                        <Icon
-                          key={applied_penalty.id}
-                          marginRight={2}
-                          uri={applied_penalty.imageUrl}
-                        />
+                  <Container flexDirection="row">
+                    {!classesStore.taskDetail.task_correction.applied_penalties
+                      .length ? (
+                      <Text preset="secondary">
+                        Nenhuma penalidade foi aplicada
+                      </Text>
+                    ) : (
+                      classesStore.taskDetail.task_correction.applied_penalties.map(
+                        (applied_penalty) => (
+                          <Icon
+                            key={applied_penalty.id}
+                            marginRight={2}
+                            uri={applied_penalty.imageUrl}
+                          />
+                        )
                       )
-                    )
-                  )}
+                    )}
+                  </Container>
                 </Container>
                 <Container marginTop={4}>
                   <Text marginBottom={2}>BONUS APLICADOS</Text>
-                  {!classesStore.taskDetail.task_correction.applied_bonuses
-                    .length ? (
-                    <Text preset="secondary">Nenhum bônus foi aplicado</Text>
-                  ) : (
-                    classesStore.taskDetail.task_correction.applied_bonuses.map(
-                      (applied_bonus) => (
-                        <Icon
-                          key={applied_bonus.id}
-                          marginRight={2}
-                          uri={applied_bonus.imageUrl}
-                        />
+                  <Container flexDirection="row">
+                    {!classesStore.taskDetail.task_correction.applied_bonuses
+                      .length ? (
+                      <Text preset="secondary">Nenhum bônus foi aplicado</Text>
+                    ) : (
+                      classesStore.taskDetail.task_correction.applied_bonuses.map(
+                        (applied_bonus) => (
+                          <Icon
+                            key={applied_bonus.id}
+                            marginRight={2}
+                            uri={applied_bonus.imageUrl}
+                          />
+                        )
                       )
-                    )
-                  )}
+                    )}
+                  </Container>
                 </Container>
                 <Container marginTop={4}>
                   <Text preset="title">Comentário do professor</Text>

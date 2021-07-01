@@ -19,14 +19,14 @@ import {
 import { MainNavigatorParamsList } from "../../navigators/main-navigator";
 import { useStores } from "../../store";
 
-// import { Container } from './styles';
-
 const schema = yup.object().shape({
   coins: yup.number().required("Esse campo é obrigatório"),
+  autobombs_qty: yup.number(),
 });
 
 interface CorrectTaskFormData {
   coins: number;
+  autobombs_qty: number;
 }
 
 const CorrectTaskScreen: React.FC = () => {
@@ -51,9 +51,9 @@ const CorrectTaskScreen: React.FC = () => {
   const [comment, setComment] = useState<string>("");
   const [deliveredDate, setDeliveredDate] = useState(new Date());
   const [gotShell, setGotShell] = useState(false);
-  const hasShell = classesStore.taskDetail?.task_elements.find(
-    (element) => element.name === "shell"
-  );
+  const hasShell = classesStore.taskDetail?.findTaskElement("shell");
+  const hasAutoBomb = classesStore.taskDetail?.findTaskElement("auto bomb");
+
   const [hasSend, setHasSend] = useState(false);
 
   const today = new Date();
@@ -63,7 +63,7 @@ const CorrectTaskScreen: React.FC = () => {
     setDeliveredDate(!!date ? date : deliveredDate);
   };
 
-  const onSubmit = async ({ coins }: CorrectTaskFormData) => {
+  const onSubmit = async ({ coins, autobombs_qty }: CorrectTaskFormData) => {
     setIsSubmitting(true);
 
     const formatRequest = {
@@ -72,6 +72,7 @@ const CorrectTaskScreen: React.FC = () => {
       comment,
       delivered_date: hasSend ? deliveredDate : undefined,
       got_shell: gotShell,
+      autobombs_qty: !!autobombs_qty ? autobombs_qty : 0,
     };
 
     await classesStore.saveTaskCorrection(formatRequest);
@@ -87,7 +88,7 @@ const CorrectTaskScreen: React.FC = () => {
   };
 
   const handleCursorPosition = (scrollY: number) => {
-    scrollRef?.current?.scrollTo({ y: scrollY - 30, animated: true });
+    scrollRef?.current?.scrollTo({ y: scrollY, animated: true });
   };
 
   return (
@@ -100,17 +101,27 @@ const CorrectTaskScreen: React.FC = () => {
         <Container padding={4} flex={1}>
           <Container flex={1}>
             <Container marginBottom={4}>
-              <Text preset="title" marginBottom={2}>
+              <Text marginBottom={2} preset="subtitle">
                 Atividade
               </Text>
-              <Text>{classesStore.taskDetail?.title}</Text>
+              <Text preset="title">{classesStore.taskDetail?.title}</Text>
             </Container>
             <Container marginBottom={4}>
-              <Text preset="title" marginBottom={2}>
-                Estudante selecionado
+              <Text preset="inputLabel" marginBottom={2}>
+                Pontuação máxima
               </Text>
-              <Text>{selected_student?.name}</Text>
+              <Container flexDirection="row" alignItems="center">
+                <Icon size={14} name="coin" marginRight={2} />
+                <Text>{classesStore.taskDetail?.task_value}</Text>
+              </Container>
             </Container>
+            <Container marginBottom={4}>
+              <Text marginBottom={2} preset="subtitle">
+                Aluno
+              </Text>
+              <Text preset="title">{selected_student?.name}</Text>
+            </Container>
+
             <Container
               flexDirection="row"
               alignItems="flex-start"
@@ -126,20 +137,6 @@ const CorrectTaskScreen: React.FC = () => {
                 {...register("coins")}
                 error={errors.coins && errors.coins.message}
               />
-              <Container
-                marginLeft={6}
-                alignItems="flex-end"
-                height="100%"
-                justifyContent="space-between"
-              >
-                <Text preset="inputLabel" marginBottom={4}>
-                  Pontuação máxima
-                </Text>
-                <Container flexDirection="row" alignItems="center">
-                  <Icon size={14} name="coin" marginRight={2} />
-                  <Text>{classesStore.taskDetail?.task_value}</Text>
-                </Container>
-              </Container>
             </Container>
             <Container flexDirection="row">
               <Container marginBottom={4} flex={1}>
@@ -207,6 +204,23 @@ const CorrectTaskScreen: React.FC = () => {
                   maximumDate={today}
                   label="Horário da entrega"
                 />
+              </Container>
+            )}
+
+            {!!hasAutoBomb && !!hasSend && (
+              <Container marginBottom={4} flex={1}>
+                <Container flexDirection="row" alignItems="center">
+                  <TextField
+                    flex={1}
+                    label="Critérios não atendidos"
+                    icon="autobomb"
+                    control={control}
+                    placeholder="0"
+                    defaultValue={"0"}
+                    {...register("autobombs_qty")}
+                    error={errors.autobombs_qty && errors.autobombs_qty.message}
+                  />
+                </Container>
               </Container>
             )}
             <TextEditor

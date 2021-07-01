@@ -11,9 +11,6 @@ export const FilledBar = styled.View<{ progress: number }>`
   background-color: ${(props) => props.theme.color.info};
 `;
 
-export const Container = styled.View`
-  margin-top: 16px;
-`;
 export const LabelContainer = styled.View`
   margin-bottom: 8px;
   flex-direction: row;

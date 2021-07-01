@@ -5,16 +5,18 @@ import { Text } from "../text";
 
 import { ProgressBarProps } from "./progress-bar.props";
 import {
-  Container,
   LabelContainer,
   Background,
   FilledBar,
   CoinsContainer,
 } from "./progress-bar.styles";
 
+import { Container } from "../container";
+
 export const ProgressBar: React.FC<ProgressBarProps> = ({
   totalPoints,
   currentPoints,
+  ...customStyle
 }) => {
   const progress = useMemo(
     () => (currentPoints * 100) / totalPoints,
@@ -22,7 +24,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   );
 
   return (
-    <Container>
+    <Container {...customStyle}>
       <LabelContainer>
         <Text>COINS</Text>
         <CoinsContainer>
