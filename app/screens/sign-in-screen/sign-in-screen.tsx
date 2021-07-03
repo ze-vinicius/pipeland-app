@@ -45,7 +45,7 @@ const SignInScreen: React.FC = observer(() => {
     <Screen scroll>
       <Container paddingTop={6} paddingHorizontal={4}>
         <Container alignItems="center" marginTop={8}>
-          <Icon height={50} width={150} name="logo" />
+          <Icon height={150} width={150} name="logo" />
         </Container>
         <Text preset="header" marginBottom={5} marginTop={5}>
           Entrar
