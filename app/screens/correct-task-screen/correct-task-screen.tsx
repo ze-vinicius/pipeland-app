@@ -19,11 +19,6 @@ import {
 import { MainNavigatorParamsList } from "../../navigators/main-navigator";
 import { useStores } from "../../store";
 
-const schema = yup.object().shape({
-  coins: yup.number().required("Esse campo é obrigatório"),
-  autobombs_qty: yup.number(),
-});
-
 interface CorrectTaskFormData {
   coins: number;
   autobombs_qty: number;
@@ -33,6 +28,19 @@ const CorrectTaskScreen: React.FC = () => {
   const route = useRoute<RouteProp<MainNavigatorParamsList, "correctTask">>();
   const navigation = useNavigation();
   const { classesStore } = useStores();
+
+  const schema = yup.object().shape({
+    coins: yup
+      .number()
+      .required("Esse campo é obrigatório")
+      .max(
+        classesStore.taskDetail?.task_value || 0,
+        `Valor máximo ${classesStore.taskDetail?.task_value}`
+      )
+      .min(0, `Valor mínimo é 0`),
+    autobombs_qty: yup.number(),
+  });
+
   const {
     control,
     handleSubmit,
@@ -88,7 +96,7 @@ const CorrectTaskScreen: React.FC = () => {
   };
 
   const handleCursorPosition = (scrollY: number) => {
-    scrollRef?.current?.scrollTo({ y: scrollY, animated: true });
+    scrollRef?.current?.scrollTo({ y: scrollY - 30, animated: true });
   };
 
   return (

@@ -26,7 +26,7 @@ const LoadingContainer: React.FC<LoadingContainerProps> = ({
         >
           <ActivityIndicator
             size={"large"}
-            color={formatColor(indicatorColor || "line")}
+            color={formatColor(indicatorColor || "primary")}
           />
         </Container>
       ) : (

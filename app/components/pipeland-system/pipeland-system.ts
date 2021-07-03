@@ -191,7 +191,7 @@ export const pipelandFlexStyle = (customStyle: PipelandSystemProps) => css`
   ${customStyle.flexDirection &&
   `flex-direction: ${customStyle.flexDirection}`};
   ${customStyle.alignItems && `align-items: ${customStyle.alignItems}`};
-  ${customStyle.alignSelf && `align-left: ${customStyle.alignSelf}`};
+  ${customStyle.alignSelf && `align-self: ${customStyle.alignSelf}`};
   ${customStyle.justifyContent &&
   `justify-content: ${customStyle.justifyContent}`};
 

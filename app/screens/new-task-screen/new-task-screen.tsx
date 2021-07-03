@@ -4,30 +4,49 @@ import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native";
 import * as yup from "yup";
 import { observer } from "mobx-react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
-import { Screen } from "../../components";
-import { Container } from "../../components/container";
-import { TextField } from "../../components/text-field";
-import { DateTimePicker } from "../../components/date-time-picker";
-import { TextEditor } from "../../components/text-editor";
+import {
+  Screen,
+  Text,
+  Container,
+  TextField,
+  DateTimePicker,
+  TextEditor,
+  Button,
+} from "../../components";
 import { GameElementSelector } from "../../components/game-element-selector/game-element-selector";
-import { Button } from "../../components/button";
 import { useStores } from "../../store";
-
-const schema = yup.object().shape({
-  title: yup.string().required("Esse campo é obrigatório"),
-});
 
 interface CorrectTaskFormData {
   title: string;
+  start_date: Date;
+  delivery_date: Date;
 }
 
 const NewTaskScreen: React.FC = observer(() => {
+  const schema = yup.object().shape({
+    title: yup.string().required("Esse campo é obrigatório"),
+    start_date: yup
+      .date()
+      .max(
+        yup.ref("delivery_date"),
+        "A data de início deve ser após a data de entrega"
+      )
+      .required(),
+    delivery_date: yup
+      .date()
+      .min(
+        yup.ref("start_date"),
+        "A data de entrega deve ser após a data de início"
+      )
+      .required(),
+  });
   const {
     control,
     handleSubmit,
     register,
+    getValues,
     formState: { errors },
   } = useForm<CorrectTaskFormData>({
     resolver: yupResolver(schema),
@@ -39,16 +58,9 @@ const NewTaskScreen: React.FC = observer(() => {
 
   const scrollRef = useRef<ScrollView>(null);
   const [descriptionHTML, setDescriptionHTML] = useState<string>();
-  const [deliveryDate, setDeliveryDate] = useState(new Date());
 
   const [selectedPenalties, setSelectedPenalties] = useState<any[]>([]);
   const [selectedRewards, setSelectedRewards] = useState<any[]>([]);
-
-  const today = new Date();
-
-  const handleChangeDeliveryDate = (date?: Date) => {
-    setDeliveryDate(!!date ? date : deliveryDate);
-  };
 
   const handleChangeSelectedPenalties = (selected: any[]) => {
     setSelectedPenalties(selected);
@@ -66,13 +78,18 @@ const NewTaskScreen: React.FC = observer(() => {
     scrollRef?.current?.scrollTo({ y: scrollY - 30, animated: true });
   };
 
-  const onSubmit = async ({ title }: CorrectTaskFormData) => {
+  const onSubmit = async ({
+    title,
+    delivery_date,
+    start_date,
+  }: CorrectTaskFormData) => {
     setIsSubmitting(true);
 
     const formatRequest = {
       title,
       description: descriptionHTML || "",
-      delivery_date: deliveryDate,
+      delivery_date,
+      start_date,
       task_elements: [...selectedPenalties, ...selectedRewards],
     };
 
@@ -108,31 +125,99 @@ const NewTaskScreen: React.FC = observer(() => {
             onCursorPosition={handleCursorPosition}
           />
 
-          <Container
-            flexDirection="row"
-            width="100%"
-            justifyContent="space-between"
-            marginTop={4}
-          >
-            <DateTimePicker
-              flex={1}
-              marginRight={2}
-              value={deliveryDate}
-              mode="date"
-              onChange={handleChangeDeliveryDate}
-              minimumDate={today}
-              label="Data de entrega"
-            />
-
-            <DateTimePicker
-              flex={1}
-              marginLeft={2}
-              value={deliveryDate}
-              mode="time"
-              onChange={handleChangeDeliveryDate}
-              minimumDate={today}
-              label="Horário de entrega"
-            />
+          <Container marginTop={6}>
+            <Text preset="subtitle" fontWeight="bold" marginBottom={2}>
+              Início do período de entrega
+            </Text>
+            <Container
+              flexDirection="row"
+              width="100%"
+              justifyContent="space-between"
+            >
+              <Controller
+                control={control}
+                name={"start_date"}
+                defaultValue={new Date()}
+                render={({ field: { onChange, value } }) => (
+                  <DateTimePicker
+                    flex={1}
+                    marginRight={2}
+                    mode="date"
+                    value={value}
+                    onChange={(date) => onChange(date)}
+                    label="Data de início"
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={"start_date"}
+                defaultValue={new Date()}
+                render={({ field: { onChange, value } }) => (
+                  <DateTimePicker
+                    flex={1}
+                    marginLeft={2}
+                    mode="time"
+                    value={value}
+                    onChange={(date) => onChange(date)}
+                    label="Horário de início"
+                  />
+                )}
+              />
+            </Container>
+            {errors.start_date && (
+              <Text preset="errorMessage" marginTop={2}>
+                {errors.start_date.message}
+              </Text>
+            )}
+          </Container>
+          <Container marginTop={6}>
+            <Text preset="subtitle" fontWeight="bold" marginBottom={2}>
+              Final do período de entrega
+            </Text>
+            <Container
+              flexDirection="row"
+              width="100%"
+              justifyContent="space-between"
+            >
+              <Controller
+                control={control}
+                name={"delivery_date"}
+                defaultValue={new Date()}
+                render={({ field: { onChange, value } }) => (
+                  <DateTimePicker
+                    flex={1}
+                    marginRight={2}
+                    mode="date"
+                    value={value}
+                    onChange={(date) => onChange(date)}
+                    minimumDate={getValues("start_date")}
+                    label="Data de entrega"
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={"delivery_date"}
+                defaultValue={new Date()}
+                render={({ field: { onChange, value } }) => (
+                  <DateTimePicker
+                    flex={1}
+                    marginLeft={2}
+                    mode="time"
+                    value={value}
+                    onChange={(date) => onChange(date)}
+                    minimumDate={getValues("start_date")}
+                    label="Horário de entrega"
+                  />
+                )}
+              />
+            </Container>
+            {errors.delivery_date && (
+              <Text preset="errorMessage" marginTop={2}>
+                {errors.delivery_date.message}
+              </Text>
+            )}
           </Container>
 
           <GameElementSelector

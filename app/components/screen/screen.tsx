@@ -46,7 +46,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
         flex: 1,
         height: "100%",
       }}
-      behavior={isIos ? "padding" : "height"}
+      behavior={isIos ? "padding" : undefined}
     >
       <StatusBar barStyle={"dark-content"} backgroundColor={"#fff"} />
       <View
@@ -90,17 +90,14 @@ function ScreenWithScrolling(props: ScreenProps) {
         flex: 1,
         height: "100%",
       }}
-      behavior={isIos ? "padding" : "height"}
+      behavior={isIos ? "padding" : undefined}
     >
       <StatusBar barStyle={"dark-content"} backgroundColor={"#fff"} />
       <View
         style={{
           flex: 1,
           paddingBottom: props.unsafe ? 0 : insets.bottom,
-          justifyContent: "flex-start",
-          alignItems: "stretch",
           height: "100%",
-          width: "100%",
           backgroundColor: theme.color.background,
         }}
       >
@@ -115,7 +112,7 @@ function ScreenWithScrolling(props: ScreenProps) {
               height: "100%",
             }}
           >
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color={theme.color.primary} />
           </View>
         ) : (
           <ScrollView
@@ -126,7 +123,6 @@ function ScreenWithScrolling(props: ScreenProps) {
             }}
             contentContainerStyle={{
               justifyContent: "flex-start",
-              height: "100%",
               alignItems: "stretch",
             }}
           >

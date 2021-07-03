@@ -180,6 +180,7 @@ class Api {
     title: string;
     description: string;
     delivery_date: Date;
+    start_date?: Date;
     task_elements: Array<{
       game_element_id: string;
       quantity: number;

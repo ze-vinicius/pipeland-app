@@ -74,67 +74,70 @@ const SignUpSecondStepScreen: React.FC = () => {
   };
 
   return (
-    <Screen unsafe>
-      <Container padding={4}>
-        <Container marginBottom={4}>
-          <Text preset="inputLabel">Tipo de usuário</Text>
-          <Text marginTop={2} preset="bold">
-            {roles[role]}
-          </Text>
+    <Screen unsafe scroll>
+      <Container justifyContent="center" flex={1}>
+        <Container padding={4} flex={1}>
+          <Container marginBottom={4}>
+            <Text preset="inputLabel">Tipo de usuário</Text>
+            <Text marginTop={2} preset="bold">
+              {roles[role]}
+            </Text>
+          </Container>
+
+          <TextField
+            label="Nome"
+            control={control}
+            placeholder="Seu nome"
+            icon="user"
+            marginBottom={4}
+            {...register("name")}
+            error={errors.name && errors.name.message}
+          />
+
+          <TextField
+            label="E-mail"
+            control={control}
+            placeholder="johndoe@example.com"
+            icon="mail"
+            marginBottom={4}
+            keyboardType={"email-address"}
+            autoCapitalize={"none"}
+            {...register("email")}
+            error={errors.email && errors.email.message}
+          />
+
+          <TextField
+            label="Senha"
+            control={control}
+            placeholder="password"
+            icon="lock"
+            marginBottom={4}
+            error={errors.password && errors.password.message}
+            secureTextEntry
+            {...register("password")}
+          />
+
+          <TextField
+            label="Confirmar senha"
+            control={control}
+            placeholder="password"
+            icon="lock"
+            error={
+              errors.password_confirmation &&
+              errors.password_confirmation.message
+            }
+            secureTextEntry
+            {...register("password_confirmation")}
+          />
+
+          <Button
+            marginTop={6}
+            onPress={handleSubmit(onSubmit)}
+            isLoading={isSubmitting}
+          >
+            Registrar
+          </Button>
         </Container>
-
-        <TextField
-          label="Nome"
-          control={control}
-          placeholder="Seu nome"
-          icon="user"
-          marginBottom={4}
-          {...register("name")}
-          error={errors.name && errors.name.message}
-        />
-
-        <TextField
-          label="E-mail"
-          control={control}
-          placeholder="johndoe@example.com"
-          icon="mail"
-          marginBottom={4}
-          keyboardType={"email-address"}
-          autoCapitalize={"none"}
-          {...register("email")}
-          error={errors.email && errors.email.message}
-        />
-
-        <TextField
-          label="Senha"
-          control={control}
-          placeholder="password"
-          icon="lock"
-          marginBottom={4}
-          error={errors.password && errors.password.message}
-          secureTextEntry
-          {...register("password")}
-        />
-
-        <TextField
-          label="Confirmar senha"
-          control={control}
-          placeholder="password"
-          icon="lock"
-          error={
-            errors.password_confirmation && errors.password_confirmation.message
-          }
-          secureTextEntry
-          {...register("password_confirmation")}
-        />
-
-        <Button
-          marginTop={6}
-          onPress={handleSubmit(onSubmit)}
-          isLoading={isSubmitting}
-        >
-          Registrar
-        </Button>
       </Container>
     </Screen>
   );

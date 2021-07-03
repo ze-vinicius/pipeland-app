@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,8 +14,8 @@ import { useStores } from "../../store";
 import { useNavigation } from "@react-navigation/native";
 
 const schema = yup.object().shape({
-  email: yup.string().required(),
-  password: yup.string().required(),
+  email: yup.string().required("Campo obrigatório"),
+  password: yup.string().required("Campo obrigatório"),
 });
 
 interface SignInFormData {
@@ -28,7 +28,7 @@ const SignInScreen: React.FC = observer(() => {
     control,
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<SignInFormData>({
     resolver: yupResolver(schema),
   });
@@ -36,14 +36,13 @@ const SignInScreen: React.FC = observer(() => {
   const { sessionsStore } = useStores();
   const navigation = useNavigation();
 
-  const onSubmit = (data: SignInFormData) => {
+  const onSubmit = async (data: SignInFormData) => {
     const { email, password } = data;
-
-    sessionsStore.login({ email, password });
+    await sessionsStore.login({ email, password });
   };
 
   return (
-    <Screen>
+    <Screen scroll>
       <Container paddingTop={6} paddingHorizontal={4}>
         <Container alignItems="center" marginTop={8}>
           <Icon height={50} width={150} name="logo" />
@@ -83,7 +82,7 @@ const SignInScreen: React.FC = observer(() => {
         <Button
           marginTop={6}
           onPress={handleSubmit(onSubmit)}
-          isLoading={isSubmitting}
+          isLoading={sessionsStore.isLoading}
         >
           Entrar
         </Button>

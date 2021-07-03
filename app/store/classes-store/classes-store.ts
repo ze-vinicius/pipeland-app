@@ -413,6 +413,7 @@ export class ClassesStore extends Model({
       title: string;
       description: string;
       delivery_date: Date;
+      start_date?: Date;
       task_elements: Array<GameElement>;
     }
   ) {

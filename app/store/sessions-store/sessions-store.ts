@@ -9,6 +9,7 @@ import {
   getSnapshot,
 } from "mobx-keystone";
 import { api } from "../../services/api/api";
+import utils from "../../utils";
 import { load, remove, save } from "../../utils/storage";
 import { Session, User } from "./session";
 
@@ -16,7 +17,7 @@ import { Session, User } from "./session";
 export class SessionsStore extends Model({
   activeSession: prop<Session | null>(() => null),
   isLoading: prop<boolean>(false),
-  errorMessage: prop<string | null>(() => null),
+  errorMessage: prop<string | null>(() => null).withSetter(),
 }) {
   @modelFlow
   login = _async(function* (
@@ -48,12 +49,13 @@ export class SessionsStore extends Model({
       save("@pipeland:token", token);
       save("@pipeland:user", user);
     } catch (error: any) {
-      let errorMessage =
-        error.response && error.response.data
-          ? error.response.data.message
-          : error.message;
+      const err = utils.handleResponseError(error);
 
-      this.errorMessage = errorMessage;
+      this.setErrorMessage(err.message);
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
     } finally {
       this.isLoading = false;
     }

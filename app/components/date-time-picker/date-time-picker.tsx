@@ -73,8 +73,8 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
           mode={mode}
           display={"default"}
           onChange={handleChange}
-          maximumDate={maximumDate}
-          minimumDate={minimumDate}
+          maximumDate={!!maximumDate ? maximumDate : null}
+          minimumDate={!!minimumDate ? minimumDate : null}
         />
       )}
       {show && Platform.OS === "ios" && (
@@ -86,8 +86,8 @@ const DateTimePicker: React.FC<DateTimePickerProps> = ({
               display={"spinner"}
               textColor={theme.color.text}
               onChange={handleChange}
-              maximumDate={maximumDate}
-              minimumDate={minimumDate}
+              maximumDate={!!maximumDate ? maximumDate : null}
+              minimumDate={!!minimumDate ? minimumDate : null}
             />
           </Container>
         </Modal>

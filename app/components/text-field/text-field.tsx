@@ -30,7 +30,6 @@ const TextFieldBase: React.ForwardRefRenderFunction<TextInput, TextFieldProps> =
   ) => {
     const theme = useTheme();
 
-    const haveIcon = !!icon;
     const isNotFeather = Object.keys(icons).includes(icon as string);
 
     return (
