@@ -8,8 +8,7 @@
     "version": "1.0.2",
     "splash": {
       "image": "./assets/splash.png",
-      "backgroundColor": "#367EF7",
-      "resizeMode": "center"
+      "backgroundColor": "#367EF7"
     },
     "icon": "./assets/icon.png",
     "assetBundlePatterns": [
