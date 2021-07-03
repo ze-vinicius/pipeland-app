@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, SafeAreaView } from "react-native";
 import { observer } from "mobx-react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation, useNavigationState } from "@react-navigation/native";
 import ReactNativeModal from "react-native-modal";
 
 import { useStores } from "../../store";
@@ -15,12 +15,19 @@ import { Icon } from "../icon";
 const DrawerMenu: React.FC = observer(() => {
   const { drawerMenuStore, sessionsStore } = useStores();
   const navigation = useNavigation();
+  const routes = useNavigationState((state) => state.routes);
 
   const handleMenuButtonPress = (route: string) => {
     navigation.navigate(route);
     drawerMenuStore.drawerMenu.setCurrentRouteName(route);
     drawerMenuStore.toggleMenu();
   };
+
+  useEffect(() => {
+    drawerMenuStore.drawerMenu.setCurrentRouteName(
+      routes[routes.length - 1].name
+    );
+  }, [routes]);
 
   return (
     <ReactNativeModal

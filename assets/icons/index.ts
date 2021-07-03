@@ -1,4 +1,4 @@
-const AWS_BUCKET = "https://pipeland-api.s3.sa-east-1.amazonaws.com/assets";
+const AWS_BUCKET = "http://3.15.27.56/assets";
 
 export const icons = {
   // Coin
