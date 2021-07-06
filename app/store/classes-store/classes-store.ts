@@ -305,6 +305,7 @@ export class ClassesStore extends Model({
       if (__DEV__) {
         console.log(error);
       }
+
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);

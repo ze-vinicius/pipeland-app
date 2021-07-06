@@ -8,7 +8,8 @@ export default {
         ? error.response.data.message
         : error.message;
 
-    const errorStatus = error.status || error.response.status;
+    const errorStatus =
+      error.status || (error.response && error.response.status) || 400;
 
     return {
       message: errorMessage,

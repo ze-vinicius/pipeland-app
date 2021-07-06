@@ -21,7 +21,15 @@ export const Avatar: React.FC<AvatarProps> = ({
   };
 
   const formatedName = useMemo(() => {
-    return !!name ? name.charAt(0) : "";
+    if (!!name) {
+      const nameArray = name.split(" ");
+
+      return `${nameArray[0].charAt(0)}${
+        nameArray.length > 1 ? nameArray[1].charAt(0) : ""
+      }`;
+    }
+
+    return "";
   }, [name]);
 
   // const backgroundColor = utils.generateRandomColor();
@@ -29,7 +37,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   return (
     <Container
       alignItems="center"
-      backgroundColor={backgroundColor || "line"}
+      backgroundColor={backgroundColor || "lightGreen"}
       justifyContent="center"
       {...overrideStyle}
     >
@@ -43,9 +51,9 @@ export const Avatar: React.FC<AvatarProps> = ({
         <Container>
           <Text
             textAlign="center"
-            color={color || "textSecondary"}
+            color={color || "darkGreen"}
             fontWeight="bold"
-            fontSize={size / 1.5}
+            fontSize={size / 2}
           >
             {formatedName}
           </Text>
