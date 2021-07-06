@@ -42,27 +42,6 @@ const { Navigator, Screen } = createStackNavigator<MainNavigatorParamsList>();
 
 const MainNavigator = observer(() => {
   const { classesStore, drawerMenuStore } = useStores();
-  const theme = useTheme();
-
-  const renderHeaderLeftIcon = () => (
-    <IconButton
-      icon="menu"
-      preset="link"
-      iconSize={24}
-      marginLeft={2}
-      onPress={() => drawerMenuStore.toggleMenu()}
-    />
-  );
-
-  const renderGoBackButton = (navigation: any) => (
-    <IconButton
-      icon="arrow-left"
-      preset="link"
-      iconSize={24}
-      marginLeft={2}
-      onPress={() => navigation && navigation.goBack()}
-    />
-  );
 
   const renderHeader = ({
     scene,

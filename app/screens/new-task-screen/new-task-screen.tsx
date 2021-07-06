@@ -223,7 +223,7 @@ const NewTaskScreen: React.FC = observer(() => {
           <GameElementSelector
             onChange={handleChangeSelectedRewards}
             type="REWARD"
-            marginTop={4}
+            marginTop={6}
           />
 
           <GameElementSelector

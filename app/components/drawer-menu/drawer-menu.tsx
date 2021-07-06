@@ -91,8 +91,6 @@ const DrawerMenu: React.FC = observer(() => {
               {item.title}
             </Button>
           )}
-          // ItemSeparatorComponent={() => (
-          // )}
         />
         <Divider height={1} />
         <Container>

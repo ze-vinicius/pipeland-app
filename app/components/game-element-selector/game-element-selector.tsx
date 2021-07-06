@@ -41,13 +41,18 @@ const GameElementSelector: React.FC<GameElementSelectorProps> = ({
       ? gameElementsStore.gameRewards
       : gameElementsStore.gamePenalties;
 
-  const elements: ElementItem[] = gameElements.map((element) => ({
-    elementValue: element.value,
-    ...getSnapshot(element),
-    label: element.name,
-    value: element.id,
-    icon: element.imageUrl,
-  }));
+  const elements: ElementItem[] = gameElements
+    .filter(
+      (element) =>
+        element.name !== "attendance anchor" && element.name !== "bullet"
+    )
+    .map((element) => ({
+      elementValue: element.value,
+      ...getSnapshot(element),
+      label: element.name,
+      value: element.id,
+      icon: element.imageUrl,
+    }));
 
   const [selectedElements, setSelectedElements] = useState<typeof elements>([
     elements[0],
@@ -141,19 +146,19 @@ const GameElementSelector: React.FC<GameElementSelectorProps> = ({
           alignItems="center"
           marginTop={4}
         >
-          <IconButton
-            marginRight={2}
-            icon="x"
-            padding={1}
-            iconSize={24}
-            preset="secondary"
-            onPress={() => handleDeleteSelector(index)}
-          />
           <InputSelector
             flex={1}
             onChange={(item: any) => handleChangeGameElement(item, index)}
             selected={selectedElements[index]}
             options={elements}
+          />
+          <IconButton
+            marginLeft={2}
+            icon="delete"
+            padding={1}
+            iconSize={24}
+            preset="secondary"
+            onPress={() => handleDeleteSelector(index)}
           />
         </Container>
       ))}

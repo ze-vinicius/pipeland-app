@@ -2,7 +2,7 @@ import { css } from "styled-components/native";
 
 const BASE_BUTTON = css`
   padding-horizontal: ${(props) => props.theme.spacing[2]}px;
-  padding-vertical: ${(props) => props.theme.spacing[2]}px;
+  padding-vertical: ${(props) => props.theme.spacing[3]}px;
 
   border-radius: 4px;
   align-items: center;

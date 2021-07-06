@@ -2,7 +2,8 @@ import { css } from "styled-components/native";
 
 const BASE_BUTTON = css`
   padding: ${(props) => props.theme.spacing[2]}px;
-
+  align-items: center;
+  justify-content: center;
   /* border-radius: 4px; */
   align-items: center;
 `;

@@ -1,6 +1,5 @@
 import React from "react";
 import { useTheme } from "styled-components";
-import Feather from "@expo/vector-icons/Feather";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { useStores } from "../store";
@@ -13,7 +12,8 @@ import { AdjustsScreen } from "../screens/adjusts-screen/adjusts-screen";
 import { UnderConstructionScreen } from "../screens/under-construction-screen/under-construction-screen";
 import { AttendanceScreen } from "../screens/attendance-screen/attendance-screen";
 import { observer } from "mobx-react";
-import { UserCard } from "../components";
+import { FeatherIcon } from "../components";
+import { TabBar } from "../components/tab-bar";
 
 type ClassNavigatorParamsList = {
   tasks: undefined;
@@ -33,6 +33,8 @@ export const ClassNavigator = observer(() => {
   return (
     <>
       <Navigator
+        backBehavior="initialRoute"
+        tabBar={(props) => <TabBar {...props} />}
         tabBarOptions={{
           activeTintColor: theme.color.darkGreen,
           inactiveTintColor: theme.color.dim,
@@ -44,7 +46,9 @@ export const ClassNavigator = observer(() => {
           options={{
             title: "Tarefas",
             tabBarIcon: ({ size, color }) => {
-              return <Feather name="check-square" size={size} color={color} />;
+              return (
+                <FeatherIcon name="check-circle" size={size} color={color} />
+              );
             },
           }}
         />
@@ -54,7 +58,7 @@ export const ClassNavigator = observer(() => {
           options={{
             title: "Ranking",
             tabBarIcon: ({ size, color }) => {
-              return <Feather name="bar-chart" size={size} color={color} />;
+              return <FeatherIcon name="bar-chart" size={size} color={color} />;
             },
           }}
         />
@@ -68,7 +72,7 @@ export const ClassNavigator = observer(() => {
                 title: "Presença",
                 tabBarIcon: ({ size, color }) => {
                   return (
-                    <Feather name="user-check" size={size} color={color} />
+                    <FeatherIcon name="user-check" size={size} color={color} />
                   );
                 },
               }}
@@ -79,7 +83,9 @@ export const ClassNavigator = observer(() => {
               options={{
                 title: "Ajustes",
                 tabBarIcon: ({ size, color }) => {
-                  return <Feather name="settings" size={size} color={color} />;
+                  return (
+                    <FeatherIcon name="settings" size={size} color={color} />
+                  );
                 },
               }}
             />
@@ -92,7 +98,7 @@ export const ClassNavigator = observer(() => {
             options={{
               title: "Perfil",
               tabBarIcon: ({ size, color }) => {
-                return <Feather name="user" size={size} color={color} />;
+                return <FeatherIcon name="user" size={size} color={color} />;
               },
             }}
           />
