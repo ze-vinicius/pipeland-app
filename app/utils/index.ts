@@ -1,4 +1,7 @@
 export default {
+  generateRandomColor() {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  },
   handleResponseError(error: any) {
     const errorMessage =
       error.response && error.response.data

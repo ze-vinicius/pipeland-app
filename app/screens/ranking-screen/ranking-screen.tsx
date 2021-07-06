@@ -53,7 +53,7 @@ const RankingScreen: React.FC = observer(() => {
                   {student.ranking}
                 </Text>
               </RankingNumberContainer>
-              <Avatar />
+              <Avatar name={student.name} uri={student.photo} />
               <Text marginLeft={4} flex={1} numberOfLines={1}>
                 {student.name}
               </Text>

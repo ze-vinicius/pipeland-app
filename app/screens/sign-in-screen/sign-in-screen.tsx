@@ -82,7 +82,7 @@ const SignInScreen: React.FC = observer(() => {
         <Button
           marginTop={6}
           onPress={handleSubmit(onSubmit)}
-          isLoading={sessionsStore.isLoading}
+          isLoading={sessionsStore.isLoading.login}
         >
           Entrar
         </Button>

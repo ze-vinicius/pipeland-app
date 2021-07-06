@@ -6,7 +6,8 @@ export const Background = styled.View`
   height: 4px;
 `;
 export const FilledBar = styled.View<{ progress: number }>`
-  width: ${(props) => (props.progress > 0 ? `${props.progress}%` : 0)};
+  width: ${(props) =>
+    props.progress > 0 ? `${props.progress > 100 ? 100 : props.progress}%` : 0};
   flex: 1;
   background-color: ${(props) => props.theme.color.info};
 `;

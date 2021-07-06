@@ -34,7 +34,7 @@ export const ClassNavigator = observer(() => {
     <>
       <Navigator
         tabBarOptions={{
-          activeTintColor: theme.color.primary,
+          activeTintColor: theme.color.darkGreen,
           inactiveTintColor: theme.color.dim,
         }}
       >

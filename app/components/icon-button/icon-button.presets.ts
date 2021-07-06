@@ -17,6 +17,24 @@ export const iconButtonPresets = {
   secondary: css`
     ${BASE_BUTTON}
   `,
+
+  link: css`
+    ${BASE_BUTTON}
+  `,
+};
+
+export const iconPresets = {
+  primary: {
+    color: "darkGreen",
+  },
+
+  secondary: {
+    color: "text",
+  },
+
+  link: {
+    color: "primary",
+  },
 };
 
 export type IconButtonPresets = keyof typeof iconButtonPresets;

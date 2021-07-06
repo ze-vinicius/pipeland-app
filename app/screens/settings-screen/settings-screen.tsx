@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
+import { observer } from "mobx-react";
 import React from "react";
 
 import { Screen, Text, Container, SectionedMenu } from "../../components";
 import { useStores } from "../../store";
 
-const SettingsScreen: React.FC = () => {
+const SettingsScreen: React.FC = observer(() => {
   const { sessionsStore } = useStores();
   const navigation = useNavigation();
 
@@ -36,6 +37,6 @@ const SettingsScreen: React.FC = () => {
       </Container>
     </Screen>
   );
-};
+});
 
 export { SettingsScreen };

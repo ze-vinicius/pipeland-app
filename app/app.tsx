@@ -15,15 +15,11 @@ import * as Linking from "expo-linking";
 
 import theme from "./theme";
 import { MainNavigator } from "./navigators/main-navigator";
-import {
-  createRootStore,
-  RootStore,
-  RootStoreProvider,
-  useStores,
-} from "./store";
+import { createRootStore, RootStore, RootStoreProvider } from "./store";
 import { AuthNavigator } from "./navigators/auth-navigator";
 import { ActivityIndicator, View } from "react-native";
 import { DrawerMenu } from "./components/drawer-menu";
+import { LoadingContainer } from "./components";
 
 const prefix = Linking.createURL("/");
 
@@ -50,11 +46,18 @@ const App = observer(() => {
       <SafeAreaProvider>
         <ThemeProvider theme={theme}>
           <NavigationContainer linking={linking}>
-            {!!rootStore.sessionsStore.activeSession ? (
-              <MainNavigator />
-            ) : (
-              <AuthNavigator />
-            )}
+            <LoadingContainer
+              flex={1}
+              width={"100%"}
+              height={"100%"}
+              isLoading={rootStore.sessionsStore.isLoading.loadSession}
+            >
+              {!!rootStore.sessionsStore.activeSession ? (
+                <MainNavigator />
+              ) : (
+                <AuthNavigator />
+              )}
+            </LoadingContainer>
           </NavigationContainer>
         </ThemeProvider>
       </SafeAreaProvider>

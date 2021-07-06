@@ -13,10 +13,19 @@ import utils from "../../utils";
 import { load, remove, save } from "../../utils/storage";
 import { Session, User } from "./session";
 
+interface isLoading {
+  login: boolean;
+  signUp: boolean;
+  loadSession: boolean;
+}
 @model("pipeland/SessionsStore")
 export class SessionsStore extends Model({
   activeSession: prop<Session | null>(() => null),
-  isLoading: prop<boolean>(false),
+  isLoading: prop<isLoading>(() => ({
+    login: false,
+    signUp: false,
+    loadSession: false,
+  })),
   errorMessage: prop<string | null>(() => null).withSetter(),
 }) {
   @modelFlow
@@ -30,7 +39,7 @@ export class SessionsStore extends Model({
       password: string;
     }
   ) {
-    this.isLoading = true;
+    this.isLoading.login = true;
     this.errorMessage = null;
 
     try {
@@ -47,7 +56,7 @@ export class SessionsStore extends Model({
       const user = getSnapshot(session.user);
 
       save("@pipeland:token", token);
-      save("@pipeland:user", user);
+      save("@pipeland:userId", user?.id);
     } catch (error: any) {
       const err = utils.handleResponseError(error);
 
@@ -57,7 +66,7 @@ export class SessionsStore extends Model({
         this.setErrorMessage("");
       }, 3000);
     } finally {
-      this.isLoading = false;
+      this.isLoading.login = false;
     }
   });
 
@@ -76,7 +85,7 @@ export class SessionsStore extends Model({
       role: string;
     }
   ) {
-    this.isLoading = true;
+    this.isLoading.signUp = true;
     this.errorMessage = null;
 
     try {
@@ -103,40 +112,51 @@ export class SessionsStore extends Model({
 
       this.errorMessage = errorMessage;
     } finally {
-      this.isLoading = false;
+      this.isLoading.signUp = false;
     }
   });
 
   @modelFlow
   logout = _async(function* (this: SessionsStore) {
-    this.isLoading = true;
-
     this.activeSession = null;
 
     yield* _await(
       Promise.all([remove("@pipeland:token"), remove("@pipeland:user")])
     );
-
-    this.isLoading = false;
   });
 
   @modelFlow
   loadSessionInfo = _async(function* (this: SessionsStore) {
-    this.isLoading = true;
+    this.isLoading.loadSession = true;
 
     const token = yield* _await(load("@pipeland:token"));
-    const user = yield* _await(load("@pipeland:user"));
+    const userId = yield* _await(load("@pipeland:userId"));
 
-    if (!!token && !!user) {
-      this.activeSession = new Session({
-        user: new User(user),
-        token,
-      });
+    try {
+      if (!!token && !!userId) {
+        api.axios.defaults.headers.authorization = `Bearer ${token}`;
 
-      api.axios.defaults.headers.authorization = `Bearer ${token}`;
+        const user = yield* _await(api.fetchSessionInfo());
+
+        this.activeSession = new Session({
+          user,
+          token,
+        });
+      }
+    } catch (error: any) {
+      if (__DEV__) {
+        console.log(error);
+      }
+
+      let errorMessage =
+        error.response && error.response.data
+          ? error.response.data.message
+          : error.message;
+
+      this.setErrorMessage(errorMessage);
+    } finally {
+      this.isLoading.loadSession = false;
     }
-
-    this.isLoading = false;
   });
 
   @modelAction

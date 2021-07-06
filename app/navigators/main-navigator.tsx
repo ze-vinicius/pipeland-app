@@ -1,9 +1,13 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  StackHeaderProps,
+} from "@react-navigation/stack";
 import { ClassNavigator } from "./class-navigator";
 import { ClassesScreen } from "../screens/classes-screen";
 import { TaskDetailScreen } from "../screens/task-detail-screen";
 import { useStores } from "../store";
+import { Container, Text } from "../components";
 import { observer } from "mobx-react";
 import { NewClassScreen } from "../screens/new-class-screen/new-class-screen";
 import { UnderConstructionScreen } from "../screens/under-construction-screen/under-construction-screen";
@@ -14,6 +18,9 @@ import { SettingsScreen } from "../screens/settings-screen/settings-screen";
 import { AboutScreen } from "../screens/about-screen/about-screen";
 import { TaskCorrectionsScreen } from "../screens/task-corrections-screen";
 import { CorrectTaskScreen } from "../screens/correct-task-screen";
+import { useTheme } from "styled-components/native";
+import { Header } from "../components/header/header";
+import { FeatherIconType } from "../utils/icon-type";
 
 export type MainNavigatorParamsList = {
   classes: undefined;
@@ -35,37 +42,90 @@ const { Navigator, Screen } = createStackNavigator<MainNavigatorParamsList>();
 
 const MainNavigator = observer(() => {
   const { classesStore, drawerMenuStore } = useStores();
+  const theme = useTheme();
 
   const renderHeaderLeftIcon = () => (
     <IconButton
       icon="menu"
-      preset="secondary"
+      preset="link"
       iconSize={24}
       marginLeft={2}
       onPress={() => drawerMenuStore.toggleMenu()}
     />
   );
 
+  const renderGoBackButton = (navigation: any) => (
+    <IconButton
+      icon="arrow-left"
+      preset="link"
+      iconSize={24}
+      marginLeft={2}
+      onPress={() => navigation && navigation.goBack()}
+    />
+  );
+
+  const renderHeader = ({
+    scene,
+    leftIcon,
+    onLeftPress,
+  }: StackHeaderProps & {
+    leftIcon: FeatherIconType;
+    onLeftPress: () => void;
+  }) => {
+    const { options } = scene.descriptor;
+    const title =
+      options.title !== undefined ? options.title : scene.route.name;
+
+    return (
+      <Header
+        headerText={title}
+        leftIcon={leftIcon}
+        onLeftPress={onLeftPress}
+      />
+    );
+  };
+
   return (
     <>
-      <Navigator>
+      <Navigator
+        headerMode="screen"
+        screenOptions={{
+          header: (props) =>
+            renderHeader({
+              ...props,
+              leftIcon: "arrow-left",
+              onLeftPress: () => props.navigation.goBack(),
+            }),
+        }}
+      >
         <Screen
           name="classes"
           component={ClassesScreen}
           options={{
             title: "Turmas",
-            headerLeft: () => renderHeaderLeftIcon(),
+            header: (props) =>
+              renderHeader({
+                ...props,
+                leftIcon: "menu",
+                onLeftPress: () => drawerMenuStore.toggleMenu(),
+              }),
           }}
         />
 
         <Screen
           name="class"
           component={ClassNavigator}
-          options={{
+          options={() => ({
             title: classesStore.selectedClass
               ? classesStore.selectedClass.name
               : "Turma",
-          }}
+            header: (props) =>
+              renderHeader({
+                ...props,
+                leftIcon: "home",
+                onLeftPress: () => props.navigation.goBack(),
+              }),
+          })}
         />
 
         <Screen
@@ -97,7 +157,12 @@ const MainNavigator = observer(() => {
           component={SettingsScreen}
           options={{
             title: "Configurações",
-            headerLeft: () => renderHeaderLeftIcon(),
+            header: (props) =>
+              renderHeader({
+                ...props,
+                leftIcon: "menu",
+                onLeftPress: () => drawerMenuStore.toggleMenu(),
+              }),
           }}
         />
 
@@ -106,7 +171,12 @@ const MainNavigator = observer(() => {
           component={AboutScreen}
           options={{
             title: "Sobre o jogo",
-            headerLeft: () => renderHeaderLeftIcon(),
+            header: (props) =>
+              renderHeader({
+                ...props,
+                leftIcon: "menu",
+                onLeftPress: () => drawerMenuStore.toggleMenu(),
+              }),
           }}
         />
 

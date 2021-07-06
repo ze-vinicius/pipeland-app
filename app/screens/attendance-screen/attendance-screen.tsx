@@ -57,7 +57,7 @@ const AttendanceScreen: React.FC = observer(() => {
                 key={student.student_id}
                 scroll
               >
-                <Avatar uri={student.photo} />
+                <Avatar name={student.name} uri={student.photo} />
                 <Text marginLeft={6} flex={1}>
                   {student.name}
                 </Text>

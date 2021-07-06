@@ -38,7 +38,6 @@ enum roles {
 
 const SignUpSecondStepScreen: React.FC = () => {
   const { sessionsStore } = useStores();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { role } = useRoute<
     RouteProp<
@@ -61,16 +60,12 @@ const SignUpSecondStepScreen: React.FC = () => {
   });
 
   const onSubmit = async ({ email, name, password }: SignUpFormData) => {
-    setIsSubmitting(true);
-
     await sessionsStore.signUp({
       email,
       name,
       password,
       role,
     });
-
-    setIsSubmitting(false);
   };
 
   return (
@@ -133,7 +128,7 @@ const SignUpSecondStepScreen: React.FC = () => {
           <Button
             marginTop={6}
             onPress={handleSubmit(onSubmit)}
-            isLoading={isSubmitting}
+            isLoading={sessionsStore.isLoading.signUp}
           >
             Registrar
           </Button>

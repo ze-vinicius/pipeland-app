@@ -62,7 +62,9 @@ export class ClassesStore extends Model({
 
       this.classes.push(newClass);
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -97,7 +99,9 @@ export class ClassesStore extends Model({
 
       this.classes.push(newClass);
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -125,7 +129,9 @@ export class ClassesStore extends Model({
 
       this.classes = classes;
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -153,7 +159,9 @@ export class ClassesStore extends Model({
 
       this.selectedClass = selectedClass;
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -185,7 +193,9 @@ export class ClassesStore extends Model({
         this.selectedClass.tasks = tasks;
       }
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -217,7 +227,9 @@ export class ClassesStore extends Model({
         this.selectedClass.setStudent_info(classDetail.student_info);
       }
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -254,7 +266,9 @@ export class ClassesStore extends Model({
 
       this.taskDetail = taskDetail;
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -288,7 +302,9 @@ export class ClassesStore extends Model({
 
       this.selectedClass.classRanking = classRanking;
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -345,7 +361,9 @@ export class ClassesStore extends Model({
       // this.selectedClass.attendancesList.push(newAttendance);
       this.selectedClass.selectedDayAttendanceList = newAttendance;
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -387,7 +405,9 @@ export class ClassesStore extends Model({
       yield* _await(api.updateDayAttendanceList(formatedRequestBody));
       this.selectedClass.selectedDayAttendanceList?.setIs_saved(true);
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -439,7 +459,9 @@ export class ClassesStore extends Model({
         this.selectedClass.tasks.unshift(task);
       }
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -473,7 +495,9 @@ export class ClassesStore extends Model({
 
       this.taskDetail.students_task_corrections = students_task_corrections;
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);
@@ -530,7 +554,9 @@ export class ClassesStore extends Model({
         })
       );
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       const err = utils.handleResponseError(error);
 
       this.setErrorMessage(err.message);

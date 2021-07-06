@@ -16,7 +16,7 @@ import { observer } from "mobx-react";
 import { Container } from "../container";
 
 export const UserCard = observer(() => {
-  const { classesStore } = useStores();
+  const { classesStore, sessionsStore } = useStores();
 
   if (!classesStore.selectedClass || !classesStore.selectedClass.student_info)
     return null;
@@ -24,13 +24,17 @@ export const UserCard = observer(() => {
   return (
     <CardContainer>
       <Container alignItems="center" justifyContent="center">
-        <Avatar size={80} uri={classesStore.selectedClass.student_info.photo} />
+        <Avatar
+          size={80}
+          name={sessionsStore.activeSession?.user?.name}
+          uri={sessionsStore.activeSession?.user?.photo}
+        />
       </Container>
       <UserInfoContainer>
         <Container flexDirection="row" alignItems="center" width="100%">
           <Text preset="title" flexShrink={1} numberOfLines={1}>
-            {classesStore.selectedClass.student_info.nickname ||
-              classesStore.selectedClass.student_info.student_name}
+            {sessionsStore.activeSession?.user?.nickname ||
+              sessionsStore.activeSession?.user?.name}
           </Text>
           <Icon
             name={classesStore.selectedClass.student_info.current_avatar}
@@ -39,7 +43,7 @@ export const UserCard = observer(() => {
           />
         </Container>
         <ProgressBar
-          marginTop={2}
+          marginTop={4}
           currentPoints={
             classesStore.selectedClass.student_info.current_coinst_qty
           }

@@ -18,9 +18,7 @@ enum EnumMarioAvatars {
 export class StudentInfo extends Model({
   student_id: prop<string>(),
   user_id: prop<string>(),
-  photo: prop<string | null>(null),
   student_name: prop<string>(),
-  nickname: prop<string | null>(null),
   current_coinst_qty: prop<number>(),
   current_avatar: prop<EnumMarioAvatars>(),
   current_mushroom_ups_qty: prop<number>(0),

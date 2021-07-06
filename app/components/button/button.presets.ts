@@ -29,6 +29,8 @@ export const buttonPresets = {
     ${BASE_BUTTON}
     align-items: center;
     justify-content: flex-start;
+    padding-horizontal: ${(props) => props.theme.spacing[0]};
+    padding-vertical: ${(props) => props.theme.spacing[4]}px;
   `,
 };
 
@@ -45,7 +47,8 @@ export const textPresets = {
 
   link: css`
     ${BASE_TEXT}
-    color: ${(props) => props.theme.color.text}
+    margin-horizontal: ${(props) => props.theme.spacing[4]}px;
+    color: ${(props) => props.theme.color.text};
   `,
 };
 

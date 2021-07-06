@@ -7,6 +7,6 @@ export class DrawerMenuStore extends Model({
 }) {
   @modelAction
   toggleMenu = () => {
-    this.drawerMenu.isVisible = !this.drawerMenu.isVisible;
+    this.drawerMenu.setIsVisible(!this.drawerMenu.isVisible);
   };
 }

@@ -4,6 +4,8 @@ import { model, Model, modelAction, prop } from "mobx-keystone";
 export class User extends Model({
   id: prop<string>(),
   name: prop<string>(),
+  nickname: prop<string | null>(null),
+  photo: prop<string | null>(null),
   email: prop<string>(),
   role: prop<string>(),
 }) {}
@@ -12,13 +14,4 @@ export class User extends Model({
 export class Session extends Model({
   token: prop<string | null>(() => null),
   user: prop<User | null>(() => null),
-}) {
-  // @modelAction
-  // setDone(done: boolean) {
-  //   this.done = done;
-  // }
-  // @modelAction
-  // setText(text: string) {
-  //   this.text = text;
-  // }
-}
+}) {}

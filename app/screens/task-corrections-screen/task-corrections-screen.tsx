@@ -61,7 +61,7 @@ const TaskCorrectionsScreen: React.FC = observer(() => {
                 <Container flex={1}>
                   <Container flexDirection="row" alignItems="center">
                     <Container marginRight={4}>
-                      <Avatar uri={item.photo} />
+                      <Avatar name={item.name} uri={item.photo} />
                     </Container>
                     <Text>{item.name}</Text>
                   </Container>

@@ -11,9 +11,12 @@ import { Container } from "../container";
 import { Button } from "../button";
 import { Text } from "../text";
 import { Icon } from "../icon";
+import { Avatar } from "../avatar";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const DrawerMenu: React.FC = observer(() => {
   const { drawerMenuStore, sessionsStore } = useStores();
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const routes = useNavigationState((state) => state.routes);
 
@@ -28,6 +31,8 @@ const DrawerMenu: React.FC = observer(() => {
       routes[routes.length - 1].name
     );
   }, [routes]);
+
+  const topInset = insets.top + 16;
 
   return (
     <ReactNativeModal
@@ -44,58 +49,61 @@ const DrawerMenu: React.FC = observer(() => {
         flex={1}
         height={"100%"}
         width={"80%"}
-        paddingTop={5}
+        paddingBottom={`${insets.bottom}px`}
       >
-        <SafeAreaView>
-          <Container
-            paddingLeft={2}
-            paddingBottom={2}
-            marginBottom={2}
-            borderBottomColor="line"
-            borderBottomWidth={1}
-            flexDirection="row"
-            alignItems="center"
-          >
-            <Container
-              padding={2}
-              borderWidth={1}
-              marginRight={2}
-              borderRadius={100}
-              borderColor="line"
-              backgroundColor="line"
-            >
-              <Icon name="coin" size={24} />
-            </Container>
-            <Container>
-              <Text preset="subtitle">Bem vindo,</Text>
-              <Text preset="subtitle">
-                {sessionsStore.activeSession?.user?.name}!
-              </Text>
-            </Container>
-          </Container>
-          <FlatList
-            style={{
-              height: "100%",
-            }}
-            data={drawerMenuStore.drawerMenu.menuItems}
-            keyExtractor={(item) => item.title}
-            renderItem={({ item }) => (
-              <Button
-                icon={item.icon}
-                preset="link"
-                onPress={() => handleMenuButtonPress(item.route)}
-                disabled={
-                  drawerMenuStore.drawerMenu.currentRouteName === item.route
-                }
-              >
-                {item.title}
-              </Button>
-            )}
-            ItemSeparatorComponent={() => (
-              <Divider marginVertical={2} height={1} />
-            )}
+        <Container
+          paddingTop={`${topInset}px`}
+          paddingLeft={2}
+          paddingBottom={4}
+          marginBottom={2}
+          borderBottomColor="line"
+          borderBottomWidth={1}
+          flexDirection="row"
+          alignItems="center"
+        >
+          <Avatar
+            name={sessionsStore.activeSession?.user?.name}
+            uri={sessionsStore.activeSession?.user?.photo}
+            size={32}
           />
-        </SafeAreaView>
+          <Container marginLeft={4}>
+            <Text preset="subtitle">Bem vindo,</Text>
+            <Text preset="subtitle">
+              {sessionsStore.activeSession?.user?.name}
+            </Text>
+          </Container>
+        </Container>
+        <FlatList
+          style={{
+            height: "100%",
+          }}
+          data={drawerMenuStore.drawerMenu.menuItems}
+          keyExtractor={(item) => item.title}
+          renderItem={({ item }) => (
+            <Button
+              icon={item.icon}
+              preset="link"
+              onPress={() => handleMenuButtonPress(item.route)}
+              disabled={
+                drawerMenuStore.drawerMenu.currentRouteName === item.route
+              }
+            >
+              {item.title}
+            </Button>
+          )}
+          // ItemSeparatorComponent={() => (
+          // )}
+        />
+        <Divider height={1} />
+        <Container>
+          <Button
+            icon={"log-out"}
+            preset="link"
+            onPress={() => sessionsStore.logout()}
+          >
+            Sair
+          </Button>
+        </Container>
       </Container>
     </ReactNativeModal>
   );

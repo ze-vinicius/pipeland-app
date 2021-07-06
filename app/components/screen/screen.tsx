@@ -125,6 +125,8 @@ function ScreenWithScrolling(props: ScreenProps) {
               justifyContent: "flex-start",
               alignItems: "stretch",
             }}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
           >
             {props.children}
           </ScrollView>

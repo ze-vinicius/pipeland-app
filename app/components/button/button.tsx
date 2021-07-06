@@ -3,7 +3,6 @@ import { ActivityIndicator } from "react-native";
 
 import { ButtonProps } from "./button.props";
 import { ButtonText, ButtonContainer, ButtonIcon } from "./button.styles";
-import { FeatherIcon } from "../feather-icon";
 
 const Button: React.FC<ButtonProps> = ({
   children,

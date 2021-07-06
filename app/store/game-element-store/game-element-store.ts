@@ -37,7 +37,9 @@ export class GameElementsStore extends Model({
       this.gameRewards = rewards;
       this.gamePenalties = penalties;
     } catch (error: any) {
-      console.log(error);
+      if (__DEV__) {
+        console.log(error);
+      }
       if (error.response && error.response.data) {
         this.errorMessage = error.response.data.message;
       } else {

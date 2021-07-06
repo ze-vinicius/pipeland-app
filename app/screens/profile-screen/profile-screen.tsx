@@ -16,8 +16,8 @@ import { SectionedMenu } from "../../components/sectioned-menu";
 const ProfileScreen: React.FC = observer(() => {
   const { classesStore, sessionsStore } = useStores();
 
-  const avatarUrl = classesStore.selectedClass?.student_info?.photo;
-  const userName = classesStore.selectedClass?.student_info?.student_name;
+  const avatarUrl = sessionsStore?.activeSession?.user?.photo;
+  const userName = sessionsStore?.activeSession?.user?.name;
 
   const adjustsButtons: Array<{
     title: string;
@@ -47,7 +47,7 @@ const ProfileScreen: React.FC = observer(() => {
   return (
     <Screen unsafe>
       <Container>
-        <Avatar uri={avatarUrl} size={100} />
+        <Avatar name={userName} uri={avatarUrl} size={100} />
         <Text preset="title" marginTop={4}>
           {userName}
         </Text>

@@ -89,6 +89,8 @@ class Api {
       name: raw.name,
       email: raw.email,
       role: raw.role,
+      nickname: raw.nickname,
+      photo: raw.photo,
     });
 
     return user;
@@ -105,8 +107,6 @@ class Api {
             student_name: raw.student_info.student_name,
             current_avatar: raw.student_info.current_avatar,
             current_coinst_qty: raw.student_info.current_coins_qty,
-            nickname: raw.student_info.nickname,
-            photo: raw.student_info.photo,
             current_mushroom_ups_qty: raw.student_info.current_mushroom_ups_qty,
             attendances_count: raw.student_info.attendances_count,
           })
@@ -469,6 +469,19 @@ class Api {
       student_id,
       comment,
       autobombs_qty,
+    });
+  }
+
+  async fetchSessionInfo() {
+    const resp = await this.axios.get("/sessions");
+
+    return new User({
+      id: resp.data.id,
+      email: resp.data.email,
+      name: resp.data.name,
+      role: resp.data.role,
+      nickname: resp.data.nickname,
+      photo: resp.data.photo,
     });
   }
 }
