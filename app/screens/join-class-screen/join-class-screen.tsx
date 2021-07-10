@@ -37,6 +37,7 @@ const JoinClassScreen: React.FC = observer(() => {
     await classesStore.joinClass({ class_invite_token: classInviteToken });
 
     if (!classesStore.errorMessage) {
+      classesStore.fetchClasses();
       navigation.navigate("classes");
     }
   };

@@ -18,8 +18,7 @@ import { Container } from "../container";
 export const UserCard = observer(() => {
   const { classesStore, sessionsStore } = useStores();
 
-  if (!classesStore.selectedClass || !classesStore.selectedClass.student_info)
-    return null;
+  if (!classesStore.studentInfo) return null;
 
   return (
     <CardContainer>
@@ -27,7 +26,7 @@ export const UserCard = observer(() => {
         <Avatar
           size={80}
           name={sessionsStore.activeSession?.user?.name}
-          uri={sessionsStore.activeSession?.user?.photo}
+          uri={sessionsStore.activeSession?.user?.photo_url}
         />
       </Container>
       <UserInfoContainer>
@@ -37,30 +36,24 @@ export const UserCard = observer(() => {
               sessionsStore.activeSession?.user?.name}
           </Text>
           <Icon
-            name={classesStore.selectedClass.student_info.current_avatar}
+            name={classesStore.studentInfo.current_avatar}
             marginLeft={2}
             size={16}
           />
         </Container>
         <ProgressBar
           marginTop={4}
-          currentPoints={
-            classesStore.selectedClass.student_info.current_coinst_qty
-          }
-          totalPoints={classesStore.selectedClass.coins_max}
+          currentPoints={classesStore.studentInfo.current_coinst_qty}
+          totalPoints={classesStore.selectedClass?.coinsMax || 0}
         />
         <GameElementsList>
           <Container flexDirection="row" alignItems="center">
             <Icon marginRight={2} name="attendanceAnchor" />
-            <Text>
-              {classesStore.selectedClass.student_info.attendances_count}
-            </Text>
+            <Text>{classesStore.studentInfo.attendances_count}</Text>
           </Container>
           <Container flexDirection="row" alignItems="center" marginLeft={4}>
             <Icon marginRight={2} name="mushroomUp" />
-            <Text>
-              {classesStore.selectedClass.student_info.current_mushroom_ups_qty}
-            </Text>
+            <Text>{classesStore.studentInfo.current_mushroom_ups_qty}</Text>
           </Container>
         </GameElementsList>
       </UserInfoContainer>

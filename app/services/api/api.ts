@@ -1,10 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { parseISO } from "date-fns";
-import {
-  Class,
-  ClassDetail,
-  StudentRanking,
-} from "../../store/classes-store/class";
+import axios, { AxiosInstance } from "axios";
 import {
   StudentAttendance,
   StudentInfo,
@@ -13,13 +7,20 @@ import {
   StudentTaskCorrection,
   TaskCorrection,
   TaskCorrectionElement,
-  TaskDetail,
+  Task,
   TaskElement,
-  TaskResume,
 } from "../../store/classes-store/task";
 import { GameElement } from "../../store/game-element-store/game-element";
-import { Session, User } from "../../store/sessions-store/session";
+import { User } from "../../store/sessions-store/user";
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config";
+import {
+  IAttendanceListResponseDTO,
+  ISessionResponseDTO,
+  IStudentResponseDTO,
+  IUserResponseDTO,
+} from "./dtos";
+
+import * as ResponseTypes from "./response-types";
 
 class Api {
   axios: AxiosInstance;
@@ -41,7 +42,7 @@ class Api {
   }: {
     email: string;
     password: string;
-  }): Promise<Session> {
+  }): Promise<ISessionResponseDTO> {
     const response = await this.axios.post("sessions", {
       email,
       password,
@@ -51,17 +52,20 @@ class Api {
 
     this.axios.defaults.headers.authorization = `Bearer ${token}`;
 
-    const session = new Session({
-      user: new User({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      }),
-      token,
-    });
+    // const session = new Session({
+    //   user: new User({
+    //     id: user.id,
+    //     name: user.name,
+    //     email: user.email,
+    //     role: user.role,
+    //   }),
+    //   token,
+    // });
 
-    return session;
+    return {
+      user,
+      token,
+    };
   }
 
   async signUp({
@@ -74,7 +78,7 @@ class Api {
     email: string;
     password: string;
     role: string;
-  }): Promise<User> {
+  }): Promise<IUserResponseDTO> {
     const response = await this.axios.post("users", {
       name,
       role,
@@ -84,74 +88,82 @@ class Api {
 
     const raw = response.data;
 
-    const user = new User({
+    const user = {
       id: raw.id,
       name: raw.name,
       email: raw.email,
       role: raw.role,
       nickname: raw.nickname,
-      photo: raw.photo,
-    });
+      photo_url: raw.photo_url,
+    };
 
     return user;
   }
 
-  async getClassDetail(class_id: string) {
-    const response = await this.axios.get(`/classes/${class_id}`);
+  async getClassDetail(
+    class_id: string
+  ): Promise<ResponseTypes.ClassDetailDTO> {
+    const response = await this.axios.get<ResponseTypes.ClassDetailDTO>(
+      `/classes/${class_id}`
+    );
 
-    const mapResponseToClassDetail = (raw: any): ClassDetail => {
-      const student_info = raw.student_info
-        ? new StudentInfo({
-            student_id: raw.student_info.student_id,
-            user_id: raw.student_info.user_id,
-            student_name: raw.student_info.student_name,
-            current_avatar: raw.student_info.current_avatar,
-            current_coinst_qty: raw.student_info.current_coins_qty,
-            current_mushroom_ups_qty: raw.student_info.current_mushroom_ups_qty,
-            attendances_count: raw.student_info.attendances_count,
-          })
-        : null;
+    return response.data;
 
-      return new ClassDetail({
-        id: raw.id,
-        name: raw.name,
-        active: raw.active,
-        teacher_name: raw.teacher_name,
-        create_date: raw.create_date,
-        coins_max: raw.coins_max,
-        invite_token: raw.invite_token,
-        student_info,
-      });
-    };
+    // const mapResponseToClassDetail = (raw: any): Class => {
+    //   const student_info = raw.student_info
+    //     ? new StudentInfo({
+    //         student_id: raw.student_info.student_id,
+    //         user_id: raw.student_info.user_id,
+    //         student_name: raw.student_info.student_name,
+    //         current_avatar: raw.student_info.current_avatar,
+    //         current_coinst_qty: raw.student_info.current_coins_qty,
+    //         current_mushroom_ups_qty: raw.student_info.current_mushroom_ups_qty,
+    //         attendances_count: raw.student_info.attendances_count,
+    //       })
+    //     : null;
 
-    const selectedClass = mapResponseToClassDetail(response.data);
+    //   return new Class({
+    //     id: raw.id,
+    //     name: raw.name,
+    //     active: raw.active,
+    //     teacherName: raw.teacher_name,
+    //     createDate: raw.create_date,
+    //     coinsMax: raw.coins_max,
+    //     inviteToken: raw.invite_token,
+    //     studentInfo: student_info,
+    //   });
+    // };
 
-    return selectedClass;
+    // const selectedClass = mapResponseToClassDetail(response.data);
+
+    // return selectedClass;
   }
 
-  async getClasses(): Promise<Class[]> {
-    const response = await this.axios.get("/classes");
+  async getClasses(): Promise<ResponseTypes.ClassResumeDTO[]> {
+    const response = await this.axios.get<ResponseTypes.ClassResumeDTO[]>(
+      "/classes"
+    );
 
-    const mapResponseToClass = (raw: any): Class => {
-      return new Class({
-        id: raw.id,
-        name: raw.name,
-        active: raw.active,
-        teacher_name: raw.teacher_name,
-        create_date: raw.create_date,
-      });
-    };
+    // const mapResponseToClass = (raw: any): Class => {
+    //   return new Class({
+    //     id: raw.id,
+    //     name: raw.name,
+    //     active: raw.active,
+    //     teacherName: raw.teacher_name,
+    //     createDate: raw.create_date,
+    //   });
+    // };
 
-    const classes: Class[] = response.data.map(mapResponseToClass);
+    // const classes: Class[] = response.data.map(mapResponseToClass);
 
-    return classes;
+    return response.data;
   }
 
-  async getClassTasks(class_id: string): Promise<TaskResume[]> {
+  async getClassTasks(class_id: string): Promise<Task[]> {
     const response = await api.axios.get(`/classes/${class_id}/tasks`);
 
-    const tasks: TaskResume[] = response.data.map((raw: any): TaskResume => {
-      return new TaskResume({
+    const tasks: Task[] = response.data.map((raw: any): Task => {
+      return new Task({
         id: raw.id,
         title: raw.title,
         delivery_date: raw.delivery_date,
@@ -185,7 +197,7 @@ class Api {
       game_element_id: string;
       quantity: number;
     }>;
-  }): Promise<TaskResume> {
+  }): Promise<Task> {
     const response = await api.axios.post(
       `/classes/${class_id}/tasks`,
       requestBody
@@ -193,7 +205,7 @@ class Api {
 
     const raw = response.data;
 
-    const task: TaskResume = new TaskResume({
+    const task: Task = new Task({
       id: raw.id,
       title: raw.title,
       delivery_date: raw.delivery_date,
@@ -213,10 +225,10 @@ class Api {
     return task;
   }
 
-  async getTaskDetail({ task_id }: { task_id: string }): Promise<TaskDetail> {
+  async getTaskDetails({ task_id }: { task_id: string }): Promise<Task> {
     const response = await this.axios.get(`/tasks/${task_id}`);
 
-    const taskDetail = new TaskDetail({
+    const taskDetail = new Task({
       id: response.data.id,
       create_date: response.data.create_date,
       delivery_date: response.data.delivery_date,
@@ -266,65 +278,63 @@ class Api {
     return taskDetail;
   }
 
-  async createClass({ name }: { name: string }): Promise<Class> {
+  async createClass({ name }: { name: string }) {
     const response = await this.axios.post("/classes/", {
       name,
     });
 
-    const newClass = new Class({
-      id: response.data.id,
-      name: response.data.name,
-      active: response.data.active,
-      create_date: response.data.create_date,
-      teacher_name: response.data.teacher_name,
-    });
+    return response.data;
 
-    return newClass;
+    // const newClass = new Class({
+    //   id: response.data.id,
+    //   name: response.data.name,
+    //   active: response.data.active,
+    //   createDate: response.data.create_date,
+    //   teacherName: response.data.teacher_name,
+    // });
+
+    // return newClass;
   }
 
-  async joinClass({
-    class_invite_token,
-  }: {
-    class_invite_token: string;
-  }): Promise<Class> {
+  async joinClass({ class_invite_token }: { class_invite_token: string }) {
     const response = await this.axios.post("/classes/join", {
       class_invite_token,
     });
 
-    const newClass = new Class({
-      id: response.data.id,
-      name: response.data.name,
-      active: response.data.active,
-      create_date: response.data.create_date,
-      teacher_name: response.data.teacher_name,
-    });
+    return response.data;
 
-    return newClass;
+    // const newClass = new Class({
+    //   id: response.data.id,
+    //   name: response.data.name,
+    //   active: response.data.active,
+    //   createDate: response.data.create_date,
+    //   teacherName: response.data.teacher_name,
+    // });
+
+    // return newClass;
   }
 
-  async getClassRanking({
-    class_id,
-  }: {
-    class_id: string;
-  }): Promise<StudentRanking[]> {
-    const response = await this.axios.get<StudentRanking[]>(
-      `/classes/${class_id}/ranking`
-    );
+  async getClassRanking({ class_id }: { class_id: string }) {
+    const response = await this.axios.get(`/classes/${class_id}/ranking`);
 
-    const classRanking = response.data.map(
-      (raw: any) =>
-        new StudentRanking({
-          ranking: raw.ranking,
-          current_coins_qty: raw.current_coins_qty,
-          name: raw.name,
-          student_id: raw.student_id,
-          user_id: raw.user_id,
-          nickname: raw.nickname,
-          photo: raw.photo,
-        })
-    );
+    // const classRanking = response.data.map(
+    //   (raw: any) =>
+    //     new StudentRanking({
+    //       rankingPosition: raw.ranking,
+    //       currentCoinsQty: raw.current_coins_qty,
+    //       name: raw.name,
+    //       studentId: raw.student_id,
+    //       userId: raw.user_id,
+    //       nickname: raw.nickname,
+    //       photo: raw.photo,
+    //     })
+    // );
 
-    return classRanking;
+    return response.data.map((student: any) => ({
+      rankingPosition: student.ranking,
+      currentCoinsQty: student.current_coins_qty,
+      studentId: student.student_id,
+    }));
   }
 
   async getDayAttendanceList({
@@ -333,10 +343,7 @@ class Api {
   }: {
     class_id: string;
     date: string;
-  }): Promise<{
-    is_saved: boolean;
-    student_attendances: StudentAttendance[];
-  }> {
+  }): Promise<IAttendanceListResponseDTO> {
     const response = await this.axios.get(
       `/classes/${class_id}/attendance-list`,
       {
@@ -346,22 +353,28 @@ class Api {
       }
     );
 
-    const student_attendances = response.data.student_attendances.map(
-      (raw: any) =>
-        new StudentAttendance({
-          id: raw.id,
-          class_id: raw.class_id,
-          date: raw.date,
-          is_present: raw.is_present,
-          student_id: raw.student_id,
-          name: raw.name,
-          photo: raw.photo,
-        })
-    );
+    // const student_attendances = response.data.student_attendances.map(
+    //   (raw: any) =>
+    //     new StudentAttendance({
+    //       // id: raw.id,
+    //       // class_i/d: raw.class_id,
+    //       // date: raw.date,
+    //       // is_present: raw.is_present,
+    //       // student_id: raw.student_id,
+    //       // name: raw.name,
+    //       // photo: raw.photo,
+    //     })
+    // );
 
     return {
       is_saved: response.data.is_saved,
-      student_attendances,
+      date: response.data.date,
+      students_attendances: response.data.students_attendances.map(
+        (student: any) => ({
+          is_present: student.is_present,
+          student_id: student.student_id,
+        })
+      ),
     };
   }
 
@@ -462,7 +475,7 @@ class Api {
     delivered_date: Date | undefined;
     got_shell: boolean;
   }) {
-    const response = await this.axios.post(`/tasks/${task_id}/corrections`, {
+    await this.axios.post(`/tasks/${task_id}/corrections`, {
       coins,
       delivered_date,
       got_shell,
@@ -472,20 +485,54 @@ class Api {
     });
   }
 
-  async fetchSessionInfo() {
+  async fetchSessionInfo(): Promise<IUserResponseDTO> {
     const resp = await this.axios.get("/sessions");
 
-    return new User({
+    return {
       id: resp.data.id,
       email: resp.data.email,
       name: resp.data.name,
       role: resp.data.role,
       nickname: resp.data.nickname,
-      photo: resp.data.photo,
-    });
+      photo_url: resp.data.photo_url,
+    };
+  }
+
+  async getClassStudents({
+    class_id,
+  }: {
+    class_id: string;
+  }): Promise<Array<IStudentResponseDTO>> {
+    const resp = await this.axios.get(`/classes/${class_id}/students`);
+
+    return resp.data;
+  }
+
+  async updateUserPhoto({ uri }: { uri: string }): Promise<void> {
+    let uriArray = uri.split(".");
+    let fileType = uriArray[uriArray.length - 1];
+
+    let filename = uri.split("/").pop();
+
+    let formData = new FormData();
+
+    formData.append(
+      "photo",
+      JSON.parse(
+        JSON.stringify({
+          uri,
+          name: `${filename}`,
+          type: `image/${fileType}`,
+        })
+      )
+    );
+
+    const resp = await this.axios.patch(`/users/photo`, formData);
+
+    // return resp.d/ata;
   }
 }
 
 const api = new Api();
 
-export { api };
+export { api, Api };

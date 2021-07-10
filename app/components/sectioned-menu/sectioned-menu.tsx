@@ -6,6 +6,7 @@ import { PipelandSystemStyleProps } from "../pipeland-system";
 import { Text } from "../text";
 import Feather from "@expo/vector-icons/Feather";
 import { SectionList } from "react-native";
+import { Divider } from "../divider";
 
 interface SectionedMenuProps extends PipelandSystemStyleProps {
   items: Array<{
@@ -21,8 +22,7 @@ interface SectionedMenuProps extends PipelandSystemStyleProps {
 export const MenuButton = styled.TouchableOpacity`
   width: 100%;
   padding: ${(props) => props.theme.spacing[4]}px;
-  border-top-color: ${(props) => props.theme.color.line};
-  border-top-width: 1px;
+
   border-bottom-width: 1px;
   border-bottom-color: ${(props) => props.theme.color.line};
 
@@ -45,7 +45,12 @@ const SectionedMenu: React.FC<SectionedMenuProps> = ({ items }) => {
           </MenuButton>
         )}
         renderSectionHeader={({ section: { title } }) => (
-          <Container width="100%" backgroundColor={"background"}>
+          <Container
+            width="100%"
+            backgroundColor={"background"}
+            borderBottomColor="line"
+            borderBottomWidth={1}
+          >
             <Text preset="header" marginBottom={4} marginTop={4} marginLeft={4}>
               {title}
             </Text>

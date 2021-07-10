@@ -1,3 +1,4 @@
+import { computed } from "mobx";
 import {
   model,
   Model,
@@ -6,12 +7,13 @@ import {
   _async,
   _await,
   modelAction,
-  getSnapshot,
 } from "mobx-keystone";
 import { api } from "../../services/api/api";
+import { SessionMap } from "../../services/mapper/SessionMap";
 import utils from "../../utils";
 import { load, remove, save } from "../../utils/storage";
-import { Session, User } from "./session";
+import { Session } from "./session";
+import { User } from "./user";
 
 interface isLoading {
   login: boolean;
@@ -28,6 +30,11 @@ export class SessionsStore extends Model({
   })),
   errorMessage: prop<string | null>(() => null).withSetter(),
 }) {
+  @computed
+  get isTeacher() {
+    return this.activeSession?.user?.role === "TEACHER";
+  }
+
   @modelFlow
   login = _async(function* (
     this: SessionsStore,
@@ -50,13 +57,13 @@ export class SessionsStore extends Model({
         })
       );
 
-      this.activeSession = session;
+      this.activeSession = SessionMap.toMobxModel(session);
 
-      const token = getSnapshot(session.token);
-      const user = getSnapshot(session.user);
+      // const token = getSnapshot(session.token);
+      // const user = getSnapshot(session.user);
 
-      save("@pipeland:token", token);
-      save("@pipeland:userId", user?.id);
+      save("@pipeland:token", session.token);
+      save("@pipeland:userId", session.user?.id);
     } catch (error: any) {
       const err = utils.handleResponseError(error);
 
@@ -138,7 +145,7 @@ export class SessionsStore extends Model({
 
         const user = yield* _await(api.fetchSessionInfo());
 
-        this.activeSession = new Session({
+        this.activeSession = SessionMap.toMobxModel({
           user,
           token,
         });

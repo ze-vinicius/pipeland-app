@@ -21,6 +21,7 @@ import { CorrectTaskScreen } from "../screens/correct-task-screen";
 import { useTheme } from "styled-components/native";
 import { Header } from "../components/header/header";
 import { FeatherIconType } from "../utils/icon-type";
+import { ProfileDetailsScreen } from "../screens/profile-details-screen";
 
 export type MainNavigatorParamsList = {
   classes: undefined;
@@ -33,6 +34,7 @@ export type MainNavigatorParamsList = {
   underConstruction: undefined;
   settings: undefined;
   about: undefined;
+  profileDetails: undefined;
   correctTask: {
     student_id: string;
   };
@@ -169,6 +171,12 @@ const MainNavigator = observer(() => {
           name="correctTask"
           component={CorrectTaskScreen}
           options={{ title: "Corrigir" }}
+        />
+
+        <Screen
+          name="profileDetails"
+          component={ProfileDetailsScreen}
+          options={{ title: "Meus dados" }}
         />
 
         <Screen

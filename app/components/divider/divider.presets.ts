@@ -8,14 +8,14 @@ export const presets = {
   horizontal: css`
     ${BASE}
 
-    height: 2px;
+    height: 1px;
     width: 100%;
   `,
 
   vertical: css`
     ${BASE}
 
-    width: 2px;
+    width: 1px;
     height: 100%;
   `,
 };

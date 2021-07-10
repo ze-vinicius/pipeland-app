@@ -1,19 +1,12 @@
-import {
-  model,
-  Model,
-  tProp,
-  types,
-  ExtendedModel,
-  prop,
-  modelAction,
-} from "mobx-keystone";
+import { model, Model, prop, modelAction } from "mobx-keystone";
 
-enum EnumMarioAvatars {
+export enum EnumMarioAvatars {
   MARIO = "mario",
   SUPER_MARIO = "superMario",
   FIRE_MARIO = "fireMario",
   CAPE_MARIO = "capeMario",
 }
+
 @model("pipeland/StudentInfo")
 export class StudentInfo extends Model({
   student_id: prop<string>(),
@@ -24,25 +17,41 @@ export class StudentInfo extends Model({
   current_mushroom_ups_qty: prop<number>(0),
   attendances_count: prop<number>(0),
 }) {}
+
 @model("pipeland/StudentAttendance")
 export class StudentAttendance extends Model({
-  id: prop<string | null>(null),
-  is_present: prop<boolean>(),
-  name: prop<string | null>(null),
-  photo: prop<string | null>(null),
-  date: prop<string>(),
-  class_id: prop<string>(),
-  student_id: prop<string>(),
+  isPresent: prop<boolean>(),
+  studentId: prop<string>(),
+  // id: prop<string | null>(null),
+  // name: prop<string | null>(null),
+  // photo: prop<string | null>(null),
+  // date: prop<string>(),
+  // class_id: prop<string>(),
+  // student_id: prop<string>(),
 }) {
   @modelAction
-  changeStudentAttendance = (is_present: boolean) => {
-    this.is_present = is_present;
+  changeStudentAttendance = (isPresent: boolean) => {
+    this.isPresent = isPresent;
   };
 }
 
 @model("pipeland/AttendanceList")
 export class AttendanceList extends Model({
   date: prop<string>(),
-  is_saved: prop<boolean>().withSetter(),
+  isSaved: prop<boolean>().withSetter(),
   students: prop<Array<StudentAttendance>>(() => []),
+}) {}
+
+@model("pipeland/Student")
+export class Student extends Model({
+  id: prop<string>(),
+  name: prop<string>(),
+  nickname: prop<string | undefined>(undefined),
+  photo: prop<string | undefined>(undefined),
+  photo_url: prop<string | undefined>(undefined),
+  email: prop<string>(),
+  userId: prop<string>(),
+  classId: prop<string>(),
+  rankingPosition: prop<number | undefined>(undefined),
+  currentCoinsQty: prop<number | undefined>(undefined),
 }) {}

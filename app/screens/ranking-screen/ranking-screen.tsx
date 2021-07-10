@@ -15,15 +15,16 @@ const RankingScreen: React.FC = observer(() => {
 
   const onRefresh = async () => {
     setIsRefreshing(true);
-    // if (classesStore.selectedClass && classesStore.selectedClass.student_info) {
-    //   await classesStore.fetchStudentCard();
-    // }
-    await classesStore.fetchClassRanking();
+
+    await Promise.all([
+      classesStore.selectedClass?.fetchRanking(),
+      classesStore.fetchStudentCard(),
+    ]);
     setIsRefreshing(false);
   };
 
   useEffect(() => {
-    classesStore.fetchClassRanking();
+    classesStore.selectedClass?.fetchRanking();
   }, [classesStore.selectedClass]);
 
   return (
@@ -35,31 +36,31 @@ const RankingScreen: React.FC = observer(() => {
       >
         <FlatList
           data={classesStore.selectedClass?.classRanking}
-          keyExtractor={(item) => item.student_id}
+          keyExtractor={(item) => item.studentId}
           onRefresh={onRefresh}
           refreshing={isRefreshing}
           renderItem={({ item: student }) => (
             <Container
               flexDirection="row"
-              paddingVertical={student.ranking <= 3 ? 4 : 1}
-              backgroundColor={student.ranking > 3 ? "line" : "white"}
+              paddingVertical={student.rankingPosition <= 3 ? 4 : 1}
+              backgroundColor={student.rankingPosition > 3 ? "line" : "white"}
               alignItems="center"
-              key={student.student_id}
+              key={student.studentId}
               borderBottomWidth={1}
-              borderBottomColor={student.ranking >= 3 ? "dim" : "line"}
+              borderBottomColor={student.rankingPosition >= 3 ? "dim" : "line"}
             >
-              <RankingNumberContainer ranking={student.ranking}>
-                <Text color={student.ranking <= 3 ? "white" : "text"}>
-                  {student.ranking}
+              <RankingNumberContainer ranking={student.rankingPosition}>
+                <Text color={student.rankingPosition <= 3 ? "white" : "text"}>
+                  {student.rankingPosition}
                 </Text>
               </RankingNumberContainer>
-              <Avatar name={student.name} uri={student.photo} />
+              <Avatar name={student.name} uri={student.photo_url} />
               <Text marginLeft={4} flex={1} numberOfLines={1}>
                 {student.name}
               </Text>
               <CoinContainer>
                 <Icon name="coin" marginRight={2} />
-                <Text>{student.current_coins_qty}</Text>
+                <Text>{student.currentCoinsQty}</Text>
               </CoinContainer>
             </Container>
           )}

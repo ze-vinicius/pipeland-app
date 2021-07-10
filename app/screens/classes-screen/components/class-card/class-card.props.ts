@@ -4,8 +4,8 @@ export interface ClassCardProps {
     id: string;
     name: string;
     active: boolean;
-    teacher_name: string;
-    create_date: string;
-    coins_max?: number | null;
+    teacherName: string;
+    createDate: string;
+    coinsMax?: number | null;
   };
 }

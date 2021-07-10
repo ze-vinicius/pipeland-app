@@ -17,8 +17,6 @@ import theme from "./theme";
 import { MainNavigator } from "./navigators/main-navigator";
 import { createRootStore, RootStore, RootStoreProvider } from "./store";
 import { AuthNavigator } from "./navigators/auth-navigator";
-import { ActivityIndicator, View } from "react-native";
-import { DrawerMenu } from "./components/drawer-menu";
 import { LoadingContainer } from "./components";
 
 const prefix = Linking.createURL("/");

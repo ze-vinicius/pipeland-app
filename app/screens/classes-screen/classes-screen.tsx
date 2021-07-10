@@ -28,7 +28,7 @@ export const ClassesScreen: React.FC = observer(() => {
   }, []);
 
   const handleOpenClass = useCallback((classId: string) => {
-    classesStore.fetchClassInfo(classId);
+    classesStore.fetchClassDetails(classId);
     navigation.navigate("class");
   }, []);
 

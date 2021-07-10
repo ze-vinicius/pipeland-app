@@ -13,7 +13,7 @@ import { Button } from "../../components/button";
 
 const AdjustsScreen: React.FC = observer(() => {
   const { classesStore, sessionsStore } = useStores();
-  const classInviteToken = classesStore.selectedClass?.invite_token;
+  const classInviteToken = classesStore.selectedClass?.inviteToken;
   const navigation = useNavigation();
 
   const menuSections: Array<{

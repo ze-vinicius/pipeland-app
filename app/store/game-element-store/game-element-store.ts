@@ -9,6 +9,7 @@ import {
   modelAction,
 } from "mobx-keystone";
 import { api } from "../../services/api/api";
+import utils from "../../utils";
 import { RootStore } from "../root-store/root-store";
 import { GameElement } from "./game-element";
 
@@ -40,13 +41,10 @@ export class GameElementsStore extends Model({
       if (__DEV__) {
         console.log(error);
       }
-      if (error.response && error.response.data) {
-        this.errorMessage = error.response.data.message;
-      } else {
-        this.errorMessage = error.message;
-      }
 
-      if (error.status === 401 || error.response.status === 401) {
+      const err = utils.handleResponseError(error);
+
+      if (err.status === 401) {
         const rootStore = getRootStore<RootStore>(this);
 
         rootStore?.sessionsStore.logout();

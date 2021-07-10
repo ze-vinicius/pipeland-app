@@ -1,22 +1,19 @@
 import React from "react";
 import { observer } from "mobx-react";
-import Feather from "@expo/vector-icons/Feather";
 
 import { Avatar, Screen, Text } from "../../components";
 import { useStores } from "../../store";
 
-import {
-  Container,
-  AdjustsContainer,
-  AdjustButton,
-} from "./profile-screen.styles";
+import { Container } from "./profile-screen.styles";
 import { FeatherIconType } from "../../utils/icon-type";
 import { SectionedMenu } from "../../components/sectioned-menu";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileScreen: React.FC = observer(() => {
   const { classesStore, sessionsStore } = useStores();
+  const navigation = useNavigation();
 
-  const avatarUrl = sessionsStore?.activeSession?.user?.photo;
+  const avatarUrl = sessionsStore?.activeSession?.user?.photo_url;
   const userName = sessionsStore?.activeSession?.user?.name;
 
   const adjustsButtons: Array<{
@@ -31,17 +28,17 @@ const ProfileScreen: React.FC = observer(() => {
       title: "Ajustes",
       data: [
         {
+          title: "Meus dados",
+          icon: "edit",
+          onPress: () => navigation.navigate("profileDetails"),
+        },
+        {
           title: "Sair",
           icon: "log-out",
           onPress: () => sessionsStore.logout(),
         },
       ],
     },
-    // {
-    //   title: "Meus dados",
-    //   icon: "edit",
-    //   onPress: () => {},
-    // },
   ];
 
   return (

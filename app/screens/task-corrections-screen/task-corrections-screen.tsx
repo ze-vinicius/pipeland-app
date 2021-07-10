@@ -20,15 +20,17 @@ const TaskCorrectionsScreen: React.FC = observer(() => {
   const { classesStore } = useStores();
   const navigation = useNavigation();
 
+  const selectedTask = classesStore.selectedTask;
+
   useEffect(() => {
     classesStore.fetchTaskCorrections();
-  }, [classesStore.taskDetail]);
+  }, [selectedTask]);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const onRefresh = async () => {
     setIsRefreshing(true);
-    await classesStore.fetchClassRanking();
+    await classesStore.selectedClass?.fetchRanking();
     setIsRefreshing(false);
   };
 
@@ -38,7 +40,7 @@ const TaskCorrectionsScreen: React.FC = observer(() => {
         <FlatList
           onRefresh={onRefresh}
           refreshing={isRefreshing}
-          data={classesStore.taskDetail?.students_task_corrections}
+          data={selectedTask?.studentsTasksCorrections}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity
@@ -71,7 +73,7 @@ const TaskCorrectionsScreen: React.FC = observer(() => {
                         Correção
                       </Text>
                       <ProgressBar
-                        totalPoints={classesStore.taskDetail?.task_value || 0}
+                        totalPoints={selectedTask?.task_value || 0}
                         currentPoints={item.task_correction.earned_coins}
                       />
                       <Container marginTop={4}>
@@ -129,6 +131,13 @@ const TaskCorrectionsScreen: React.FC = observer(() => {
                 </Container>
               </Container>
             </TouchableOpacity>
+          )}
+          ListEmptyComponent={() => (
+            <Container flex={1} padding={4} alignItems="center">
+              <Text preset="secondary">
+                Não há nenhuma correção feita para essa atividade
+              </Text>
+            </Container>
           )}
         />
       </Container>

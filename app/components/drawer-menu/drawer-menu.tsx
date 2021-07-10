@@ -63,7 +63,7 @@ const DrawerMenu: React.FC = observer(() => {
         >
           <Avatar
             name={sessionsStore.activeSession?.user?.name}
-            uri={sessionsStore.activeSession?.user?.photo}
+            uri={sessionsStore.activeSession?.user?.photo_url}
             size={32}
           />
           <Container marginLeft={4}>

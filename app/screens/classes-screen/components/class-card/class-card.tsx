@@ -10,7 +10,7 @@ import { TouchableOpacity } from "react-native";
 
 const ClassCard: React.FC<ClassCardProps> = ({ onPress, classInfo }) => {
   const formattedClassDate = useMemo(() => {
-    return formatDate(classInfo.create_date, "dd 'de' MMM 'de' yyyy");
+    return formatDate(classInfo.createDate, "dd 'de' MMM 'de' yyyy");
   }, []);
 
   return (
@@ -21,7 +21,7 @@ const ClassCard: React.FC<ClassCardProps> = ({ onPress, classInfo }) => {
           {classInfo.name}
         </Text>
         <Text preset="subtitle" marginBottom={2}>
-          Professor {classInfo.teacher_name}
+          Professor {classInfo.teacherName}
         </Text>
         <Text preset="subtitle">{formattedClassDate}</Text>
       </Container>

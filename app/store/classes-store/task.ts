@@ -1,13 +1,5 @@
 import { computed } from "mobx";
-import {
-  model,
-  Model,
-  tProp,
-  types,
-  ExtendedModel,
-  prop,
-  modelAction,
-} from "mobx-keystone";
+import { model, Model, ExtendedModel, prop, modelAction } from "mobx-keystone";
 
 @model("pipeland/TaskCorrectionElement")
 export class TaskCorrectionElement extends Model({
@@ -61,15 +53,17 @@ export class StudentTaskCorrection extends Model({
   task_correction: prop<TaskCorrection | null>(null),
 }) {}
 
-@model("pipeland/TaskDetail")
-export class TaskDetail extends ExtendedModel(TaskResume, {
-  description: prop<string>(),
+@model("pipeland/Task")
+export class Task extends ExtendedModel(TaskResume, {
+  description: prop<string | null>(null),
   task_correction: prop<TaskCorrection | null>(null),
-  students_task_corrections: prop<StudentTaskCorrection[]>(() => []),
+  studentsTasksCorrections: prop<StudentTaskCorrection[]>(
+    () => []
+  ).withSetter(),
 }) {
   @modelAction
   getSelectedStudentTaskCorrection(id: string) {
-    const findStudent = this.students_task_corrections.find(
+    const findStudent = this.studentsTasksCorrections.find(
       (item) => item.id === id
     );
 

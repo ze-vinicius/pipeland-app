@@ -36,7 +36,11 @@ const NewClassScreen: React.FC = observer(() => {
 
   const onSubmit = async ({ name }: NewClassFormData) => {
     await classesStore.createClass({ name });
-    navigation.navigate("classes");
+
+    if (!classesStore.errorMessage) {
+      classesStore.fetchClasses();
+      navigation.navigate("classes");
+    }
   };
 
   return (

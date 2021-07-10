@@ -21,5 +21,5 @@ export const DefaultAvatar = styled(Feather).attrs({
 export const AvatarImage = styled.Image`
   width: 100%;
   height: 100%;
-  border-radius: 32px;
+  border-radius: 200px;
 `;

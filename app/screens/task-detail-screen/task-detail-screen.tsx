@@ -22,14 +22,19 @@ const TaskDetailScreen: React.FC = observer(() => {
   const { classesStore, sessionsStore } = useStores();
   const navigation = useNavigation();
 
+  const selectedTask = classesStore.selectedTask;
+
+  console.log({ selectedTask });
+  console.log(classesStore.isLoading.taskDetails);
+
   return (
     <Screen isLoading={classesStore.isLoading.taskDetails} unsafe>
-      {!!classesStore.taskDetail && (
+      {!!selectedTask && (
         <Container flex={1}>
           <Container flex={1} padding={4} height="100%" scroll>
-            <StatusLabel type={classesStore.taskDetail.status} />
+            <StatusLabel type={selectedTask.status} />
             <Text preset="title" marginTop={4}>
-              {classesStore.taskDetail.title}
+              {selectedTask.title}
             </Text>
             <Container marginTop={4}>
               <Container
@@ -47,7 +52,7 @@ const TaskDetailScreen: React.FC = observer(() => {
                       <FeatherIcon name="calendar" marginRight={2} size={14} />
                       <Text>
                         {formatDate(
-                          classesStore.taskDetail.create_date,
+                          selectedTask.create_date,
                           "dd/MM/yyyy '-' hh:mm"
                         )}
                       </Text>
@@ -65,7 +70,7 @@ const TaskDetailScreen: React.FC = observer(() => {
                       <FeatherIcon name="calendar" marginRight={2} size={14} />
                       <Text>
                         {formatDate(
-                          classesStore.taskDetail.delivery_date,
+                          selectedTask.delivery_date,
                           "dd/MM/yyyy '-' hh:mm"
                         )}
                       </Text>
@@ -86,15 +91,13 @@ const TaskDetailScreen: React.FC = observer(() => {
                     alignItems="center"
                     marginTop={2}
                   >
-                    {classesStore.taskDetail.task_elements.map(
-                      (task_element) => (
-                        <Icon
-                          key={task_element.id}
-                          marginRight={2}
-                          uri={task_element.imageUrl}
-                        />
-                      )
-                    )}
+                    {selectedTask.task_elements.map((task_element) => (
+                      <Icon
+                        key={task_element.id}
+                        marginRight={2}
+                        uri={task_element.imageUrl}
+                      />
+                    ))}
                   </Container>
                 </Container>
                 <Container>
@@ -105,17 +108,15 @@ const TaskDetailScreen: React.FC = observer(() => {
                     marginTop={2}
                   >
                     <Icon name="coin" />
-                    <Text> {classesStore.taskDetail.task_value}</Text>
+                    <Text> {selectedTask.task_value}</Text>
                   </Container>
                 </Container>
               </Container>
             </Container>
             <Divider height={1} />
-            {!!classesStore.taskDetail.description ? (
+            {!!selectedTask.description ? (
               <Container flex={1} marginTop={4} minHeight={200}>
-                <AutoHeightWebvView
-                  html={classesStore.taskDetail.description}
-                />
+                <AutoHeightWebvView html={selectedTask.description} />
               </Container>
             ) : (
               <Container flex={1} marginTop={4} marginBottom={8}>
@@ -125,28 +126,25 @@ const TaskDetailScreen: React.FC = observer(() => {
               </Container>
             )}
 
-            {classesStore.taskDetail.task_correction && (
+            {selectedTask.task_correction && (
               <Container>
                 <Text preset="header" marginTop={4}>
                   Correção
                 </Text>
                 <ProgressBar
                   marginTop={4}
-                  totalPoints={classesStore.taskDetail.task_value}
-                  currentPoints={
-                    classesStore.taskDetail.task_correction.earned_coins
-                  }
+                  totalPoints={selectedTask.task_value}
+                  currentPoints={selectedTask.task_correction.earned_coins}
                 />
                 <Container marginTop={4}>
                   <Text marginBottom={2}>PENALIDADES APLICADAS</Text>
                   <Container flexDirection="row">
-                    {!classesStore.taskDetail.task_correction.applied_penalties
-                      .length ? (
+                    {!selectedTask.task_correction.applied_penalties.length ? (
                       <Text preset="secondary">
                         Nenhuma penalidade foi aplicada
                       </Text>
                     ) : (
-                      classesStore.taskDetail.task_correction.applied_penalties.map(
+                      selectedTask.task_correction.applied_penalties.map(
                         (applied_penalty) => (
                           <Icon
                             key={applied_penalty.id}
@@ -161,11 +159,10 @@ const TaskDetailScreen: React.FC = observer(() => {
                 <Container marginTop={4}>
                   <Text marginBottom={2}>BONUS APLICADOS</Text>
                   <Container flexDirection="row">
-                    {!classesStore.taskDetail.task_correction.applied_bonuses
-                      .length ? (
+                    {!selectedTask.task_correction.applied_bonuses.length ? (
                       <Text preset="secondary">Nenhum bônus foi aplicado</Text>
                     ) : (
-                      classesStore.taskDetail.task_correction.applied_bonuses.map(
+                      selectedTask.task_correction.applied_bonuses.map(
                         (applied_bonus) => (
                           <Icon
                             key={applied_bonus.id}
@@ -179,10 +176,10 @@ const TaskDetailScreen: React.FC = observer(() => {
                 </Container>
                 <Container marginTop={4}>
                   <Text preset="title">Comentário do professor</Text>
-                  {classesStore.taskDetail.task_correction.comment ? (
+                  {selectedTask.task_correction.comment ? (
                     <Container flex={1} marginTop={2}>
                       <AutoHeightWebvView
-                        html={classesStore.taskDetail.task_correction.comment}
+                        html={selectedTask.task_correction.comment}
                       />
                     </Container>
                   ) : (
@@ -195,10 +192,7 @@ const TaskDetailScreen: React.FC = observer(() => {
             )}
           </Container>
           {sessionsStore.activeSession?.user?.role === "TEACHER" &&
-            isAfter(
-              new Date(),
-              new Date(classesStore.taskDetail.delivery_date)
-            ) && (
+            isAfter(new Date(), new Date(selectedTask.delivery_date)) && (
               <Container
                 borderTopColor="line"
                 borderTopWidth={1}

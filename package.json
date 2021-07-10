@@ -25,6 +25,7 @@
     "expo": "~41.0.1",
     "expo-cli": "^4.5.0",
     "expo-clipboard": "~1.0.2",
+    "expo-image-picker": "~10.1.4",
     "expo-linking": "~2.2.3",
     "expo-splash-screen": "~0.10.2",
     "expo-updates": "~0.5.4",

@@ -29,13 +29,15 @@ const CorrectTaskScreen: React.FC = () => {
   const navigation = useNavigation();
   const { classesStore } = useStores();
 
+  const selectedTask = classesStore.selectedTask;
+
   const schema = yup.object().shape({
     coins: yup
       .number()
       .required("Esse campo é obrigatório")
       .max(
-        classesStore.taskDetail?.task_value || 0,
-        `Valor máximo ${classesStore.taskDetail?.task_value}`
+        selectedTask?.task_value || 0,
+        `Valor máximo ${selectedTask?.task_value}`
       )
       .min(0, `Valor mínimo é 0`),
     autobombs_qty: yup.number(),
@@ -51,21 +53,20 @@ const CorrectTaskScreen: React.FC = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const selected_student =
-    classesStore.taskDetail?.getSelectedStudentTaskCorrection(
-      route.params.student_id
-    );
+  const selected_student = selectedTask?.getSelectedStudentTaskCorrection(
+    route.params.student_id
+  );
   const scrollRef = useRef<ScrollView>(null);
   const [comment, setComment] = useState<string>("");
   const [deliveredDate, setDeliveredDate] = useState(new Date());
   const [gotShell, setGotShell] = useState(false);
-  const hasShell = classesStore.taskDetail?.findTaskElement("shell");
-  const hasAutoBomb = classesStore.taskDetail?.findTaskElement("auto bomb");
+  const hasShell = selectedTask?.findTaskElement("shell");
+  const hasAutoBomb = selectedTask?.findTaskElement("auto bomb");
 
   const [hasSend, setHasSend] = useState(false);
 
   const today = new Date();
-  const taskCreateDate = classesStore.taskDetail?.create_date;
+  const taskCreateDate = selectedTask?.create_date;
 
   const handleChangeDeliveredDate = (date?: Date) => {
     setDeliveredDate(!!date ? date : deliveredDate);
@@ -96,7 +97,7 @@ const CorrectTaskScreen: React.FC = () => {
   };
 
   const handleCursorPosition = (scrollY: number) => {
-    scrollRef?.current?.scrollTo({ y: scrollY - 30, animated: true });
+    scrollRef?.current?.scrollTo({ y: scrollY + 30, animated: true });
   };
 
   return (
@@ -112,7 +113,7 @@ const CorrectTaskScreen: React.FC = () => {
               <Text marginBottom={2} preset="subtitle">
                 Atividade
               </Text>
-              <Text preset="title">{classesStore.taskDetail?.title}</Text>
+              <Text preset="title">{selectedTask?.title}</Text>
             </Container>
             <Container marginBottom={4}>
               <Text preset="inputLabel" marginBottom={2}>
@@ -120,7 +121,7 @@ const CorrectTaskScreen: React.FC = () => {
               </Text>
               <Container flexDirection="row" alignItems="center">
                 <Icon size={14} name="coin" marginRight={2} />
-                <Text>{classesStore.taskDetail?.task_value}</Text>
+                <Text>{selectedTask?.task_value}</Text>
               </Container>
             </Container>
             <Container marginBottom={4}>

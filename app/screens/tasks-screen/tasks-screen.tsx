@@ -29,13 +29,17 @@ export const TasksScreen: React.FC = observer(() => {
   const onRefresh = async () => {
     setIsRefreshing(true);
 
-    await classesStore.fetchClassTasks();
+    await Promise.all([
+      classesStore.selectedClass?.fetchTasks(),
+      classesStore.fetchStudentCard(),
+    ]);
     setIsRefreshing(false);
   };
 
   useEffect(() => {
     if (!!classesStore.selectedClass) {
-      classesStore.fetchClassTasks(classesStore.selectedClass.id);
+      classesStore.selectedClass?.fetchTasks();
+      classesStore.selectedClass.fetchStudents();
     }
   }, [classesStore.selectedClass]);
 

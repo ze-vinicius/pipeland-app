@@ -1,11 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  FlatList,
-  Platform,
-  TouchableOpacity,
-  Switch,
-  ScrollView,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Switch } from "react-native";
 
 import { Avatar, Screen, Text, DateTimePicker } from "../../components";
 import { Container } from "../../components/container";
@@ -24,13 +18,13 @@ const AttendanceScreen: React.FC = observer(() => {
   };
 
   useEffect(() => {
-    classesStore.fetchDayAttendanceList(date);
+    classesStore.selectedClass?.fetchDayAttendanceList(date);
   }, [classesStore.selectedClass, date]);
 
-  const isSaved =
-    classesStore.selectedClass?.selectedDayAttendanceList?.is_saved;
+  const isSaved = classesStore.selectedClass?.selectedAttendanceList?.isSaved;
+
   const students =
-    classesStore.selectedClass?.selectedDayAttendanceList?.students;
+    classesStore.selectedClass?.selectedAttendanceListDetails?.students;
 
   return (
     <Screen unsafe errorMessage={classesStore.errorMessage}>
@@ -54,19 +48,19 @@ const AttendanceScreen: React.FC = observer(() => {
                 alignItems="center"
                 paddingVertical={4}
                 paddingHorizontal={4}
-                key={student.student_id}
+                key={student.studentId}
                 scroll
               >
-                <Avatar name={student.name} uri={student.photo} />
+                <Avatar name={student.name} uri={student.photoUrl} />
                 <Text marginLeft={6} flex={1}>
                   {student.name}
                 </Text>
                 <Switch
-                  value={student.is_present}
+                  value={student.isPresent}
                   onValueChange={() =>
                     classesStore.handleChangeStudentAttendance({
-                      is_present: !student.is_present,
-                      student_id: student.student_id,
+                      isPresent: !student.isPresent,
+                      studentId: student.studentId,
                     })
                   }
                 />
@@ -80,7 +74,9 @@ const AttendanceScreen: React.FC = observer(() => {
           borderTopColor="line"
           borderTopWidth={1}
         >
-          <Button onPress={() => classesStore.saveDayAttendanceList()}>
+          <Button
+            onPress={() => classesStore.selectedClass?.saveDayAttendanceList()}
+          >
             {`${isSaved ? "Atualizar" : "Registrar"} lista de presença`}
           </Button>
         </Container>
