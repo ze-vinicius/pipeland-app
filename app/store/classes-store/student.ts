@@ -22,12 +22,6 @@ export class StudentInfo extends Model({
 export class StudentAttendance extends Model({
   isPresent: prop<boolean>(),
   studentId: prop<string>(),
-  // id: prop<string | null>(null),
-  // name: prop<string | null>(null),
-  // photo: prop<string | null>(null),
-  // date: prop<string>(),
-  // class_id: prop<string>(),
-  // student_id: prop<string>(),
 }) {
   @modelAction
   changeStudentAttendance = (isPresent: boolean) => {

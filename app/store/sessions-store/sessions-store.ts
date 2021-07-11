@@ -57,7 +57,7 @@ export class SessionsStore extends Model({
         })
       );
 
-      this.activeSession = SessionMap.toMobxModel(session);
+      this.activeSession = SessionMap.toMobxInstance(session);
 
       // const token = getSnapshot(session.token);
       // const user = getSnapshot(session.user);
@@ -145,7 +145,7 @@ export class SessionsStore extends Model({
 
         const user = yield* _await(api.fetchSessionInfo());
 
-        this.activeSession = SessionMap.toMobxModel({
+        this.activeSession = SessionMap.toMobxInstance({
           user,
           token,
         });

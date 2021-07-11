@@ -5,7 +5,7 @@ import {
 import { IAttendanceListResponseDTO } from "../api/dtos";
 
 export class AttendanceListMap {
-  static toMobxModel(
+  static toMobxInstance(
     attendanceList: IAttendanceListResponseDTO
   ): AttendanceList {
     return new AttendanceList({

@@ -9,7 +9,6 @@ import {
   prop,
   getRootStore,
   modelAction,
-  Ref,
 } from "mobx-keystone";
 import { api } from "../../services/api/api";
 import utils from "../../utils";
@@ -209,12 +208,12 @@ export class ClassesStore extends Model({
       );
 
       if (selectedClassIdx >= 0) {
-        this.setStudentInfo(selectedClass.student_info);
+        Object.assign(this.classes[selectedClassIdx], {
+          coinsMax: selectedClass.coins_max,
+          inviteToken: selectedClass.invite_token,
+        });
 
-        this.classes[selectedClassIdx].setCoinsMax(selectedClass.coins_max);
-        this.classes[selectedClassIdx].setInviteToken(
-          selectedClass.invite_token
-        );
+        this.setStudentInfo(selectedClass.student_info);
       } else {
         this.classes.push(
           new Class({

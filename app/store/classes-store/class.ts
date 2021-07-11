@@ -1,4 +1,3 @@
-import { isEqual } from "date-fns";
 import { computed } from "mobx";
 import {
   model,
@@ -28,17 +27,6 @@ export class ClassResume extends Model({
   teacherName: prop<string>(),
 }) {}
 
-@model("pipeland/StudentRanking")
-export class StudentRanking extends Model({
-  rankingPosition: prop<number>(),
-  studentId: prop<string>(),
-  name: prop<string>(),
-  userId: prop<string>(),
-  nickname: prop<string | null>(null),
-  photo: prop<string | null>(null),
-  currentCoinsQty: prop<number>(),
-}) {}
-
 @model("pipeland/Class")
 export class Class extends ExtendedModel(ClassResume, {
   coinsMax: prop<number | null>(null).withSetter(),
@@ -48,9 +36,6 @@ export class Class extends ExtendedModel(ClassResume, {
   students: prop<Student[]>(() => []).withSetter(),
   tasksCorrections: prop<TaskCorrection[]>(() => []).withSetter(),
   selectedAttendanceList: prop<AttendanceList | undefined>(undefined),
-  // attendancesLists: prop<AttendanceList[]>(() => []).withSetter(),
-  // selectedAttendanceListId:
-  // selectedDayAttendanceList: prop<AttendanceList | null>(null).withSetter(),
 }) {
   @modelAction
   handleError(error: any) {
@@ -98,15 +83,19 @@ export class Class extends ExtendedModel(ClassResume, {
 
   @computed
   get classRanking() {
-    return this.students.map((student) => ({
-      rankingPosition: Number(student.rankingPosition),
-      currentCoinsQty: student.currentCoinsQty,
-      studentId: student.id,
-      name: student.name,
-      userId: student.userId,
-      nickname: student.nickname,
-      photo_url: student.photo_url,
-    }));
+    return this.students
+      .map((student) => ({
+        rankingPosition: Number(student.rankingPosition),
+        currentCoinsQty: student.currentCoinsQty,
+        studentId: student.id,
+        name: student.name,
+        userId: student.userId,
+        nickname: student.nickname,
+        photo_url: student.photo_url,
+      }))
+      .sort((a, b) => {
+        return Number(b.currentCoinsQty) - Number(a.currentCoinsQty);
+      });
   }
 
   @modelAction
@@ -203,7 +192,7 @@ export class Class extends ExtendedModel(ClassResume, {
         })
       );
 
-      const newAttendance = AttendanceListMap.toMobxModel(attendanceList);
+      const newAttendance = AttendanceListMap.toMobxInstance(attendanceList);
 
       this.selectedAttendanceList = newAttendance;
     } catch (error: any) {

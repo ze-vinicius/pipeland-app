@@ -24,9 +24,6 @@ const TaskDetailScreen: React.FC = observer(() => {
 
   const selectedTask = classesStore.selectedTask;
 
-  console.log({ selectedTask });
-  console.log(classesStore.isLoading.taskDetails);
-
   return (
     <Screen isLoading={classesStore.isLoading.taskDetails} unsafe>
       {!!selectedTask && (

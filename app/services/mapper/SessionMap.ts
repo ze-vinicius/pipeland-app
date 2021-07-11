@@ -3,7 +3,7 @@ import { User } from "../../store/sessions-store/user";
 import { ISessionResponseDTO } from "../api/dtos";
 
 export class SessionMap {
-  static toMobxModel(session: ISessionResponseDTO): Session {
+  static toMobxInstance(session: ISessionResponseDTO): Session {
     return new Session({
       user: session.user ? new User(session.user) : null,
       token: session.token,

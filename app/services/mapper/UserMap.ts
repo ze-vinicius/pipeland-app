@@ -2,7 +2,7 @@ import { User } from "../../store/sessions-store/user";
 import { IUserResponseDTO } from "../api/dtos";
 
 export class UserMap {
-  static toMobxModel(user: IUserResponseDTO): User {
+  static toMobxInstance(user: IUserResponseDTO): User {
     return new User(user);
   }
 
