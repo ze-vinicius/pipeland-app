@@ -27,20 +27,20 @@ interface CorrectTaskFormData {
 const NewTaskScreen: React.FC = observer(() => {
   const schema = yup.object().shape({
     title: yup.string().required("Esse campo é obrigatório"),
-    start_date: yup
-      .date()
-      .max(
-        yup.ref("delivery_date"),
-        "A data de início deve ser após a data de entrega"
-      )
-      .required(),
-    delivery_date: yup
-      .date()
-      .min(
-        yup.ref("start_date"),
-        "A data de entrega deve ser após a data de início"
-      )
-      .required(),
+    // start_date: yup
+    //   .date()
+    //   .max(
+    //     yup.ref("delivery_date"),
+    //     "A data de início deve ser antes a data de entrega"
+    //   )
+    //   .required(),
+    // delivery_date: yup
+    //   .date()
+    //   .min(
+    //     yup.ref("start_date"),
+    //     "A data de entrega deve ser após a data de início"
+    //   )
+    //   .required(),
   });
   const {
     control,
@@ -62,6 +62,10 @@ const NewTaskScreen: React.FC = observer(() => {
   const [selectedPenalties, setSelectedPenalties] = useState<any[]>([]);
   const [selectedRewards, setSelectedRewards] = useState<any[]>([]);
 
+  const today = new Date();
+  const [startDate, setStartDate] = useState<Date>(today);
+  const [deliveryDate, setDeliveryDate] = useState<Date>(today);
+
   const handleChangeSelectedPenalties = (selected: any[]) => {
     setSelectedPenalties(selected);
   };
@@ -80,16 +84,16 @@ const NewTaskScreen: React.FC = observer(() => {
 
   const onSubmit = async ({
     title,
-    delivery_date,
-    start_date,
-  }: CorrectTaskFormData) => {
+  }: // delivery_date,
+  // start_date,
+  CorrectTaskFormData) => {
     setIsSubmitting(true);
 
     const formatRequest = {
       title,
       description: descriptionHTML || "",
-      delivery_date,
-      start_date,
+      delivery_date: deliveryDate,
+      start_date: startDate,
       task_elements: [...selectedPenalties, ...selectedRewards],
     };
 
@@ -134,36 +138,36 @@ const NewTaskScreen: React.FC = observer(() => {
               width="100%"
               justifyContent="space-between"
             >
-              <Controller
+              {/* <Controller
                 control={control}
                 name={"start_date"}
                 defaultValue={new Date()}
-                render={({ field: { onChange, value } }) => (
-                  <DateTimePicker
-                    flex={1}
-                    marginRight={2}
-                    mode="date"
-                    value={value}
-                    onChange={(date) => onChange(date)}
-                    label="Data de início"
-                  />
-                )}
+                render={({ field: { onChange, value } }) => ( */}
+              <DateTimePicker
+                flex={1}
+                marginRight={2}
+                mode="date"
+                value={startDate}
+                onChange={(date) => setStartDate(date || startDate)}
+                label="Data de início"
               />
-              <Controller
+              {/* )}
+               /> */}
+              {/* <Controller
                 control={control}
                 name={"start_date"}
                 defaultValue={new Date()}
-                render={({ field: { onChange, value } }) => (
-                  <DateTimePicker
-                    flex={1}
-                    marginLeft={2}
-                    mode="time"
-                    value={value}
-                    onChange={(date) => onChange(date)}
-                    label="Horário de início"
-                  />
-                )}
+                render={({ field: { onChange, value } }) => ( */}
+              <DateTimePicker
+                flex={1}
+                marginLeft={2}
+                mode="time"
+                value={startDate}
+                onChange={(date) => setStartDate(date || startDate)}
+                label="Horário de início"
               />
+              {/* )}
+              /> */}
             </Container>
             {errors.start_date && (
               <Text preset="errorMessage" marginTop={2}>
@@ -180,38 +184,38 @@ const NewTaskScreen: React.FC = observer(() => {
               width="100%"
               justifyContent="space-between"
             >
-              <Controller
+              {/* <Controller
                 control={control}
                 name={"delivery_date"}
                 defaultValue={new Date()}
-                render={({ field: { onChange, value } }) => (
-                  <DateTimePicker
-                    flex={1}
-                    marginRight={2}
-                    mode="date"
-                    value={value}
-                    onChange={(date) => onChange(date)}
-                    minimumDate={getValues("start_date")}
-                    label="Data de entrega"
-                  />
-                )}
+                render={({ field: { onChange, value } }) => ( */}
+              <DateTimePicker
+                flex={1}
+                marginRight={2}
+                mode="date"
+                value={deliveryDate}
+                onChange={(date) => setDeliveryDate(date || deliveryDate)}
+                minimumDate={getValues("start_date")}
+                label="Data de entrega"
               />
-              <Controller
+              {/* )}
+              /> */}
+              {/* <Controller
                 control={control}
                 name={"delivery_date"}
                 defaultValue={new Date()}
-                render={({ field: { onChange, value } }) => (
-                  <DateTimePicker
-                    flex={1}
-                    marginLeft={2}
-                    mode="time"
-                    value={value}
-                    onChange={(date) => onChange(date)}
-                    minimumDate={getValues("start_date")}
-                    label="Horário de entrega"
-                  />
-                )}
+                render={({ field: { onChange, value } }) => ( */}
+              <DateTimePicker
+                flex={1}
+                marginLeft={2}
+                mode="time"
+                value={deliveryDate}
+                onChange={(date) => setDeliveryDate(date || deliveryDate)}
+                minimumDate={getValues("start_date")}
+                label="Horário de entrega"
               />
+              {/* )}
+              /> */}
             </Container>
             {errors.delivery_date && (
               <Text preset="errorMessage" marginTop={2}>
