@@ -86,6 +86,7 @@ const GameElementSelector: React.FC<GameElementSelectorProps> = ({
       "mid mushroom",
       "strawberry",
       "star",
+      "cherry",
       "red mushroom",
     ].includes(elementName);
   };
