@@ -15,6 +15,8 @@ export class TaskElement extends Model({
   name: prop<string>(),
   imageUrl: prop<string>(),
   quantity: prop<number>(),
+  type: prop<string>(),
+  game_element_id: prop<string>(),
 }) {}
 
 @model("pipeland/TaskCorrection")

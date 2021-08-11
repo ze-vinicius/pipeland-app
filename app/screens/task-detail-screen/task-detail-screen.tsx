@@ -17,12 +17,35 @@ import {
 import { useStores } from "../../store";
 import { formatDate } from "../../utils/date";
 import { isAfter } from "date-fns/esm";
+import { Alert } from "react-native";
 
 const TaskDetailScreen: React.FC = observer(() => {
   const { classesStore, sessionsStore } = useStores();
   const navigation = useNavigation();
 
   const selectedTask = classesStore.selectedTask;
+
+  const isTeacher = sessionsStore.activeSession?.user?.role === "TEACHER";
+
+  const handleDeleteTask = () => {
+    Alert.alert(
+      "Atenção",
+      "Você está prestes a deletar uma atividade. essa ação não poderá ser desfeita",
+      [
+        {
+          text: "Deletar",
+          onPress: async () => {
+            await classesStore.deleteTask({ task_id: selectedTask?.id || "" });
+            navigation.navigate("tasks");
+          },
+        },
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+      ]
+    );
+  };
 
   return (
     <Screen isLoading={classesStore.isLoading.taskDetails} unsafe>
@@ -188,24 +211,52 @@ const TaskDetailScreen: React.FC = observer(() => {
               </Container>
             )}
           </Container>
-          {sessionsStore.activeSession?.user?.role === "TEACHER" &&
-            isAfter(new Date(), new Date(selectedTask.delivery_date)) && (
+          {isTeacher && (
+            <Container
+              borderTopColor="line"
+              borderTopWidth={1}
+              backgroundColor="white"
+              padding={4}
+            >
+              <>
+                {isAfter(new Date(), new Date(selectedTask.delivery_date)) && (
+                  <Button
+                    onPress={() => navigation.navigate("taskCorrections")}
+                    marginHorizontal={4}
+                    marginBottom={4}
+                    icon="corner-down-right"
+                  >
+                    Correções
+                  </Button>
+                )}
+              </>
               <Container
-                borderTopColor="line"
-                borderTopWidth={1}
-                backgroundColor="white"
-                padding={4}
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="center"
               >
                 <Button
-                  onPress={() => navigation.navigate("taskCorrections")}
+                  onPress={() => navigation.navigate("editTask")}
+                  preset="secondary"
                   marginHorizontal={4}
                   marginBottom={4}
-                  icon="corner-down-right"
+                  icon="edit"
                 >
-                  Correções
+                  Editar
+                </Button>
+
+                <Button
+                  onPress={handleDeleteTask}
+                  preset="secondary"
+                  marginHorizontal={4}
+                  marginBottom={4}
+                  icon="trash"
+                >
+                  Deletar
                 </Button>
               </Container>
-            )}
+            </Container>
+          )}
         </Container>
       )}
     </Screen>

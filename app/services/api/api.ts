@@ -176,6 +176,8 @@ class Api {
             name: task_element.name,
             quantity: task_element.quantity,
             imageUrl: task_element.imageUrl,
+            type: task_element.type,
+            game_element_id: task_element.game_element_id,
           });
         }),
       });
@@ -218,6 +220,52 @@ class Api {
           name: task_element.name,
           quantity: task_element.quantity,
           imageUrl: task_element.imageUrl,
+          type: task_element.type,
+          game_element_id: task_element.game_element_id,
+        });
+      }),
+    });
+
+    return task;
+  }
+
+  async deleteTask({ task_id }: { task_id: string }): Promise<void> {
+    await api.axios.delete(`/tasks/${task_id}`);
+  }
+
+  async updateTask({
+    id,
+    ...requestBody
+  }: {
+    id: string;
+    title: string;
+    description: string;
+    delivery_date: Date;
+    start_date?: Date;
+    task_elements: Array<{
+      game_element_id: string;
+      quantity: number;
+    }>;
+  }): Promise<Task> {
+    const response = await api.axios.put(`/tasks/${id}`, requestBody);
+
+    const raw = response.data;
+
+    const task: Task = new Task({
+      id: raw.id,
+      title: raw.title,
+      delivery_date: raw.delivery_date,
+      create_date: raw.create_date,
+      task_value: raw.task_value,
+      status: raw.status,
+      task_elements: raw.task_elements.map((task_element: any) => {
+        return new TaskElement({
+          id: task_element.id,
+          name: task_element.name,
+          quantity: task_element.quantity,
+          imageUrl: task_element.imageUrl,
+          type: task_element.type,
+          game_element_id: task_element.game_element_id,
         });
       }),
     });
@@ -271,6 +319,8 @@ class Api {
           name: task_element.name,
           quantity: task_element.quantity,
           imageUrl: task_element.imageUrl,
+          type: task_element.type,
+          game_element_id: task_element.game_element_id,
         });
       }),
     });

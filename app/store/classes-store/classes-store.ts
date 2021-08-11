@@ -387,6 +387,111 @@ export class ClassesStore extends Model({
   });
 
   @modelFlow
+  deleteTask = _async(function* (
+    this: ClassesStore,
+    data: {
+      task_id: string;
+    }
+  ) {
+    this.isLoading.taskDetails = true;
+
+    try {
+      yield* _await(
+        api.deleteTask({
+          ...data,
+        })
+      );
+
+      if (this.selectedClass) {
+        this.selectedClass.tasks = this.selectedClass.tasks.filter(
+          (task) => task.id !== data.task_id
+        );
+      }
+    } catch (error: any) {
+      if (__DEV__) {
+        console.log(error);
+      }
+      const err = utils.handleResponseError(error);
+
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
+      }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
+    } finally {
+      this.isLoading.taskDetails = false;
+    }
+  });
+
+  @modelFlow
+  updateTask = _async(function* (
+    this: ClassesStore,
+    data: {
+      id: string;
+      title: string;
+      description: string;
+      delivery_date: Date;
+      start_date?: Date;
+      task_elements: Array<GameElement>;
+    }
+  ) {
+    this.isLoading.tasks = true;
+
+    const task_elements = data.task_elements.map((element) => ({
+      game_element_id: element.id,
+      quantity: 1,
+    }));
+
+    try {
+      const updatedTask = yield* _await(
+        api.updateTask({
+          ...data,
+          task_elements,
+        })
+      );
+
+      if (this.selectedClass) {
+        const findTaskIdx = this.selectedClass.tasks.findIndex(
+          (task) => task.id === data.id
+        );
+
+        if (findTaskIdx >= 0) {
+          this.selectedClass.tasks[findTaskIdx] = updatedTask;
+        }
+      }
+
+      // if (this.selectedClass) {
+      //   this.selectedClass.tasks.unshift(task);
+      // }
+    } catch (error: any) {
+      if (__DEV__) {
+        console.log(error);
+      }
+      const err = utils.handleResponseError(error);
+
+      this.setErrorMessage(err.message);
+
+      if (err.status === 401) {
+        const rootStore = getRootStore<RootStore>(this);
+
+        rootStore?.sessionsStore.logout();
+      }
+
+      setTimeout(() => {
+        this.setErrorMessage("");
+      }, 3000);
+    } finally {
+      this.isLoading.tasks = false;
+    }
+  });
+
+  @modelFlow
   fetchTaskCorrections = _async(function* (this: ClassesStore) {
     this.isLoading.taskCorrections = true;
 

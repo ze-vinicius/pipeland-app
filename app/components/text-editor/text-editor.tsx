@@ -12,11 +12,13 @@ interface TextEditorProps {
   onChange: (text: string) => void;
   onCursorPosition?: ((offsetY: number) => void) | undefined;
   label?: string;
+  defaultValue?: string;
 }
 
 const TextEditor: React.FC<TextEditorProps> = ({
   onChange,
   label,
+  defaultValue,
   onCursorPosition,
 }) => {
   const ritchTextRef = useRef<RichEditor | null>(null);
@@ -48,6 +50,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           ]}
         />
         <RichEditor
+          initialContentHTML={defaultValue}
           ref={ritchTextRef}
           useContainer={true}
           editorInitializedCallback={editorInitializedCallback}

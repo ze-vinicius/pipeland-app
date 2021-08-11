@@ -22,6 +22,7 @@ import { useTheme } from "styled-components/native";
 import { Header } from "../components/header/header";
 import { FeatherIconType } from "../utils/icon-type";
 import { ProfileDetailsScreen } from "../screens/profile-details-screen";
+import { EditTaskScreen } from "../screens/edit-task-screen/edit-task-screen";
 
 export type MainNavigatorParamsList = {
   classes: undefined;
@@ -35,6 +36,7 @@ export type MainNavigatorParamsList = {
   settings: undefined;
   about: undefined;
   profileDetails: undefined;
+  editTask: undefined;
   correctTask: {
     student_id: string;
   };
@@ -113,6 +115,12 @@ const MainNavigator = observer(() => {
           name="taskDetail"
           component={TaskDetailScreen}
           options={{ title: "Atividade" }}
+        />
+
+        <Screen
+          name="editTask"
+          component={EditTaskScreen}
+          options={{ title: "Editar atividade" }}
         />
 
         <Screen

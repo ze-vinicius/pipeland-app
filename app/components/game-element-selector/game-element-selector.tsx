@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import { Icon } from "..";
 import { useStores } from "../../store";
+import { GameElement } from "../../store/game-element-store/game-element";
 import { Button } from "../button";
 import { Container } from "../container";
 import { IconButton } from "../icon-button";
@@ -15,6 +16,7 @@ interface GameElementSelectorProps
     PipelandViewProps {
   type?: "REWARD" | "PENALTY";
   onChange: (selectedElements: any) => void;
+  defaultValue?: Array<{ id: string }>;
 }
 
 interface ElementItem {
@@ -32,9 +34,18 @@ interface ElementItem {
 const GameElementSelector: React.FC<GameElementSelectorProps> = ({
   type = "REWARD",
   onChange,
+  defaultValue,
   ...customStyle
 }) => {
   const { gameElementsStore } = useStores();
+
+  const formatElement = (element: GameElement) => ({
+    elementValue: element.value,
+    ...getSnapshot(element),
+    label: element.name,
+    value: element.id,
+    icon: element.imageUrl,
+  });
 
   const gameElements =
     type === "REWARD"
@@ -46,25 +57,32 @@ const GameElementSelector: React.FC<GameElementSelectorProps> = ({
       (element) =>
         element.name !== "attendance anchor" && element.name !== "bullet"
     )
-    .map((element) => ({
-      elementValue: element.value,
-      ...getSnapshot(element),
-      label: element.name,
-      value: element.id,
-      icon: element.imageUrl,
-    }));
+    .map(formatElement);
 
-  const [selectedElements, setSelectedElements] = useState<typeof elements>([
-    elements[0],
-  ]);
-  const [selectorsQty, setSelectorsQty] = useState(1);
+  const [selectedElements, setSelectedElements] = useState<Array<ElementItem>>(
+    !!defaultValue
+      ? elements.filter((el) => {
+          const hasElement = defaultValue.find(
+            (element) => element.id === el.id
+          );
+
+          if (!!hasElement) {
+            return true;
+          }
+
+          return false;
+        })
+      : [elements[0]]
+  );
+  const [selectorsQty, setSelectorsQty] = useState(
+    () => selectedElements.length
+  );
 
   const [elementsValue, setElementsValue] = useState(elements[0].elementValue);
 
   const elementHasFixedValue = (elementName: string) => {
     return [
       "coin",
-      "cherry",
       "mid mushroom",
       "strawberry",
       "star",
