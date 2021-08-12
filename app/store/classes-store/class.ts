@@ -94,7 +94,7 @@ export class Class extends ExtendedModel(ClassResume, {
         photo_url: student.photo_url,
       }))
       .sort((a, b) => {
-        return Number(b.currentCoinsQty) - Number(a.currentCoinsQty);
+        return Number(a.rankingPosition) - Number(b.rankingPosition);
       });
   }
 
