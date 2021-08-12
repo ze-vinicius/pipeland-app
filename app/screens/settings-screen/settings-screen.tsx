@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react";
 import React from "react";
+import { expo } from "../../../app.json";
 
 import { Screen, Text, Container, SectionedMenu } from "../../components";
 import { useStores } from "../../store";
@@ -33,7 +34,7 @@ const SettingsScreen: React.FC = observer(() => {
         />
       </Container>
       <Container alignItems="center">
-        <Text preset="secondary">Versão 0.1</Text>
+        <Text preset="secondary">Versão {expo.version}</Text>
       </Container>
     </Screen>
   );
