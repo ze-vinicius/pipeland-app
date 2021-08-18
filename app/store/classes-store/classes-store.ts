@@ -504,7 +504,15 @@ export class ClassesStore extends Model({
         api.getStudentsTaskCorrections(this.selectedTask.id)
       );
 
-      this.selectedTask.setStudentsTasksCorrections(students_task_corrections);
+      const orderedStudentsTaskCorrections = students_task_corrections.sort(
+        (a, b) => {
+          return a.name.localeCompare(b.name);
+        }
+      );
+
+      this.selectedTask.setStudentsTasksCorrections(
+        orderedStudentsTaskCorrections
+      );
     } catch (error: any) {
       if (__DEV__) {
         console.log(error);

@@ -65,18 +65,22 @@ export class Class extends ExtendedModel(ClassResume, {
     return this.selectedAttendanceList
       ? {
           ...this.selectedAttendanceList,
-          students: this.selectedAttendanceList.students.map((student) => {
-            const studentInfo = this.students.find(
-              (s) => s.id === student.studentId
-            );
+          students: this.selectedAttendanceList.students
+            .map((student) => {
+              const studentInfo = this.students.find(
+                (s) => s.id === student.studentId
+              );
 
-            return {
-              isPresent: student.isPresent,
-              studentId: student.studentId,
-              name: studentInfo?.name,
-              photoUrl: studentInfo?.photo_url,
-            };
-          }),
+              return {
+                isPresent: student.isPresent,
+                studentId: student.studentId,
+                name: studentInfo?.name || "",
+                photoUrl: studentInfo?.photo_url,
+              };
+            })
+            .sort((a, b) => {
+              return a.name.localeCompare(b.name);
+            }),
         }
       : undefined;
   }
