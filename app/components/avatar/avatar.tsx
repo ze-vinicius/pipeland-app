@@ -53,7 +53,7 @@ export const Avatar: React.FC<AvatarProps> = ({
             textAlign="center"
             color={color || "darkGreen"}
             fontWeight="600"
-            fontSize={size / 1.75}
+            fontSize={size / 2.5}
           >
             {formatedName}
           </Text>
